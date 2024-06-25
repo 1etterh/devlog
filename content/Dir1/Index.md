@@ -1,11 +1,11 @@
 ---
 longform:
   format: scenes
-  title: Doing It in Public
+  title: Dir1
   workflow: Default Workflow
   sceneFolder: /
   scenes:
-    - Introduction
+    - Dir1
   sceneTemplate: templates/chapter.md
   ignoredFiles: []
 ---
