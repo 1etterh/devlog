@@ -40,3 +40,7 @@ SELECT
        FIELD(orderable_status, 'N', 'Y')
   FROM tbl_menu;
 ```
+
+
+### [[SUBQUERY]]
+SQL의 RESULT SET에서 다시 한번 SQL을 하는 연산

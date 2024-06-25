@@ -1,3 +1,4 @@
 ```cmd
 npx quartz sync
 ```
+

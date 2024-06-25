@@ -9,7 +9,7 @@ SELECT  ~~~
  WHERE  ~~~
 ```
 
-2. SubQuery
+2. [[SUBQUERY]]
 
 ```SQL
 SELECT
