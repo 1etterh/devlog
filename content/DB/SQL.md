@@ -1,8 +1,32 @@
-- Structured Query Language
-- Queries
-1. [[SELECT]]
-2. FROM
-3. WHERE
-4. GROUP
-5. HAVING
-6. JOIN
+---
+title: <%tp.file.title%>
+description: Structured Query Language
+tags:
+  - database
+  - sql
+  - db
+---
+
+
+
+- [[DBMS]]: 창고지기 같은거
+- DB: 창고
+- SQL: DBMS에 데이터 요청 하는 방법
+- 사용자는 DB에 직접 데이터를 요청하지 않고 DBMS를 통해 요청
+- 아무래도 권한 문제나 다양한 문제가 있으니 DBMS를 사용하는듯 
+
+
+![[QUERYIMG.png]]
+
+| QUERY        | PRIORITY | OPTIONAL  | DEFAULT | ETC                     |
+| ------------ | -------- | --------- | ------- | ----------------------- |
+| [[SELECT]]   | 5        | DISTINCT  |         |                         |
+| [[FROM]]     | 1        | [[JOIN]]  |         |                         |
+| [[WHERE]]    | 2        |           |         | Condition for **ROW**   |
+| [[GROUP BY]] | 3        |           |         |                         |
+| [[HAVING]]   | 4        |           |         | Condition for **GROUP** |
+| [[ORDER BY]] | 6        | [[LIMIT]] | ASC     |                         |
+
+
+### [[Convention]]
+>SQL의 가독성을 위해 지키는 형식
