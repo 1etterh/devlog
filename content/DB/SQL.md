@@ -1,5 +1,5 @@
 ---
-title: <%tp.file.title%>
+title: SQL
 description: Structured Query Language
 tags:
   - database
@@ -30,3 +30,13 @@ tags:
 
 ### [[Convention]]
 >SQL의 가독성을 위해 지키는 형식
+
+
+### [[FIELD]]
+> 특정 값 우선 정렬
+
+```SQL
+SELECT 
+       FIELD(orderable_status, 'N', 'Y')
+  FROM tbl_menu;
+```

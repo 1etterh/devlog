@@ -18,6 +18,7 @@ SELECT category_code
 
 
 ### DISTINCT
+
 1. 중복되지 않는 값을 출력
 2. 다중 행을 사용한 DISTINCT도 사용 가능
 

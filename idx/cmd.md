@@ -1,0 +1,3 @@
+```cmd
+npx quartz sync
+```
