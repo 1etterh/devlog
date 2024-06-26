@@ -16,7 +16,7 @@ tags:
 - 아무래도 권한 문제나 다양한 문제가 있으니 DBMS를 사용하는듯 
 
 
-![[QUERYIMG.png]]
+![[DBMS.png]]
 
 | QUERY        | PRIORITY | OPTIONAL  | DEFAULT | ETC                     |
 | ------------ | -------- | --------- | ------- | ----------------------- |
@@ -43,4 +43,16 @@ SELECT
 
 
 ### [[SUBQUERY]]
-SQL의 RESULT SET에서 다시 한번 SQL을 하는 연산
+>_SQL의 RESULT SET에서 다시 한번 SQL을 하는 연산_
+
+### [[SET OPERATOR]]
+
+
+### ANSI
+>_DBMS가 지켜야 될 표준_
+
+
+
+### [[DML]]
+>_Data Manipulation Language_
+
