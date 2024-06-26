@@ -56,3 +56,8 @@ SELECT
 ### [[DML]]
 >_Data Manipulation Language_
 
+
+### [[DDL]]
+>_Data Definition Language_
+## [[TRANSACTION]]
+> 논리적인 일의 단위
