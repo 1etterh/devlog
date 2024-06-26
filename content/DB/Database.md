@@ -1,4 +1,4 @@
-## [[SQL]]
+# [[SQL]]
 
 ## ACID 원칙
 1. Atomicity : 원자성

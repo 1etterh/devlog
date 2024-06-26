@@ -1,4 +1,4 @@
-### GROUP BY
+# GROUP BY
 
 1. 특정 행을 기준으로 GROUP을 만들어준다.
 2. GROUP BY를 사용하여 GROUP 함수를 사용할 수 있다.(SUM, AVG, COUNT, ...)
@@ -8,13 +8,13 @@
 
 
 
-### [[Having]]
+# [[Having]]
 그룹에 대한 조건
 
-#### ROLL UP
+## ROLL UP
 1. 중간 합계를 계산할 때 사용
 2. GROUP BY _A, B_ WITH _ROLL UP_ :  _A_에 대한 중간 합계 계산 후 에 대한 _A,B_에 대한 최종 합계 계산. 
 
 
-#### CUBE
+## CUBE
 롤업을 두번 한거
