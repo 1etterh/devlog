@@ -59,5 +59,5 @@ SELECT
 
 ### [[DDL]]
 >_Data Definition Language_
-## [[TRANSACTION]]
+### [[TRANSACTION]]
 > 논리적인 일의 단위
