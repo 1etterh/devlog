@@ -26,3 +26,7 @@ REPLACE tbl_menu
  ,'Y'
  );
 ```
+
+
+### REPLACE
+> 제약 조건에 해당하는 ROW는 모두 DELETE 후 INSERT

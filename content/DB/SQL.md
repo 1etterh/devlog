@@ -58,8 +58,8 @@ SELECT
 > 논리적인 일의 단위
 
 
-## [[VIEW]]
+### [[VIEW]]
 
-## [[content/DB/INDEX|INDEX]]
+### [[content/DB/INDEX|INDEX]]
 
-## [[TRIGGER]]
+### [[TRIGGER]]

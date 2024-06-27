@@ -1,8 +1,11 @@
 >[!info] DBMS
 >Data Base Management System
 
-## RDBMS
-> 관계형 데이터 베이스(Relational Database Management System)
+### _RDBMS_
+> A database-management system(DBMS) is a collection of interelated data and a set of programs to access those data
+
+### _database_
+> The collection of data
 
 >데이터를 테이블의 형태로 저장하며, 각 테이블은 행(레코드)과 열(필드)로 구성되어 있다. 테이블 간의 관계는 공통 필드를 통해 형성된다.
 
@@ -20,3 +23,5 @@
 
 ## [[OBJECT]]
 >User, Table, View
+
+
