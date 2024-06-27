@@ -2,7 +2,7 @@
 2. SELECT * : 모든 Column을 추출
 3. ALIAS
 	1. 별명같은거
-	2. as는 생략 가능
+	2. as는 생략OR 가능
 	3. ex) SELECT X as Y
 	4. ex) SELECT X Y
 		

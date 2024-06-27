@@ -1,1 +1,2 @@
-- Remote Repository for GIT
+>GIT 버전 관리 시스템
+>소프트웨어 개발 프로젝트의 협업을 위한 중앙 저장소 역할

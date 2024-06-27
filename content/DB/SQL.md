@@ -6,15 +6,10 @@ tags:
   - sql
   - db
 ---
-
-
-
-- [[DBMS]]: 창고지기 같은거
-- DB: 창고
-- SQL: DBMS에 데이터 요청 하는 방법
-- 사용자는 DB에 직접 데이터를 요청하지 않고 DBMS를 통해 요청
-- 아무래도 권한 문제나 다양한 문제가 있으니 DBMS를 사용하는듯 
-
+# SQL
+>_Structured Query Language_
+>SQL: DBMS에 데이터 요청 하는 방법
+>사용자는 DB에 직접 데이터를 요청하지 않고 DBMS에 SQL을 사용하여 데이터를 요청
 
 ![[DBMS.png]]
 
@@ -61,3 +56,10 @@ SELECT
 >_Data Definition Language_
 ### [[TRANSACTION]]
 > 논리적인 일의 단위
+
+
+## [[VIEW]]
+
+## [[content/DB/INDEX|INDEX]]
+
+## [[TRIGGER]]

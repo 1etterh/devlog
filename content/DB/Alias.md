@@ -1,6 +1,6 @@
-- 별명같은거
+> 별칭
 
 ```
-SELECT COLUMN_A AS A
+SELECT COLUMN_A AS x
   FROM ~~~
 ```

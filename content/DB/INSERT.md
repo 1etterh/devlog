@@ -53,3 +53,9 @@ VALUES
 
 
 ```
+
+
+#### INSERT DATA 순서
+> 기본: Column순
+> Column 명시: 명시된  Column 순서대로
+> 

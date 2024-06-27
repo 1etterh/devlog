@@ -1,3 +1,8 @@
+# Database
+>Data의 집합
+## [[DBMS]]
+> Data를 관리/운영하기 위한 시스템
+
 # [[SQL]]
 
 ## ACID 원칙

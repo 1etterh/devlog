@@ -16,6 +16,7 @@ UPDATE tbl_menu
 ```
 
 #### UPDATE w SUBQUERY
+> MySQL은 update나 delete시 자기 자신의 테이블의 데이터 사용시 에러 발생
 ```SQL
 UPDATE tbl_menu
    SET category_code = 6
