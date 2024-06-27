@@ -26,3 +26,12 @@ REPLACE tbl_menu
  ,'Y'
  );
 ```
+
+
+#### REPLACE에 의한 [[TRIGGER]]
+```SQL
+BEFORE INSERT;
+BEFORE DELETE; -- only if a row is being deleted
+AFTER DELETE -- only if a row is being deleted
+AFTER INSERT;
+```
