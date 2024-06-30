@@ -173,6 +173,3 @@ Module(
     
 ```
 
-3. ast graph
-
-![[content/Algorithms/visualgo/assets/ast-graph.png]]

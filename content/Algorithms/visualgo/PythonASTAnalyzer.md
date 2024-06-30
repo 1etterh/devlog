@@ -29,4 +29,3 @@ tags:
 5. Github: [ValueTracker](https://github.com/1etterh/PythonAlgorithmAnalyzer/blob/main/trackers/ValueTracker.py)
 
 
-![[public/Algorithms/visualgo/assets/ast-graph.png]]

@@ -201,6 +201,3 @@ class StdinHandler{
 ```
 
 
-###### 결과
-
-![[public/Algorithms/visualgo/assets/pyodide-setStdin.png]]
