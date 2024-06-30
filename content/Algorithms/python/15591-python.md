@@ -1,5 +1,5 @@
 ---
-title: "[백준] 15591 파이썬"
+title: 15592-python
 tags:
   - algorithms
   - bfs
