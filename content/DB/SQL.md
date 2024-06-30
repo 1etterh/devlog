@@ -63,3 +63,6 @@ SELECT
 ### [[content/DB/INDEX|INDEX]]
 
 ### [[TRIGGER]]
+
+### [[CONSTRAINTS]]
+> _enforce data integrity_
