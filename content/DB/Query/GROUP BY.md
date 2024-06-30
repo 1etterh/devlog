@@ -8,7 +8,7 @@
 6. 2개 이상의 COLUMN을 기준으로 그룹 생성 가능
 
 
-# [[Having]]
+# [[HAVING]]
 그룹에 대한 조건
 
 ## ROLL UP
