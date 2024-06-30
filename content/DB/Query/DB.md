@@ -1,3 +1,12 @@
+---
+title: DB
+description: Database
+tags:
+  - database
+  - sql
+  - db
+---
+
 # Database
 >Data의 집합
 ## [[DBMS]]

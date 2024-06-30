@@ -1,3 +1,12 @@
+---
+title: CHECK
+description: Structured Query Language
+tags:
+  - database
+  - sql
+  - db
+---
+
 > Column의 값을 지정된 범위 내에서만 허용
 
 #### Syntax

@@ -1,3 +1,12 @@
+---
+title: Convention
+description: Structured Query Language
+tags:
+  - database
+  - sql
+  - db
+---
+
 >SQL의 가독성을 위해 지키는 형식
 >SQL이 길어질 수록 Convention의 중요성이 강조된다.
 
