@@ -11,7 +11,7 @@ tags:
 >SQL: DBMS에 데이터 요청 하는 방법
 >사용자는 DB에 직접 데이터를 요청하지 않고 DBMS에 SQL을 사용하여 데이터를 요청
 
-![[public/DB/img/DBMS.png]]
+![[content/DB/Query/assets/DBMS.png]]
 
 | QUERY        | PRIORITY | OPTIONAL  | DEFAULT | ETC                     |
 | ------------ | -------- | --------- | ------- | ----------------------- |
