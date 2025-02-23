@@ -36,5 +36,5 @@ description:
 # Security 상세 구현
 1. [[Configuration]]
 2. [[Response Handling]]
-3. [[content/Projects/syncday/Security/Exception|Exception]]
+3. [[content/Projects/syncday/security/Exception|Exception]]
 4. [[JWT]]
