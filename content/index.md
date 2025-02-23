@@ -12,7 +12,7 @@ tags: []
 ### Beyond SW Camp
 > 풀스택 웹 개발자 양성 과정 수료
 ## Projects
-### [SYNCDAY](obsidian://open?vault=devlog&file=content%2FProjects%2Fsyncday%2Findex)
+### [[content/Projects/syncday/index|SYNCDAY]]
 > 개발 업무를 효율적으로 관리할 수 있는 워크 스페이스
 
 #### 기술 스택
