@@ -7,15 +7,17 @@ tags:
 ---
 # 담당
 ## 도메인
-1. Project, Workspace, Cardboard, Card, Project Member(내부 도메인)
-2. GitHub App Installation(외부 도메인)
+1. Project, Workspace, Cardboard, Card, Project Member
+2. GitHub App Installation
+3. User(리펙토링)
 
-## 프로젝트 기반
+## 프로젝트 기반 작업
 1. Backend 개발 전반에 사용할 ResponseDTO, Global Exception Handler 작성
-2. Frontend 개발 전반에 사용할 전역 css, 프로젝트 세팅 작성
-3. DDD 기반 ERD 설계
+2. Frontend 개발 전반에 사용할 전역 css, main.js 작성
+3. [[SYNCDAY_DDD|DDD]] 기반 ERD 설계
+4. Security 컴포넌트 정의
 
-## 구현 기능
+## 구현
 ### 1. [[Github App 설치|GitHub App Installation]]
 1. 보안을 위해 Backend Server에 Secret Key를 저장한 후 필요한 경우에 한하여 Installation Token 발급
 2. Installation Id가 노출되지 않도록 Client에는 Installation index 전송

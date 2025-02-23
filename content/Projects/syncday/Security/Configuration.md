@@ -43,3 +43,6 @@ http.authorizeHttpRequests(auth -> {
         })
 
 ```
+
+
+![[Spring Security.png]]

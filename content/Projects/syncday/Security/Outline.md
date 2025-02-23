@@ -33,8 +33,10 @@ description:
 1. RedisTokenStore에서 RT 삭제
 2. RedisTokenStore에 AT 블랙리스트 처리
 
-# Security 상세 구현
-1. [[Configuration]]
-2. [[Response Handling]]
-3. [[content/Projects/syncday/security/Exception|Exception]]
-4. [[JWT]]
+
+# 구현
+1. [[Components]]
+2. [[Configuration]]
+3. [[Response Handling]]
+4. [[content/Projects/syncday/security/Exception|Exception]]
+5. [[JWT]]
