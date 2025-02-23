@@ -1,3 +1,10 @@
+---
+tags:
+  - syncday
+  - spring
+  - vue
+  - project
+---
 # 담당
 ## 도메인
 1. Project, Workspace, Cardboard, Card, Project Member(내부 도메인)
@@ -16,9 +23,10 @@
 1. M:N 관계를 가진 Domain 처리
 2. 중간 테이블(ProjectMember)을 생성하여 M:N 관계를 표시하고 참여 상태 저장
 3. Project에 관련된 요청은 ProjMember 서비스를 거친 후 ProjService에 도달
-### 3. [[Syncday Security|Security]]
-1. JWT 구현을 통해 AccessToken, Refresh 토큰 검증
-2. SecurityProperties 클래스를 통해 보안에 관련된 설정 관리
+### 3. [[Outline|Security]]
+1. JWT 구현을 통해 AccessToken, RefreshToken 관리
+2. SecurityProperties Class를 통해 보안에 관련된 설정 관리
+3. RedisTokenStore을 통해 빠른 토큰 검증 수행
 
 
 # 기술 스택
