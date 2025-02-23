@@ -6,9 +6,7 @@ tags:
 ---
 > SyncDay 진행 관련 링크
 
-# Trouble Shooting
-1. [[Project N-M문제]]
-2. [[Github JWT Token]]
+
 
 ## GitHub REST API
 1. [[Github App 설치]]
