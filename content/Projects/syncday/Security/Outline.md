@@ -35,8 +35,7 @@ description:
 
 
 # 구현
-1. [[Components]]
-2. [[Configuration]]
-3. [[Response Handling]]
-4. [[content/Projects/syncday/security/Exception|Exception]]
-5. [[JWT]]
+1. [[Configuration]]
+2. [[Response Handling]]
+3. [[content/Projects/syncday/security/Exception|Exception]]
+4. [[JWT]]
