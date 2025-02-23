@@ -37,5 +37,5 @@ description:
 # 구현
 1. [[Configuration]]
 2. [[Response Handling]]
-3. [[content/Projects/syncday/security/Exception|Exception]]
+3. [[Security Exception|Security Exception]]
 4. [[JWT]]

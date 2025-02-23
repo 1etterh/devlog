@@ -65,10 +65,34 @@ public void handleSecurityException(HttpServletRequest request, HttpServletRespo
 }
 ```
 
-다음과 같이 JwtFilter에서 Exception을 Catch하여 바로 응답을 반환한다.
+
+# 기존 처리 방식 대비 개선점
+
+### 1. 이전 프로젝트의 Security Error Handling
+```Java title="CustomAuthenticationFailureHandler.Java"
+
+CommonException customException;
+        if (exception.getMessage().equals("아이디를 잘못 입력하셨습니다.")) {
+            customException = new CommonException(ErrorCode.NOT_FOUND_USER_ID); // 사용자 정의 에러코드로 설정
+        } else if (exception.getMessage().equals("비밀번호를 잘못 입력하셨습니다.")) {
+            customException = new CommonException(ErrorCode.INVALID_PASSWORD); // 사용자 정의 에러코드로 설정
+        } else if (exception.getMessage().equals("퇴사한 사원 입니다.")) {
+            customException = new CommonException(ErrorCode.INACTIVE_USER); // 사용자 정의 에러코드로 설정
+        }
+        else {
+            customException = new CommonException(ErrorCode.LOGIN_FAILURE); // 기본적으로 비밀번호 틀림 처리
+        }
+
+        ResponseDTO<Object> errorResponse = ResponseDTO.fail(customException);
+
+```
+> Spring FIlter Chain을 통해 에러가 전파되어 에러 메시지를 비교해야 하는 번거로움이 있었음
+
+### 2. 개선된 ErrorHandling
+다음과 같이 throw된 Exception을 바로 Catch하여 바로 응답을 반환
+
 ```Java title="JwtFilter.Java"
 } catch (SecurityException e){  
     securityExceptionHandler.handleSecurityException(request, response, e.getErrorCode());  
 }
 ```
-
