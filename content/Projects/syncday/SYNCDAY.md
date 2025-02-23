@@ -1,30 +1,27 @@
-# 개발 Tool, Framework
+# 담당
+## 도메인
+1. Project, Workspace, Cardboard, Card, Project Member(내부 도메인)
+2. GitHub App Installation(외부 도메인)
 
-1. 기획 및 일정관리 : Jira 활용
-    1. Confluence에 작성한 DDD를 Jira의 작업목록과 연결하여 개발과 기획을 동기화
-    2. 개발 일정 관리 기능에 대한 이해도 향상
-2. 형상 관리: GitLab 활용
-    1. GitLab의 Elastic Search를 활용 및 개발
-    2. 개발 일정관리 기능에 대한 이해도 향
-3. 백엔드: Java + Kotlin(일부) / Spring Boot
-    1. 기존에 Java로만 프로젝트를 진행할 때 가장 힘들었던 부분이 VCS 연동이었는데, 관련 데이터를 저장하는 VO에 새로운 속성이 추가되거나 삭제되는 일이 잦았기 때문이다.
-    2. 이를 해결하기 위해 Kotlin을 도입하여 유연하게 Data를 관리하고자 한다.
-        
-4. 프론트엔드: Vue.js
-    1. 기존 프로젝트에서 사용하였고, 이미 구조화가 잘 되어있음
-        
+## 프로젝트 기반
+1. Backend 개발 전반에 사용할 ResponseDTO, Global Exception Handler 작성
+2. Frontend 개발 전반에 사용할 전역 css, 프로젝트 세팅 작성
+3. DDD 기반 ERD 설계
 
-## 기획
+## 구현 기능
+### 1. [[Github App 설치|GitHub App Installation]]
+1. 보안을 위해 Backend Server에 Secret Key를 저장한 후 필요한 경우에 한하여 Installation Token 발급
+2. Installation Id가 노출되지 않도록 Client에는 Installation index 전송
+### 2. Project - User
+1. M:N 관계를 가진 Domain 처리
+2. 중간 테이블(ProjectMember)을 생성하여 M:N 관계를 표시하고 참여 상태 저장
+3. Project에 관련된 요청은 ProjMember 서비스를 거친 후 ProjService에 도달
+### 3. [[Syncday Security|Security]]
+1. JWT 구현을 통해 AccessToken, Refresh 토큰 검증
+2. SecurityProperties 클래스를 통해 보안에 관련된 설정 관리
 
-1. 디자인 방식: DDD 설계
-    1. 도메인간의 관계 및 이벤트 종류 파악
-    2. Confluence의 whiteboard 기능을 함께 활용하면 구현과 기획의 일치율을 증가시킬 수 있음
-2. ERP 요소 제거: 꾸준히 사용 및 리펙토링을 해보기 위해 ERP적인 요소를 제거하고 직접 프로젝트를 사용해볼 생각이다.
 
-## 구현
-
-기존의 구현 내용에 개선할 점을 추가했다.
-
+# 기술 스택
 
 | **기술**          | **활용**                                                                                                                                                                                                                                                                                                                                                                                                                           |
 | --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
