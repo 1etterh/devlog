@@ -30,5 +30,5 @@ tags: []
 
 
 ## Contact
-Email: 1etterh.dev@gmail.com
+Email: 1etterh.dev@gmail.com <br/>
 GitHub: https://github.com/1etterh
