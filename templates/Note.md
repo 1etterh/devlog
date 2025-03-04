@@ -5,8 +5,8 @@ description:
 ---
 # Title
 
-# terms
+# Terms
 
 # Syntax
 
-# references
+# References

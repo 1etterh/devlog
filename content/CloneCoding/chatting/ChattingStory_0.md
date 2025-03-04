@@ -1,12 +1,10 @@
 ---
 tags:
-  - websocket
-  - springboot
   - chatting
-  - clonecoding
-draft: true
+  - project
+draft: false
 description: 
-title: "[WebSocket] 채팅 구현 준비"
+title: 0. [WebSocket] 채팅 구현 준비
 ---
 # 1. Chatting
 > Beyond SW Camp 9기 동기들과 함께 채팅 클론 코딩을 해보기로 했다. 
