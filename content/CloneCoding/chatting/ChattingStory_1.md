@@ -5,8 +5,8 @@ tags:
   - project
   - mongodb
   - nosql
-draft: true
-title: "[1. MongoDB] 설정"
+draft: false
+title: 1. [MongoDB] 설정
 ---
 
 WebSocket 기본적인 사용은 [[ChattingStory_0]]에서 해봤으므로 MongoDB 설정 과정을 정리함.
