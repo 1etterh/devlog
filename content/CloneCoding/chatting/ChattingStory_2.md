@@ -21,7 +21,7 @@ implementation 'org.springframework:spring-messaging'
 # 2. Configuration
 [[ChattingStory_0]] 에서 작성한 Configuration에 FrontendUrl을 추가해줬다.
 
-```Java title = "WebSocketConfig.Java"
+```Java title="WebSocketConfig.Java"
   
 @Configuration  
 @EnableWebSocketMessageBroker  
