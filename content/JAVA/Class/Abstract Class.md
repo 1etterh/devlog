@@ -29,7 +29,7 @@ public abstract class Product {
 2. 자식 클래스가 객체를 생성하면 Heap 영역에 SuperClass의 객체도 생성된다.
 3. 내부의 익명 클래스를 작성하여 추상 메서드를 구현하면 객체를 생성할 수 있다.
 
-###### [[content/Java/Class/Interface]] vs [[Abstract Class]]
+###### [[content/Java/Class/Interface|Interface]] vs [[Abstract Class]]
 
 
 

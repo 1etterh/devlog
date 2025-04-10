@@ -2,6 +2,7 @@
 tags:
   - chatting
   - project
+  - chattingstory
 draft: false
 description: 
 title: 0. [WebSocket] 채팅 구현 준비

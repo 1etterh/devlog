@@ -5,6 +5,7 @@ tags:
   - project
   - mongodb
   - nosql
+  - chattingstory
 draft: false
 title: 1. [MongoDB] 설정
 ---

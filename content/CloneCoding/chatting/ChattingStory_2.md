@@ -4,6 +4,7 @@ tags:
   - project
   - websocket
   - springboot
+  - chattingstory
 draft: false
 title: 2. [WebSocket] 컨트롤러, 서비스 구현
 ---

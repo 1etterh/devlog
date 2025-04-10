@@ -5,9 +5,10 @@ tags:
   - websocket
   - project
   - chatting
+  - chattingstory
 draft: false
 description: 
-title: "[Vue.js] 채팅 테스트용 화면 구성"
+title: 3. [Vue.js] 채팅 테스트용 화면 구성
 ---
 > Spring Documentation에 있는 Html 예제를 Vue로 변환해봤다.
 
