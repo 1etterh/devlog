@@ -1,11 +1,11 @@
 ---
 title:
 tags:
-draft: true
+draft: false
 ---
 > 테스트용 내부망 서버에 배포하는 과정을 정리함.
 
-## I. 기존 방식 및 개선 목표
+## 1 기존 방식 및 개선 목표
 ### 1. 기존 내부망 배포 방식
 1. docker image에는 패키지만 설치되어있음
 2. 개발한 소스 코드를 volume mount시킴
@@ -20,7 +20,7 @@ draft: true
 2. 다수의 프로젝트에서 한 이미지를 사용하여 배포
 3. source 코드를 mount하는 방식은 유지
 
-## II. pnpm 배포
+## 2. pnpm 배포
 
 ### 1. Docker Image 생성
 1. 현재 사용하고 있는 node 버전의 이미지를 사용
