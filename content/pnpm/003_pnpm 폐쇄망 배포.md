@@ -14,7 +14,7 @@ uname -m
 > x86_64
 
 2. [pnpm 릴리즈 페이지](https://github.com/pnpm/pnpm/releases) 접속
-3. 원하는 버전 선택, OS에 맞는 파ㅣㅇㄹ 다운로드
+3. 원하는 버전 선택, OS에 맞는 파일 다운로드
 4. USB로 pnpm 파일 복사
 
 ## 2. pnpm store 복사
@@ -42,8 +42,8 @@ tar -czf pnpm-store.tar.gz -C "$PNPM_STORE_PATH" .
 4. USB로 해당 tar.gz파일을 옮긴 후 압축 해제
 
 ```
-sudo mkdir -p /pnpm/store
-sudo tar -xzf /path/to/pnpm-store.tar.gz -C /pnpm/store
+sudo mkdir -p ~/pnpm/store
+sudo tar -xzf /path/to/pnpm-store.tar.gz -C ~/pnpm/store
 # Docker가 접근 가능하도록 권한 설정 (필요 시)
-# sudo chown -R <user>:<user> /pnpm/store
+# sudo chown -R <user>:<user> ~/pnpm/store
 ```

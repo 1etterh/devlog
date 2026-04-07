@@ -16,7 +16,7 @@ draft: false
 > 다수의 이미지에 같은 패키지가 중복 설치되어 있어, 저장 공간의 효율성이 떨어지는 문제 발생
 
 ### 2. pnpm 사용 목적
-1. 내부망 서버에 패키지 설치 후 container에 mount하여, 패키지 설치 용량을 줄임
+1. 내부망 서버에 패키지 설치 후 container에 mount하여 패키지 설치 용량을 줄임
 2. 다수의 프로젝트에서 한 이미지를 사용하여 배포
 3. source 코드를 mount하는 방식은 유지
 
@@ -68,6 +68,8 @@ services:
       - CI=true  
     entrypoint: ["sh", "-c", "/app/entrypoint.sh"]
 ```
+> node_modules는 컨테이너 내부에서만 설치되고, 컨테이너 외부에서는 무시되도록 별개의 volume을 잡아준다.
+
 
 ### 3. entrypoint.sh 작성
 
