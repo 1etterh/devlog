@@ -1,18 +1,18 @@
 ---
-title: 배포 시스템 임시 데이터 저장 전략 - Hazelcast IMap + 디스크 하이브리드
+title: 파일 업로드 및 게시 임시 데이터 저장 전략 - Hazelcast IMap + 디스크 하이브리드
 type: question
-tags: [Spring Boot, Hazelcast, 캐싱, 배포 시스템, 아키텍처]
+tags: [Spring Boot, Hazelcast, 캐싱, 파일업로드, 아키텍처]
 draft: false
 ---
 
 ## 배경
 
-배포 파일 업로드 시스템에서 관리자 승인 전까지 임시 데이터를 저장해야 하는 요구사항이 발생했다. 기존에는 업로드 즉시 DB 저장 + 파일 서버 업로드를 수행했지만, 관리자가 사용자-파일 매핑을 확인 후 승인하는 2단계 프로세스로 변경이 필요했다.
+파일 업로드 및 게시 시스템에서 관리자 승인 전까지 임시 데이터를 저장해야 하는 요구사항이 발생했다. 기존에는 업로드 즉시 DB 저장 + 파일 서버 업로드를 수행했지만, 관리자가 사용자-파일 매핑을 확인 후 승인하는 2단계 프로세스로 변경이 필요했다.
 
 ## 저장해야 하는 데이터
 
-- **메타데이터**: 배포 정보(fileVer, deployDt, expireDt 등) + 사용자-파일 매핑 목록
-- **바이너리**: zip에서 추출된 실제 배포 파일들
+- **메타데이터**: 게시 정보(fileVer, deployDt, expireDt 등) + 사용자-파일 매핑 목록
+- **바이너리**: zip에서 추출된 실제 업로드 파일들
 
 ## 저장 방식 비교
 
@@ -53,11 +53,11 @@ deploy.json, user-file-map.json 형태로 디스크에 직렬화.
 ```
 [메타데이터]  Hazelcast DEPLOY 클러스터 IMap<String, DeployTempData>
               - key: UUID (tempPath)
-              - value: 배포 정보 + 사용자-파일 매핑
+              - value: 게시 정보 + 사용자-파일 매핑
               - TTL: 86400s (24h, hazelcast.yml 기본값)
 
 [바이너리]    {config.file.prefix}/deploy-staging/{uuid}/files/
-              - 추출된 실제 배포 파일들
+              - 추출된 실제 업로드 파일들
 ```
 
 ### 선택 이유
@@ -145,7 +145,7 @@ Phase 2 (POST /v1/deploy/confirm)
 ```
 upload.zip
   mapping.csv        ← user_uuid,file_name (헤더 포함 CSV)
-  file_01.txt        ← 실제 배포 파일 (flat 구조)
+  file_01.txt        ← 실제 업로드 파일 (flat 구조)
   file_02.txt
 ```
 
