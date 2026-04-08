@@ -2,7 +2,7 @@
 title: Armeria MultipartFile로 zip 파일 추출 시 0 bytes 문제 해결
 type: debug
 tags: [Armeria, MultipartFile, Zip, 비동기, 파일업로드]
-draft: true
+draft: false
 ---
 
 ## 증상
@@ -39,6 +39,34 @@ log.info("bytesRead={}", zipBytes.length);
 
 ## 원인
 
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant A as Armeria
+    participant AW as AsyncFileWriter
+    participant T as Temp File
+    participant S as Service
+
+    C->>A: 파일 업로드 요청
+    A->>AW: 비동기 기록 시작
+    AW->>T: 데이터 쓰기 (진행 중...)
+
+    rect rgb(255, 230, 230)
+    Note over S,T: 문제: 기록 완료 전 접근
+    A->>S: MultipartFile.path() 전달
+    S->>T: Files.readAllBytes(path)
+    T-->>S: 0 bytes (기록 미완료)
+    end
+
+    rect rgb(230, 255, 230)
+    Note over S,T: 해결: file.file() 사용
+    A->>A: aggregation 완료 대기
+    A->>S: file.file() → 완전한 File 객체
+    S->>T: new ZipFile(file)
+    T-->>S: 정상 추출 성공
+    end
+```
+
 **Armeria의 `MultipartFile`은 비동기(`AsyncFileWriter`)로 temp 파일에 기록한다.**
 
 스택 트레이스에서 확인:
@@ -52,7 +80,7 @@ AsyncFileWriter.completed
 
 ### 정상 동작하는 프로젝트와의 비교
 
-동일 프레임워크를 사용하는 다른 프로젝트(`storage-management-api-server`)에서는 zip 추출이 정상 동작했다.
+동일 프레임워크를 사용하는 다른 프로젝트에서는 zip 추출이 정상 동작했다.
 
 | 항목 | 정상 프로젝트 | 문제 프로젝트 |
 |------|-------------|-------------|
@@ -69,7 +97,7 @@ List<AggregatedBodyPart> p = aggregator.future().join(); // BLOCKING WAIT
 
 // FileHttpData에서 file() 접근 — 이 시점에서 데이터 완전
 FileHttpData data = (FileHttpData) bodyPart.content();
-AmspMultipart p = AmspMultipart.builder()
+FilePartData p = FilePartData.builder()
     .file(data.file())        // aggregated된 File
     .inputStream(data.toInputStream())
     .build();
@@ -119,7 +147,7 @@ if (entryName.startsWith("__MACOSX") || entryName.startsWith(".")) {
 | 1차 | `new FileInputStream(zipFile.file())` + ZipInputStream | Extracted: [] |
 | 2차 | `Files.copy(zipFile.path(), temp)` + ZipInputStream | Extracted: [] |
 | 3차 | `Files.readAllBytes(zipFile.path())` + ZipFile API | bytesRead=0 |
-| 4차 | storage-management-api-server 비교 분석 | 근본 원인 발견 |
+| 4차 | 정상 동작 프로젝트 비교 분석 | 근본 원인 발견 |
 | 최종 | `file.file()` → File 파라미터 → ZipFile API | 성공 |
 
 ## 교훈

@@ -2,7 +2,7 @@
 title: "@Transactional 전파행위(Propagation)와 격리수준(Isolation) 완전 정리"
 type: question
 tags: [Spring, Transactional, Propagation, Isolation, 트랜잭션, JPA]
-draft: true
+draft: false
 ---
 
 ## Propagation (전파 행위)
@@ -24,6 +24,21 @@ draft: true
 ### 실무 핵심
 
 REQUIRED(같이 묶기)와 REQUIRES_NEW(분리하기) 두 개가 핵심이다. 나머지는 특수한 경우에만 사용한다.
+
+```mermaid
+flowchart LR
+    subgraph REQUIRED["REQUIRED — 같이 묶기"]
+        direction TB
+        A1["메서드 A<br/>트랜잭션 시작"] --> B1["메서드 B<br/>기존 트랜잭션 합류"]
+        B1 --> C1["B 실패 → A도 함께 롤백"]
+    end
+
+    subgraph REQUIRES_NEW["REQUIRES_NEW — 분리하기"]
+        direction TB
+        A2["메서드 A<br/>트랜잭션 시작"] --> B2["메서드 B<br/>새 트랜잭션 생성"]
+        B2 --> C2["B 실패 → B만 롤백<br/>A는 독립 유지"]
+    end
+```
 
 ## Isolation (격리 수준)
 

@@ -2,7 +2,7 @@
 title: READ_COMMITTED인데 왜 Non-Repeatable Read가 발생하는가
 type: question
 tags: [DB, 트랜잭션, 격리수준, READ_COMMITTED, MVCC, 동시성]
-draft: true
+draft: false
 ---
 
 ## 질문
@@ -17,13 +17,22 @@ READ_COMMITTED는 **매 SELECT마다 새로운 스냅샷**을 사용한다. 따�
 
 ## 시나리오
 
-```
-시간    트랜잭션 A                    트랜잭션 B
-───────────────────────────────────────────────
-T1    SELECT price → 1000원
-T2                                 UPDATE price = 2000
-T3                                 COMMIT
-T4    SELECT price → 2000원   ← Non-Repeatable Read
+```mermaid
+sequenceDiagram
+    participant A as 트랜잭션 A
+    participant DB as Database
+    participant B as 트랜잭션 B
+
+    A->>DB: SELECT price
+    DB-->>A: 1000원
+
+    B->>DB: UPDATE price = 2000
+    B->>DB: COMMIT
+
+    A->>DB: SELECT price
+    DB-->>A: 2000원 ← Non-Repeatable Read!
+
+    Note over A,B: READ_COMMITTED는 매 SELECT마다<br/>새 스냅샷을 사용하므로<br/>커밋된 최신 값이 보인다
 ```
 
 T3에서 B가 커밋을 완료했으므로, T4 시점에서 READ_COMMITTED 입장에서 2000원은 정당한 커밋된 데이터다. 그래서 읽을 수 있다. 결과적으로 A는 같은 쿼리를 두 번 날렸는데 값이 다르다.

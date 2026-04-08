@@ -1,6 +1,6 @@
 ---
-title:
-tags:
+title: pnpm 내부망 배포 - Docker 환경에서 pnpm store 활용
+tags: [pnpm, Docker, 내부망, 배포, Nuxt]
 draft: false
 ---
 > 테스트용 내부망 서버에 배포하는 과정을 정리함.
@@ -54,10 +54,10 @@ docker build . --no-cache --platform=linux/amd64 -t pnpm-node-24
 ```yml
 version: '3.8'  
 services:  
-  asmk-mgr:  
+  web-app:  
     image: pnpm-node-24  
     restart: always  
-    container_name: asmk-mgr-server  
+    container_name: web-app-server  
     volumes:  
       - ./source:/app  
       - /app/node_modules  

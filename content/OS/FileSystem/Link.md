@@ -1,7 +1,7 @@
 ---
-title:
-tags:
-draft:
+title: 파일 링크 - Symbolic Link vs Hard Link
+tags: [OS, 파일시스템, Link, Inode]
+draft: false
 ---
 ## File Link
 

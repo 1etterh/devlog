@@ -1,6 +1,6 @@
 ---
-title:
-tags:
+title: OpenSSL과 SSL/TLS 암호화 기초
+tags: [OpenSSL, SSL, TLS, 암호화, HTTPS]
 draft: false
 ---
 ## 1. OpenSSL
@@ -19,4 +19,3 @@ SSL은 CA(인증 기관) 에서 발급한 [[002_SSL인증서, 비밀키 생성|S
 ## refs
 1. [cloudflare - what is https](https://www.cloudflare.com/ko-kr/learning/ssl/what-is-https/)
 2. [Microsoft - 디지털 서명](https://learn.microsoft.com/ko-kr/windows/win32/seccrypto/digital-signatures)
-3. 

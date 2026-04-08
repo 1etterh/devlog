@@ -2,7 +2,7 @@
 title: HTTP 요청으로 파일을 전송하는 5가지 방법
 type: question
 tags: [HTTP, 파일전송, multipart, octet-stream, Base64, presigned-url, chunked]
-draft: true
+draft: false
 ---
 
 ## 질문
@@ -94,10 +94,18 @@ Transfer-Encoding: chunked
 
 서버가 직접 파일을 받지 않고 클라우드 스토리지(S3 등)에 직접 업로드할 수 있는 서명된 URL을 발급.
 
-```
-1. 클라이언트 → 서버: "업로드 URL 발급 요청"
-2. 서버 → 클라이언트: presigned PUT URL 반환
-3. 클라이언트 → S3: PUT 요청으로 파일 직접 업로드
+```mermaid
+sequenceDiagram
+    participant C as 클라이언트
+    participant S as 서버
+    participant CS as 클라우드 스토리지(S3)
+
+    C->>S: 업로드 URL 발급 요청
+    S->>CS: Presigned URL 생성 요청
+    CS-->>S: 서명된 PUT URL 반환
+    S-->>C: Presigned URL 전달
+    C->>CS: PUT 요청으로 파일 직접 업로드
+    Note over C,CS: 서버를 거치지 않아<br/>서버 부하 감소
 ```
 
 - 서버를 거치지 않아 서버 부하 감소

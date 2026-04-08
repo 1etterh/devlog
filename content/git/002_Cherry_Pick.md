@@ -2,7 +2,7 @@
 title: Git Cherry-Pick으로 특정 커밋만 가져오기
 type: question
 tags: [git, cherry-pick, branch]
-draft: true
+draft: false
 ---
 
 ## Cherry-Pick이란

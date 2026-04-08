@@ -1,13 +1,13 @@
 ---
 title: Armeria 멀티파트 파일 업로드 시 파일 객체는 어디에 저장되는가
 type: question
-tags: [Armeria, Multipart, 파일업로드, AmspMultipart, FileHttpData, Java]
-draft: true
+tags: [Armeria, Multipart, 파일업로드, FilePartData, FileHttpData, Java]
+draft: false
 ---
 
 ## 질문
 
-Armeria 기반 서버에서 멀티파트 파일 업로드를 받을 때, `AmspMultipart` 객체 안의 파일은 메모리에 있는 건지, 디스크에 있는 건지?
+Armeria 기반 서버에서 멀티파트 파일 업로드를 받을 때, `FilePartData` 객체 안의 파일은 메모리에 있는 건지, 디스크에 있는 건지?
 
 ## 답변
 
@@ -15,21 +15,21 @@ Armeria 기반 서버에서 멀티파트 파일 업로드를 받을 때, `AmspMu
 
 Armeria는 클라이언트가 전송한 파일을 **메모리가 아닌 디스크의 임시 파일**로 저장한다.
 
-```
-클라이언트가 파일 전송
-    ↓
-Armeria가 수신하면서 임시 파일로 디스크에 저장
-    ↓
-FileHttpData가 그 임시 파일을 감싸고 있음
-    ↓
-AmspMultipart.builder().file(data.file())  ← java.io.File (디스크 경로)
+```mermaid
+flowchart TD
+    A[클라이언트 파일 전송] --> B[Armeria 수신]
+    B --> C["디스크 임시 파일로 저장<br/>/tmp/armeria-xxxx.tmp"]
+    C --> D[FileHttpData가 임시 파일 감싸기]
+    D --> E["FilePartData.builder()<br/>.file(data.file()) ← java.io.File"]
+    E --> F[요청 처리 완료]
+    F --> G[Armeria가 temp 파일 자동 정리]
 ```
 
-### AmspMultipart 빌드 과정
+### FilePartData 빌드 과정
 
 ```java
 FileHttpData data = (FileHttpData) bodyPart.content();
-AmspMultipart p = AmspMultipart.builder()
+FilePartData p = FilePartData.builder()
         .multipartMode(MultipartMode.TRANSFER)
         .inputStream(data.toInputStream())   // 디스크 파일 읽는 스트림
         .file(data.file())                   // 예: /tmp/armeria-xxxx.tmp

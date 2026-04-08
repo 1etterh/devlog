@@ -2,22 +2,40 @@
 title: RestfulAPIService.uploadFile 외부 서버 요청 실패 시 동작 분석
 type: debug
 tags: [Spring, HttpClient, 예외처리, 파일업로드, 트랜잭션]
-draft: true
+draft: false
 ---
 
 ## 상황
 
-`RestfulAPIServiceImpl.uploadFile()`에서 AFS(파일 서버)로 파일 업로드 HTTP 요청을 보낸 뒤 응답 결과로 DB(`attachRepository.save()`)를 업데이트하는 구조에서, 요청이 실패하면 어떻게 되는지 추적했다.
+`RestfulAPIServiceImpl.uploadFile()`에서 외부 파일 서버로 파일 업로드 HTTP 요청을 보낸 뒤 응답 결과로 DB(`attachRepository.save()`)를 업데이트하는 구조에서, 요청이 실패하면 어떻게 되는지 추적했다.
 
 ## 코드 흐름
 
 ```
 uploadFile()
-  → exchange(request, String.class)     // AFS 서버로 HTTP 요청
+  → exchange(request, String.class)     // 파일 서버로 HTTP 요청
     → client.execute(request, handler)
       → handleResponse()                // 응답 코드 300+ 이면 HttpResponseException
   → readValue(response.getBody(), ...)  // 응답 파싱
   → attachRepository.save(attach)       // DB 저장
+```
+
+```mermaid
+flowchart TD
+    A["uploadFile()"] --> B["exchange()<br/>파일 서버 HTTP 요청"]
+    B --> C{응답 상태}
+
+    C -->|200 OK| D["readValue()<br/>응답 파싱"]
+    D --> E["attachRepository.save()<br/>DB 저장"]
+    E --> F[정상 완료]
+
+    C -->|"300+ 에러"| G[HttpResponseException]
+    G --> H["FileServerException 변환"]
+
+    B -->|네트워크 오류 / 타임아웃| I[Exception 발생]
+    I --> H
+
+    H --> J["이후 코드 실행 안 됨<br/>DB 변경 없음 → 불일치 없음"]
 ```
 
 ## 실패 경로
@@ -34,13 +52,13 @@ private <T> ResponseEntity<T> handleResponse(ClassicHttpResponse response, Class
 }
 ```
 
-`exchange()`의 catch에서 `throwException()`을 통해 `AmspException`으로 변환하여 던진다.
+`exchange()`의 catch에서 `throwException()`을 통해 `FileServerException`으로 변환하여 던진다.
 
 ### 2. 네트워크 오류 / 타임아웃
 
 ```java
 } catch (Exception e) {
-    throw AmspException.buildException(CException.ASP_SERVICE_EXCEPTION, HttpStatus.EXPECTATION_FAILED, e);
+    throw FileServerException.buildException(ErrorCode.FILE_SERVER_ERROR, HttpStatus.EXPECTATION_FAILED, e);
 }
 ```
 

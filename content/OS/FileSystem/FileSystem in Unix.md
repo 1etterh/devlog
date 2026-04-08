@@ -1,7 +1,7 @@
 ---
-title:
-tags:
-draft:
+title: Unix 파일 시스템 구조 - Boot Block, Super Block, Inode, Data Block
+tags: [OS, Unix, 파일시스템, Inode]
+draft: false
 ---
 ## 1. Boot Block
 > 부팅에 필요한 정보(bootstrap loader)

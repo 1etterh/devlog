@@ -1,7 +1,7 @@
 ---
-title:
-tags:
-draft:
+title: pnpm 폐쇄망 배포 - 오프라인 환경에서 pnpm store 이전
+tags: [pnpm, 폐쇄망, 오프라인, 배포]
+draft: false
 ---
 ## 1. pnpm 실행파일 준비
 

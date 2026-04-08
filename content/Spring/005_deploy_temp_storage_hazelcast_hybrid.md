@@ -2,7 +2,7 @@
 title: 배포 시스템 임시 데이터 저장 전략 - Hazelcast IMap + 디스크 하이브리드
 type: question
 tags: [Spring Boot, Hazelcast, 캐싱, 배포 시스템, 아키텍처]
-draft: true
+draft: false
 ---
 
 ## 배경
@@ -89,11 +89,42 @@ deploy.json, user-file-map.json 형태로 디스크에 직렬화.
 | 파일 | 변경 |
 |------|------|
 | `Deploy.java` | maxDownloadCnt, userCnt 필드 추가 (DB 컬럼 이미 존재) |
-| `DeployService.java` | confirmDeployment() 추가 — DB 저장 + AFS 업로드 |
+| `DeployService.java` | confirmDeployment() 추가 — DB 저장 + 파일 서버 업로드 |
 | `DeployController.java` | upload() 변경 (temp 저장) + confirm() 추가 |
 | `application-*.yml` | config.deploy.staging.base-path, ttl-hours 추가 |
 
 ### 구현 흐름
+
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant S as Server
+    participant H as Hazelcast
+    participant D as Disk
+    participant DB as Database
+    participant FS as 파일 서버
+
+    rect rgb(230, 245, 255)
+    Note over C,FS: Phase 1 — Upload (임시 저장)
+    C->>S: POST /v1/deploy/upload (zip)
+    S->>S: zip 추출 + mapping.csv 파싱
+    S->>DB: UserRepository.findAllByUuidIn()
+    S->>H: IMap.put(uuid, DeployTempData)
+    S->>D: deploy-staging/{uuid}/files/ 저장
+    S-->>C: { tempPath, userFiles }
+    end
+
+    rect rgb(230, 255, 230)
+    Note over C,FS: Phase 2 — Confirm (확정)
+    C->>S: POST /v1/deploy/confirm
+    S->>H: IMap.get(tempPath)
+    S->>DB: Deploy 엔티티 + DeployUser 저장
+    S->>FS: 사용자별 파일 업로드
+    S->>H: IMap 제거
+    S->>D: staging 디스크 삭제
+    S-->>C: 완료
+    end
+```
 
 ```
 Phase 1 (POST /v1/deploy/upload)
@@ -105,7 +136,7 @@ Phase 1 (POST /v1/deploy/upload)
 Phase 2 (POST /v1/deploy/confirm)
   Hazelcast IMap.get(tempPath) → DeployTempData 조회
   → Deploy 엔티티 생성 (maxDownloadCnt, userCnt 포함) → DB 저장
-  → 사용자별 파일 AFS 업로드 + DeployUser/History 저장
+  → 사용자별 파일 서버 업로드 + DeployUser/History 저장
   → Hazelcast 제거 + 디스크 삭제
 ```
 
@@ -137,7 +168,7 @@ Armeria의 `MultipartFile.path()`가 `AsyncFileWriter`로 비동기 기록 중�
 
 ### 3. 파일 저장 경로 권한 문제
 
-`/Volumes/data-1/temp_msp/`는 로컬에서 접근 불가. `config.deploy.staging.base-path` 프로퍼티를 분리하여 local은 `./storage`, production은 원래 경로 사용.
+운영 서버 전용 경로는 로컬에서 접근 불가. `config.deploy.staging.base-path` 프로퍼티를 분리하여 local은 `./storage`, production은 원래 경로 사용.
 
 ## 교훈
 

@@ -1,6 +1,6 @@
 ---
-title:
-tags:
+title: Information Schema로 DB 명세서 자동 생성하기
+tags: [DB, MySQL, Information_Schema, SQL]
 draft: false
 ---
 ## DB 명세서 작성

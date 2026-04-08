@@ -2,7 +2,7 @@
 title: JPA 복합키 @IdClass vs @EmbeddedId - 실제 SQL 쿼리 차이가 있을까?
 type: question
 tags: [JPA, Hibernate, 복합키, IdClass, EmbeddedId, CompositeKey]
-draft: true
+draft: false
 ---
 
 ## 질문

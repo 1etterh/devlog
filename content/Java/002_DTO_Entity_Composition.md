@@ -2,7 +2,7 @@
 title: DTO에 Entity 객체를 포함하는 구조 설계
 type: question
 tags: [Java, DTO, Entity, Composition, Spring]
-draft: true
+draft: false
 ---
 
 ## DTO에 Entity를 포함하는 패턴
@@ -16,7 +16,7 @@ DTO(Data Transfer Object)에 단순 필드(String, Long 등) 대신 Entity 객�
 public class UserFileDto {
     private String userId;
     private String fileKey;
-    private AmspMultipart file;
+    private FilePartData file;
 }
 ```
 
@@ -28,7 +28,7 @@ public class UserFileDto {
     private User user;
     private Attach attach;
     private String fileKey;
-    private AmspMultipart file;
+    private FilePartData file;
 }
 ```
 
