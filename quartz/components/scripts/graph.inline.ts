@@ -68,46 +68,12 @@ type TweenNode = {
   stop: () => void
 }
 
-const constellationNames = [
-  "Orion",
-  "Cassiopeia",
-  "Andromeda",
-  "Lyra",
-  "Cygnus",
-  "Aquila",
-  "Perseus",
-  "Draco",
-  "Ursa Major",
-  "Ursa Minor",
-  "Sagittarius",
-  "Scorpius",
-  "Leo",
-  "Gemini",
-  "Virgo",
-  "Pegasus",
-  "Canis Major",
-  "Centaurus",
-  "Vela",
-  "Phoenix",
-  "Corvus",
-  "Lupus",
-  "Ara",
-  "Corona",
-  "Columba",
-  "Hydra",
-  "Crater",
-  "Eridanus",
-  "Carina",
-  "Puppis",
-]
-
-function getConstellationName(slug: string): string {
-  let hash = 0
-  for (let i = 0; i < slug.length; i++) {
-    hash = ((hash << 5) - hash) + slug.charCodeAt(i)
-    hash |= 0
+function getCenterLabel(slug: string): string {
+  const parts = slug.split("/")
+  if (parts.length <= 1) {
+    return "⟡ devlog"
   }
-  return "⟡ " + constellationNames[Math.abs(hash) % constellationNames.length]
+  return "⟡ " + parts[parts.length - 2]
 }
 
 async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
@@ -424,7 +390,7 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
     const label = new Text({
       interactive: false,
       eventMode: "none",
-      text: isCenterNode ? getConstellationName(slug) : n.text,
+      text: isCenterNode ? getCenterLabel(slug) : n.text,
       alpha: isCenterNode ? 1 : 0,
       anchor: { x: 0.5, y: 1.2 },
       style: {
