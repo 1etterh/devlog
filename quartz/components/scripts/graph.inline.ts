@@ -68,6 +68,48 @@ type TweenNode = {
   stop: () => void
 }
 
+const constellationNames = [
+  "Orion",
+  "Cassiopeia",
+  "Andromeda",
+  "Lyra",
+  "Cygnus",
+  "Aquila",
+  "Perseus",
+  "Draco",
+  "Ursa Major",
+  "Ursa Minor",
+  "Sagittarius",
+  "Scorpius",
+  "Leo",
+  "Gemini",
+  "Virgo",
+  "Pegasus",
+  "Canis Major",
+  "Centaurus",
+  "Vela",
+  "Phoenix",
+  "Corvus",
+  "Lupus",
+  "Ara",
+  "Corona",
+  "Columba",
+  "Hydra",
+  "Crater",
+  "Eridanus",
+  "Carina",
+  "Puppis",
+]
+
+function getConstellationName(slug: string): string {
+  let hash = 0
+  for (let i = 0; i < slug.length; i++) {
+    hash = ((hash << 5) - hash) + slug.charCodeAt(i)
+    hash |= 0
+  }
+  return "⟡ " + constellationNames[Math.abs(hash) % constellationNames.length]
+}
+
 async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
   const slug = simplifySlug(fullSlug)
   const visited = getVisited()
@@ -193,15 +235,15 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
     {} as Record<(typeof cssVars)[number], string>,
   )
 
-  // calculate color
+  // calculate color — galaxy star palette
   const color = (d: NodeData) => {
     const isCurrent = d.id === slug
     if (isCurrent) {
-      return computedStyleMap["--secondary"]
+      return "#ffffff"
     } else if (visited.has(d.id) || d.id.startsWith("tags/")) {
       return computedStyleMap["--tertiary"]
     } else {
-      return computedStyleMap["--gray"]
+      return "#6674a0"
     }
   }
 
@@ -209,7 +251,8 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
     const numLinks = graphData.links.filter(
       (l) => l.source.id === d.id || l.target.id === d.id,
     ).length
-    return 2 + Math.sqrt(numLinks)
+    const base = 1.2 + Math.sqrt(numLinks) * 0.6
+    return d.id === slug ? base * 1.4 : base
   }
 
   let hoveredNodeId: string | null = null
@@ -254,15 +297,15 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
     const tweenGroup = new TweenGroup()
 
     for (const l of linkRenderData) {
-      let alpha = 1
+      let alpha = 0.3
 
       // if we are hovering over a node, we want to highlight the immediate neighbours
       // with full alpha and the rest with default alpha
       if (hoveredNodeId) {
-        alpha = l.active ? 1 : 0.2
+        alpha = l.active ? 0.8 : 0.1
       }
 
-      l.color = l.active ? computedStyleMap["--gray"] : computedStyleMap["--lightgray"]
+      l.color = l.active ? "#8888bb" : "#2a2a44"
       tweenGroup.add(new Tweened<LinkRenderData>(l).to({ alpha }, 200))
     }
 
@@ -369,37 +412,51 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
   const labelsContainer = new Container<Text>({ zIndex: 3, isRenderGroup: true })
   const nodesContainer = new Container<Graphics>({ zIndex: 2, isRenderGroup: true })
   const linkContainer = new Container<Graphics>({ zIndex: 1, isRenderGroup: true })
-  stage.addChild(nodesContainer, labelsContainer, linkContainer)
+  const glowContainer = new Container<Graphics>({ zIndex: 0, isRenderGroup: true })
+  stage.addChild(glowContainer, linkContainer, nodesContainer, labelsContainer)
+
+  const glowRenderData: { gfx: Graphics; phase: number }[] = []
 
   for (const n of graphData.nodes) {
     const nodeId = n.id
+    const isCenterNode = nodeId === slug
 
     const label = new Text({
       interactive: false,
       eventMode: "none",
-      text: n.text,
-      alpha: 0,
+      text: isCenterNode ? getConstellationName(slug) : n.text,
+      alpha: isCenterNode ? 1 : 0,
       anchor: { x: 0.5, y: 1.2 },
       style: {
-        fontSize: fontSize * 15,
-        fill: computedStyleMap["--dark"],
+        fontSize: isCenterNode ? fontSize * 20 : fontSize * 15,
+        fill: isCenterNode ? "#ffffff" : "#c0c0d0",
         fontFamily: computedStyleMap["--bodyFont"],
       },
       resolution: window.devicePixelRatio * 4,
     })
     label.scale.set(1 / scale)
 
-    let oldLabelOpacity = 0
+    let oldLabelOpacity = isCenterNode ? 1 : 0
     const isTagNode = nodeId.startsWith("tags/")
+    const r = nodeRadius(n)
+    const nodeColor = isTagNode ? computedStyleMap["--light"] : color(n)
+
+    // Star core
     const gfx = new Graphics({
       interactive: true,
       label: nodeId,
       eventMode: "static",
-      hitArea: new Circle(0, 0, nodeRadius(n)),
+      hitArea: new Circle(0, 0, r * 2),
       cursor: "pointer",
     })
-      .circle(0, 0, nodeRadius(n))
-      .fill({ color: isTagNode ? computedStyleMap["--light"] : color(n) })
+
+    if (isTagNode) {
+      gfx.star(0, 0, 5, r * 2, r * 1.4).fill({ color: computedStyleMap["--tertiary"] })
+    } else {
+      gfx.circle(0, 0, r).fill({ color: isCenterNode ? "#ffffff" : nodeColor })
+    }
+
+    gfx
       .on("pointerover", (e) => {
         updateHoverInfo(e.target.label)
         oldLabelOpacity = label.alpha
@@ -415,9 +472,19 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
         }
       })
 
-    if (isTagNode) {
-      gfx.stroke({ width: 2, color: computedStyleMap["--tertiary"] })
+    // Smooth star glow — many thin layers for gradient-like falloff
+    const glowGfx = new Graphics({ interactive: false, eventMode: "none" })
+    const glowColor = isCenterNode ? "#ffffff" : nodeColor
+    for (let g = 6; g >= 1.5; g -= 0.5) {
+      glowGfx.circle(0, 0, r * g).fill({ color: glowColor, alpha: 0.008 })
     }
+    if (isCenterNode) {
+      for (let g = 10; g >= 2; g -= 1) {
+        glowGfx.circle(0, 0, r * g).fill({ color: computedStyleMap["--secondary"], alpha: 0.005 })
+      }
+    }
+    glowContainer.addChild(glowGfx)
+    glowRenderData.push({ gfx: glowGfx, phase: Math.random() * Math.PI * 2 })
 
     nodesContainer.addChild(gfx)
     labelsContainer.addChild(label)
@@ -441,8 +508,8 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
     const linkRenderDatum: LinkRenderData = {
       simulationData: l,
       gfx,
-      color: computedStyleMap["--lightgray"],
-      alpha: 1,
+      color: "#2a2a44",
+      alpha: 0.3,
       active: false,
     }
 
@@ -513,10 +580,15 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
           const scale = transform.k * opacityScale
           let scaleOpacity = Math.max((scale - 1) / 3.75, 0)
           const activeNodes = nodeRenderData.filter((n) => n.active).flatMap((n) => n.label)
+          const centerLabel = nodeRenderData.find((n) => n.simulationData.id === slug)?.label
 
           for (const label of labelsContainer.children) {
             if (!activeNodes.includes(label)) {
-              label.alpha = scaleOpacity
+              if (label === centerLabel) {
+                label.alpha = Math.max(scaleOpacity, 0.8)
+              } else {
+                label.alpha = scaleOpacity
+              }
             }
           }
         }),
@@ -526,25 +598,42 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
   let stopAnimation = false
   function animate(time: number) {
     if (stopAnimation) return
-    for (const n of nodeRenderData) {
+    for (let i = 0; i < nodeRenderData.length; i++) {
+      const n = nodeRenderData[i]
       const { x, y } = n.simulationData
       if (!x || !y) continue
       n.gfx.position.set(x + width / 2, y + height / 2)
       if (n.label) {
         n.label.position.set(x + width / 2, y + height / 2)
       }
+
+      // Star twinkling
+      const glow = glowRenderData[i]
+      glow.gfx.position.set(x + width / 2, y + height / 2)
+      glow.gfx.alpha = 0.4 + 0.6 * Math.sin(time * 0.0015 + glow.phase)
     }
 
-    for (const l of linkRenderData) {
+    for (let li = 0; li < linkRenderData.length; li++) {
+      const l = linkRenderData[li]
       const linkData = l.simulationData
+      const sparkle = 0.4 + 0.3 * Math.sin(time * 0.003 + li * 1.7)
       l.gfx.clear()
       l.gfx.moveTo(linkData.source.x! + width / 2, linkData.source.y! + height / 2)
       l.gfx
         .lineTo(linkData.target.x! + width / 2, linkData.target.y! + height / 2)
-        .stroke({ alpha: l.alpha, width: 1, color: l.color })
+        .stroke({ alpha: l.alpha * sparkle, width: 0.5, color: l.color })
     }
 
     tweens.forEach((t) => t.update(time))
+
+    // Sine-wave color brightness on node cores via tint
+    for (let i = 0; i < nodeRenderData.length; i++) {
+      const phase = glowRenderData[i].phase
+      const brightness = 0.6 + 0.4 * Math.sin(time * 0.002 + phase)
+      const b = Math.round(brightness * 255)
+      nodeRenderData[i].gfx.tint = (b << 16) | (b << 8) | b
+    }
+
     app.renderer.render(stage)
     requestAnimationFrame(animate)
   }
