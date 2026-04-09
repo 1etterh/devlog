@@ -1,5 +1,5 @@
 ---
-title: 배포 승인 시 업로드 사용자 검증 — Objects.equals()를 이용한 값 비교
+title: 파일 업로드 승인 시 사용자 검증 — Objects.equals()를 이용한 값 비교
 type: question
 tags: [Spring, validation, Objects.equals, Long-comparison, security]
 draft: true

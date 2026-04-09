@@ -1,7 +1,7 @@
 ---
-title: 배포 업로드 이중 키 vs 단일 키 검증 비교
+title: 파일 업로드 이중 키 vs 단일 키 검증 비교
 type: question
-tags: [deploy, security, uuid, validation, api-design]
+tags: [file-upload, security, uuid, validation, api-design]
 draft: true
 ---
 
