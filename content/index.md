@@ -11,3 +11,6 @@ draft: false
 - [[OpenSSL/001_OpenSSL|OpenSSL]]
 - [[OS/FileSystem/FileSystem in Unix|OS]]
 - [[pnpm/001_package manager 선택 과정|pnpm]]
+
+![[Drawing 2026-04-09 11.35.55.excalidraw.svg]]
+
