@@ -1,7 +1,7 @@
 ---
 title: "@Transactional 전파행위(Propagation)와 격리수준(Isolation) 완전 정리"
 type: question
-tags: [Spring, Transactional, Propagation, Isolation, 트랜잭션, JPA]
+tags: [Spring, Transactional, Propagation, Isolation, transaction, JPA]
 draft: false
 ---
 
@@ -70,3 +70,8 @@ flowchart LR
 ### 실무 기준
 
 대부분 DB 기본값을 그대로 사용한다. 동시 수정이 치명적인 경우 격리 수준을 올리기보다 비관적 락(SELECT FOR UPDATE)이나 낙관적 락(@Version)으로 해결하는 것이 더 일반적이다.
+
+## 관련 문서
+- [[Propagation & Isolation|Spring 전파행위 & 격리수준 기초]]
+- [[TRANSACTION|DB 트랜잭션]]
+- [[ACID 원칙]]

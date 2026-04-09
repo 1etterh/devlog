@@ -1,7 +1,7 @@
 ---
 title: Armeria 멀티파트 파일 업로드 시 파일 객체는 어디에 저장되는가
 type: question
-tags: [Armeria, Multipart, 파일업로드, FilePartData, FileHttpData, Java]
+tags: [Armeria, Multipart, file-upload, FilePartData, FileHttpData, Java]
 draft: false
 ---
 

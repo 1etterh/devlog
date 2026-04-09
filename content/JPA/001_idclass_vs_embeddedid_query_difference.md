@@ -1,7 +1,7 @@
 ---
 title: JPA 복합키 @IdClass vs @EmbeddedId - 실제 SQL 쿼리 차이가 있을까?
 type: question
-tags: [JPA, Hibernate, 복합키, IdClass, EmbeddedId, CompositeKey]
+tags: [JPA, Hibernate, composite-key, IdClass, EmbeddedId, CompositeKey]
 draft: false
 ---
 
@@ -67,3 +67,8 @@ SQL이 아닌 JPQL 문법에서 필드 접근 경로가 달라진다:
 
 - **@IdClass**: JPQL이 깔끔하고 엔티티 필드에 바로 접근 가능
 - **@EmbeddedId**: 복합키를 하나의 객체로 다루기 편하고, 키 자체를 파라미터로 전달하기 용이
+
+## 관련 문서
+- [[JPA]]
+- [[Entity]]
+- [[Persistence Context|영속성 컨텍스트]]

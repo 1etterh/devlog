@@ -1,7 +1,7 @@
 ---
 title: Armeria 멀티파트 - UserFileDto와 파일 매칭 구조
 type: question
-tags: [Armeria, Multipart, DTO, 파일매핑, MultipartHelper]
+tags: [Armeria, Multipart, DTO, file-mapping, MultipartHelper]
 draft: false
 ---
 

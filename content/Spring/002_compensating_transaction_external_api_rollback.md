@@ -1,7 +1,7 @@
 ---
 title: 외부 API 호출 성공 후 로컬 에러 시 롤백 - 보상 트랜잭션 패턴
 type: question
-tags: [Spring, 분산트랜잭션, 보상트랜잭션, CompensatingTransaction, 파일업로드]
+tags: [Spring, distributed-transaction, compensating-transaction, CompensatingTransaction, file-upload]
 draft: false
 ---
 

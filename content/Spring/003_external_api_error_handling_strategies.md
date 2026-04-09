@@ -1,7 +1,7 @@
 ---
 title: 외부 API 호출 성공 후 로컬 에러 발생 시 실무 처리 전략 3가지
 type: question
-tags: [Spring, 분산트랜잭션, 보상트랜잭션, Outbox패턴, 에러처리, 데이터정합성]
+tags: [Spring, distributed-transaction, compensating-transaction, Outbox-pattern, error-handling, data-consistency]
 draft: false
 ---
 

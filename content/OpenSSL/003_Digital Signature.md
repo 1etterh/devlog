@@ -1,7 +1,7 @@
 ---
 title: 디지털 서명(Digital Signature)의 원리와 검증 과정
 type: question
-tags: [OpenSSL, 디지털서명, 비대칭암호화, 공개키, 해시]
+tags: [OpenSSL, digital-signature, asymmetric-encryption, public-key, hash]
 draft: true
 ---
 

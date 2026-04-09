@@ -1,7 +1,7 @@
 ---
 title: 파일 업로드 및 게시 임시 데이터 저장 전략 - Hazelcast IMap + 디스크 하이브리드
 type: question
-tags: [Spring Boot, Hazelcast, 캐싱, 파일업로드, 아키텍처]
+tags: [Spring Boot, Hazelcast, caching, file-upload, architecture]
 draft: false
 ---
 

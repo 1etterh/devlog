@@ -1,7 +1,7 @@
 ---
 title: 배포 승인 시 업로드 사용자 검증 — Objects.equals()를 이용한 값 비교
 type: question
-tags: [Spring, 검증, Objects.equals, Long 비교, 보안]
+tags: [Spring, validation, Objects.equals, Long-comparison, security]
 draft: true
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: Hazelcast 멀티 인스턴스 구조 — Cluster enum 기반 인스턴스 분리
 type: question
-tags: [Hazelcast, Spring, ConfigurationProperties, 분산캐시, 클러스터]
+tags: [Hazelcast, Spring, ConfigurationProperties, distributed-cache, cluster]
 draft: true
 ---
 

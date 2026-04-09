@@ -1,7 +1,7 @@
 ---
 title: SSH 접속 시 원격 시스템의 프로그램만 실행 가능한 이유
 type: question
-tags: [SSH, 원격접속, 리눅스, 네트워크, 셸]
+tags: [SSH, remote-access, Linux, network, shell]
 draft: false
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: java.io.File은 디스크 파일인가 메모리 파일인가
 type: question
-tags: [Java, File, IO, InputStream, 파일시스템]
+tags: [Java, File, IO, InputStream, filesystem]
 draft: false
 ---
 
@@ -35,7 +35,11 @@ file.length()           // → 바이트 크기
 
 `file.getAbsolutePath()`는 **JVM이 실행 중인 머신의 로컬 파일 시스템** 경로다.
 
-- 로컬 개발 → `/Users/gimseohyeon/...`
+- 로컬 개발 → `/Users/<username>/...`
 - 베타/프로덕션 서버 → `/tmp/armeria-xxxx.tmp` (해당 서버의 디스크)
 
 각 서버의 파일 시스템 안에서의 경로이며, 다른 서버에서는 접근할 수 없다.
+
+## 관련 문서
+- [[IO|Java IO]]
+- [[Scanner]]

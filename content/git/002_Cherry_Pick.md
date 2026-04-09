@@ -62,3 +62,8 @@ git cherry-pick --abort
 - cherry-pick은 새로운 커밋을 생성한다 (원본 커밋과 해시가 다름)
 - 같은 커밋을 여러 번 cherry-pick하면 중복 변경이 생길 수 있다
 - 나중에 브랜치를 merge할 때 충돌이 발생할 가능성이 있으므로, 남용하지 않는 것이 좋다
+
+## 관련 문서
+- [[GIT]]
+- [[Branch]]
+- [[COMMIT]]

@@ -1,7 +1,7 @@
 ---
 title: Windows와 macOS 경로 구분자 차이 - 백슬래시 vs 슬래시
 type: error
-tags: [OS, 경로, 파일시스템, Windows, macOS, Linux, 크로스플랫폼]
+tags: [OS, path, filesystem, Windows, macOS, Linux, cross-platform]
 draft: false
 ---
 
@@ -44,3 +44,7 @@ license-file-path: config/license
 - YAML에서 따옴표(`"config/license"`)를 써도 OS의 파일 시스템 해석은 바뀌지 않는다
 - 크로스 플랫폼 호환이 필요하면 항상 forward slash를 사용해야 한다
 - Java의 `File.separator`나 `Path` 클래스를 사용하면 OS에 맞는 구분자를 자동으로 처리할 수 있다
+
+## 관련 문서
+- [[Linux]]
+- [[OS_Preview|운영체제 개요]]

@@ -1,7 +1,7 @@
 ---
 title: Armeria MultipartFile로 zip 파일 추출 시 0 bytes 문제 해결
 type: debug
-tags: [Armeria, MultipartFile, Zip, 비동기, 파일업로드]
+tags: [Armeria, MultipartFile, Zip, async, file-upload]
 draft: false
 ---
 

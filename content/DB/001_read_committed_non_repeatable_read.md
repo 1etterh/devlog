@@ -1,7 +1,7 @@
 ---
 title: READ_COMMITTED인데 왜 Non-Repeatable Read가 발생하는가
 type: question
-tags: [DB, 트랜잭션, 격리수준, READ_COMMITTED, MVCC, 동시성]
+tags: [DB, transaction, isolation-level, READ_COMMITTED, MVCC, concurrency]
 draft: false
 ---
 
@@ -45,3 +45,8 @@ T3에서 B가 커밋을 완료했으므로, T4 시점에서 READ_COMMITTED 입�
 | REPEATABLE_READ | 트랜잭션 시작 시점 고정 | 중간 커밋 무시됨 |
 
 REPEATABLE_READ는 트랜잭션이 시작된 시점의 스냅샷을 고정하므로, T4에서도 여전히 1000원이 보인다.
+
+## 관련 문서
+- [[TRANSACTION|트랜잭션]]
+- [[ACID 원칙]]
+- [[Propagation & Isolation|Spring 전파행위 & 격리수준]]

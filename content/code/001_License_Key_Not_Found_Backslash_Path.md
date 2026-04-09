@@ -1,7 +1,7 @@
 ---
 title: License key does not exist 에러 - 백슬래시 경로 문제
 type: error
-tags: [Spring Boot, YAML, 경로, 백슬래시, macOS, 크로스플랫폼]
+tags: [Spring Boot, YAML, path, backslash, macOS, cross-platform]
 draft: false
 ---
 
