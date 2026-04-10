@@ -2,7 +2,7 @@
 tags:
   - database
   - modeling
-draft: true
+draft: false
 ---
 > 업무의 관심 대상이 되는 정보를 가진 개체
 > 자바로 치면 클래스 같은거

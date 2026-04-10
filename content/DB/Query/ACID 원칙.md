@@ -3,7 +3,7 @@ tags:
   - database
   - modeling
   - sql
-draft: true
+draft: false
 ---
 1. Atomicity : 원자성
 2. Consistency : 일관성

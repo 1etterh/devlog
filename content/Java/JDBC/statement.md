@@ -3,7 +3,7 @@ tags:
   - jdbc
   - java
   - database
-draft: true
+draft: false
 ---
 > SQL 쿼리를 DB에 전달 후 결과 반환
 

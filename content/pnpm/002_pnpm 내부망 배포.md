@@ -1,6 +1,6 @@
 ---
 title: pnpm 내부망 배포 - Docker 환경에서 pnpm store 활용
-tags: [pnpm, Docker, internal-network, deployment, Nuxt]
+tags: [pnpm, docker, internal_network, deployment, nuxt]
 draft: false
 ---
 > 테스트용 내부망 서버에 배포하는 과정을 정리함.

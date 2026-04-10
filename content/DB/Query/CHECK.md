@@ -3,7 +3,7 @@ title: CHECK
 description: Structured Query Language
 tags:
   - sql
-draft: true
+draft: false
 ---
 > Column의 값을 지정된 범위 내에서만 허용
 

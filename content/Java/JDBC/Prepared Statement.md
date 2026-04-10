@@ -3,7 +3,7 @@ tags:
   - jdbc
   - java
   - database
-draft: true
+draft: false
 ---
 > 기존의 statement의 발전된 형태
 

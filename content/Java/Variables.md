@@ -1,7 +1,7 @@
 ---
 tags:
   - java
-draft: true
+draft: false
 ---
 > 데이터를 저장하기 위해 할당받은 메모리 공간<br/>
 # 변수의 범위

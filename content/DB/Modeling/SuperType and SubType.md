@@ -2,7 +2,7 @@
 tags:
   - database
   - modeling
-draft: true
+draft: false
 ---
 
 > 유사한 속성(Attribute)을 가진 Entity들을 하나의 Entity로 일반화하여 Supertype(공통 속성)과 Subtype(구분 속성?)으로 구분한다.<br/>

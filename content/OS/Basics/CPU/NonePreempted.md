@@ -1,5 +1,5 @@
 ---
-draft: true
+draft: false
 ---
 
 >일단 CPU를 잡으면 CPU burst가 완료될 때 까지 CPU를 선점(preemption)당하지 않음

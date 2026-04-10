@@ -2,7 +2,7 @@
 tags:
   - database
   - modeling
-draft: true
+draft: false
 ---
 ## 이상(Anomaly)
 > 중복된 데이터 때문에 데이터에 의도하지 않은 현상이 발생하는 것 <br/>

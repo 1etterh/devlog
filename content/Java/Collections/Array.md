@@ -2,7 +2,7 @@
 tags:
   - ram
   - java
-draft: true
+draft: false
 ---
 > ==동일한 자료형==을 연속된 메모리 공간에 저장하고 <br/>
 > 배열의 주소는 stack 영역에, 데이터는 heap영역에 저장

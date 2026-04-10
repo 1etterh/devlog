@@ -3,7 +3,7 @@ tags:
   - database
   - db
   - sql
-draft: true
+draft: false
 ---
 1. QUERY의 결과에 다시 한번 QUERY를 작성하는 경우 사용
 2. SUBQUERY 바깥에 있는 QUERY를 MAIN QUERY라고 한다.

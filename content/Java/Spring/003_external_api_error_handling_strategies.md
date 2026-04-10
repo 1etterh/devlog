@@ -1,0 +1,88 @@
+---
+title: 외부 API 호출 성공 후 로컬 에러 발생 시 실무 처리 전략 3가지
+type: question
+tags: [spring, distributed_transaction, compensating_transaction, outbox_pattern, error_handling, data_consistency]
+draft: false
+---
+
+## 문제
+
+외부 서버(파일 서버, 결제 서버 등)에 요청이 성공한 뒤 로컬에서 에러가 발생하면, 외부 서버에는 데이터가 남아있는데 로컬 DB에는 기록이 없는 불일치가 발생한다. `@Transactional`은 로컬 DB에만 적용되므로 외부 서버를 롤백할 수 없다.
+
+## 전략 1: 보상 트랜잭션 (Compensating Transaction)
+
+가장 일반적인 방식. 실패 시 반대 작업을 즉시 호출한다.
+
+```java
+Response response = callExternalApi();  // 외부 API 성공
+try {
+    processResponse(response);
+    localRepository.save(entity);
+} catch (Exception e) {
+    callExternalApiRollback(response.getId());  // 보상 작업
+    throw e;
+}
+```
+
+- **장점**: 구현이 간단하고 즉시 적용 가능
+- **단점**: 보상 작업 자체가 실패할 수 있음
+- **적합**: 파일 업로드 등 실패 빈도가 낮은 경우
+
+## 전략 2: Outbox 패턴
+
+보상 작업을 DB에 먼저 기록하고, 별도 워커/스케줄러가 처리한다.
+
+```
+1. 외부 API 호출 성공
+2. 로컬 DB에 pending_cleanup 레코드 INSERT (같은 트랜잭션)
+3. 후속 처리 성공 시 pending_cleanup DELETE
+4. 실패 시 pending_cleanup 레코드가 남음
+5. 별도 스케줄러가 pending_cleanup 조회 → 보상 작업 실행
+```
+
+- **장점**: 보상 작업이 유실되지 않음
+- **단점**: 테이블 + 스케줄러 추가 필요
+- **적합**: 결제, 외부 시스템 연동 등 정합성이 크리티컬한 경우
+
+## 전략 3: 고아 데이터 배치 정리
+
+별도의 보상 처리 없이, 주기적으로 불일치 데이터를 정리한다.
+
+```
+[야간 배치]
+  → 외부 서버 데이터 목록 조회
+  → 로컬 DB와 비교
+  → 로컬에 없는 데이터 외부 서버에서 삭제
+```
+
+- **장점**: 기존 코드 수정 없음
+- **단점**: 정리 전까지 고아 데이터가 존재
+- **적합**: 용량 충분하고 실시간 정합성이 불필요한 경우
+
+## 전략 흐름 비교
+
+```mermaid
+flowchart TD
+    A[외부 API 호출 성공] --> B{로컬 후속 처리}
+    B -->|성공| C[정상 완료]
+    B -->|실패| D{처리 전략 선택}
+
+    D -->|1순위| E["보상 트랜잭션<br/>즉시 반대 작업 호출"]
+    D -->|2순위| F["고아 데이터 배치 정리<br/>주기적 불일치 데이터 정리"]
+    D -->|필요 시| G["Outbox 패턴<br/>DB 기록 → 별도 워커 처리"]
+
+    E -->|보상 성공| H[복구 완료]
+    E -->|보상 실패| F
+    G --> I[pending_cleanup 레코드]
+    I --> J[스케줄러가 보상 작업 실행]
+```
+
+## 실무 권장 조합
+
+| 우선순위 | 전략 | 역할 |
+|---|---|---|
+| 1순위 | 보상 트랜잭션 | 즉시 처리, 대부분의 실패 커버 |
+| 2순위 | 고아 정리 배치 | 보상 실패의 안전망 |
+| 필요 시 | Outbox 패턴 | 크리티컬 도메인에만 적용 |
+
+파일 업로드 같은 경우 보상 트랜잭션 + 실패 로그만으로 충분하고, 실제로 고아 파일이 문제가 되는 시점에 배치를 추가하면 된다.

@@ -1,5 +1,5 @@
 ---
-draft: true
+draft: false
 ---
 
 > 하나의 Hardware에 다수의 운영체제를 설치하고 개별 컴퓨터처럼 동작하도록 하는 프로그램

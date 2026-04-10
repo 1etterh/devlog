@@ -4,7 +4,7 @@ tags:
   - db
   - sql
   - dml
-draft: true
+draft: false
 ---
 > 테이블의 행을 삭제하는 구문
  >테이블의 행의 갯수가 줄어듦

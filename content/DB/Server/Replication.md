@@ -3,7 +3,7 @@ tags:
   - database
   - db
   - sql
-draft: true
+draft: false
 ---
 
 

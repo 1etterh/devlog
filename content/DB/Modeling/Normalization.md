@@ -2,7 +2,7 @@
 tags:
   - database
   - modeling
-draft: true
+draft: false
 ---
 ### 정규화(Normalization)
 > Normalization is a technique that can help you avoid data anomalies and other problems with managing your data.<br/>

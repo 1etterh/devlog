@@ -1,7 +1,7 @@
 ---
 tags:
   - security
-draft: true
+draft: false
 ---
 > 어떤 단말이 송신한 브로드캐스트 패킷이 전달되는 허용 영역<br/>
 

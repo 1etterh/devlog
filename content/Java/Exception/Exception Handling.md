@@ -3,7 +3,7 @@ tags:
   - java
   - exception
   - error
-draft: true
+draft: false
 ---
 > two types of Exception Handling
 

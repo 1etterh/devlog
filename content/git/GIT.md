@@ -1,7 +1,7 @@
 ---
 tags:
   - git
-draft: true
+draft: false
 ---
 > 분산형 버전 관리 시스템<br/>
 > GIT 과 [[GITHUB]]은 다름<br/>

@@ -3,7 +3,7 @@ tags:
   - java
   - class
   - object
-draft: true
+draft: false
 ---
 > 기본형 데이터를 인스턴스화 해야 할 때 사용하는 클래스
 

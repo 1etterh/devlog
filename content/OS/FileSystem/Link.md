@@ -1,6 +1,6 @@
 ---
 title: 파일 링크 - Symbolic Link vs Hard Link
-tags: [OS, 파일시스템, Link, Inode]
+tags: [os, 파일시스템, link, inode]
 draft: false
 ---
 ## File Link

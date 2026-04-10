@@ -3,7 +3,7 @@ tags:
   - database
   - db
   - sql
-draft: true
+draft: false
 ---
 >테이블을 활용한 가상 테이블
 >Query 상태로 저장

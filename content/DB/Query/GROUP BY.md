@@ -4,7 +4,7 @@ tags:
   - db
   - sql
   - dql
-draft: true
+draft: false
 ---
 # GROUP BY
 

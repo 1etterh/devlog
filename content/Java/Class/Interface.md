@@ -3,7 +3,7 @@ tags:
   - java
   - class
   - interface
-draft: true
+draft: false
 ---
 > 추상 메소드(abstract method)와 상수 필드(public static final)만 가질 수 있는 클래스의 변형체<br/>
 > 객체를 생성할 수 없다.

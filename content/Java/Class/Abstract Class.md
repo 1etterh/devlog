@@ -4,7 +4,7 @@ tags:
   - class
   - abstraction
   - java
-draft: true
+draft: false
 ---
 > 추상메소드를 0개 이상 포함하는 클래스 <br/>
 > 객체 생성이 불가능하다.

@@ -1,7 +1,7 @@
 ---
 title: Excalidraw 그림을 Quartz에서 렌더링하기 - SVG Export
 type: question
-tags: [question, Obsidian, Excalidraw, Quartz, SVG, static-site]
+tags: [question, obsidian, excalidraw, quartz, svg, static_site]
 draft: false
 ---
 

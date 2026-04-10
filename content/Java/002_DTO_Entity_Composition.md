@@ -1,7 +1,7 @@
 ---
 title: DTO에 Entity 객체를 포함하는 구조 설계
 type: question
-tags: [Java, DTO, Entity, Composition, Spring]
+tags: [java, dto, entity, composition, spring]
 draft: false
 ---
 

@@ -4,7 +4,7 @@ tags:
   - db
   - sql
   - ddl
-draft: true
+draft: false
 ---
 > COLUMN의 기본 값을 설정하여 NULL값을 방지할 수 있음
 

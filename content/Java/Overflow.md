@@ -1,7 +1,7 @@
 ---
 tags:
   - java
-draft: true
+draft: false
 ---
 > 자료형이 저장할 수 있는 값의 범위를 벗어나는 경우 발생한 Carry를 버림처리하고 sign bit를 반전시켜 최소값으로 순환하는 현상(Runtime Error) <br/>
 > 반대말은 Underflow

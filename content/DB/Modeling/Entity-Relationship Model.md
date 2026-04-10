@@ -2,7 +2,7 @@
 tags:
   - database
   - modeling
-draft: true
+draft: false
 ---
 > 관계형 DB 설계 모델
 ### ERD Terms

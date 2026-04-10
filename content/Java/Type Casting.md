@@ -1,7 +1,7 @@
 ---
 tags:
   - java
-draft: true
+draft: false
 ---
 > 변수 또는 리터럴을 다른 타입으로 변환하는 것
 

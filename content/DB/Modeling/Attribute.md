@@ -2,6 +2,6 @@
 tags:
   - database
   - modeling
-draft: true
+draft: false
 ---
 > Column에 해당

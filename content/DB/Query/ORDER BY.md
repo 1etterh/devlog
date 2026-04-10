@@ -3,7 +3,7 @@ tags:
   - database
   - db
   - sql
-draft: true
+draft: false
 ---
 # ORDER BY ASC(default)
 - 오름차순 정렬

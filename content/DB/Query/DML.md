@@ -4,7 +4,7 @@ tags:
   - db
   - sql
   - dml
-draft: true
+draft: false
 ---
 
 

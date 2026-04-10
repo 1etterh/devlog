@@ -4,7 +4,7 @@ tags:
   - method
   - class
   - overloading
-draft: true
+draft: false
 ---
 > 동일한 메소드 이름으로 다양한 종류의 매개변수에 따라 처리해야 하는 경우 적용하는 기술을 오버로딩이라고 한다.
 

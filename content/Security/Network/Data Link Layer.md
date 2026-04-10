@@ -1,7 +1,7 @@
 ---
 tags:
   - security
-draft: true
+draft: false
 ---
 
 > 2nd Layer of OSI 7 Layers

@@ -3,7 +3,7 @@ tags:
   - database
   - db
   - sql
-draft: true
+draft: false
 ---
 > 기존 테이블에 있던 값을 수정
 > 행의 갯수에는 영향x

@@ -2,7 +2,7 @@
 tags:
   - java
   - class
-draft: true
+draft: false
 ---
 > 부모 클래스로부터 상속받은 메소드를 재정의하는 기술
 

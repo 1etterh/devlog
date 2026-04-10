@@ -4,7 +4,7 @@ tags:
   - oop
   - abstraction
   - class
-draft: true
+draft: false
 ---
 > 유연성을 확보하기 위해 공통된 부분을 추출하고 공통되지 않고 불필요한 부분은 제거한다.
 # 유연성 (cf. 호환성)

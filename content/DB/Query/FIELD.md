@@ -4,7 +4,7 @@ tags:
   - db
   - sql
   - dql
-draft: true
+draft: false
 ---
 > 순서를 반환하는 함수
 

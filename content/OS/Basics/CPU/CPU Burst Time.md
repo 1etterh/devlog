@@ -1,5 +1,5 @@
 ---
-draft: true
+draft: false
 ---
 
 > 한번에 CPU를 연속적으로 사용하는 시간

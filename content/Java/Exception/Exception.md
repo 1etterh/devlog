@@ -4,7 +4,7 @@ tags:
   - exception
   - class
   - instance
-draft: true
+draft: false
 ---
 > 프로그램 실행시 발생하는 문제들을 처리하기 위한 데이터 타입
 # Throwable

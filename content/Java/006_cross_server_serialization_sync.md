@@ -1,8 +1,8 @@
 ---
 title: "서버 간 Java 직렬화 시 클래스 구조 동기화 방법"
 type: question
-tags: [serialization, shared-module, jackson, cross-server]
-draft: true
+tags: [serialization, shared_module, jackson, cross_server]
+draft: false
 ---
 
 ## 개요

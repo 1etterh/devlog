@@ -1,5 +1,5 @@
 ---
-draft: true
+draft: false
 ---
 
 > 현대 운영체제가 쓰는 방식

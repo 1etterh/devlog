@@ -2,7 +2,7 @@
 tags:
   - database
   - modeling
-draft: true
+draft: false
 ---
 > 하나의 속성이 취할 수 있는 동일한 타입의 원자값들의 집합<br/>
 > 유사한 속성에 동일한 데이터 타입을 할당할 수 있어 데이터의 일관성과 정합성을 유지할 수 있다.<br/>

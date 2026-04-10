@@ -3,7 +3,7 @@ tags:
   - java
   - class
   - generics
-draft: true
+draft: false
 ---
 # Generics
 > 데이터 타입을 일반화함 (up casting, down casting + boxing, unboxing) <br/>

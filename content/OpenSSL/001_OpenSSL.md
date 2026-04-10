@@ -1,6 +1,6 @@
 ---
 title: OpenSSL과 SSL/TLS 암호화 기초
-tags: [OpenSSL, SSL, TLS, 암호화, HTTPS]
+tags: [open_ssl, ssl, tls, 암호화, https]
 draft: false
 ---
 ## 1. OpenSSL

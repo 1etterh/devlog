@@ -1,7 +1,7 @@
 ---
 title: packages 폴더와 requirements.txt 의존성 개수가 다를 때 - et_xmlfile
 type: question
-tags: [Python, pip, openpyxl, et_xmlfile, dependency-management]
+tags: [python, pip, openpyxl, et_xmlfile, dependency_management]
 draft: false
 ---
 

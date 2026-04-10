@@ -4,7 +4,7 @@ tags:
   - db
   - sql
   - ddl
-draft: true
+draft: false
 ---
 
 > Data Definition Language

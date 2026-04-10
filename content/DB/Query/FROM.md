@@ -4,7 +4,7 @@ tags:
   - db
   - sql
   - dql
-draft: true
+draft: false
 ---
 > 값을 조회할 테이블
 

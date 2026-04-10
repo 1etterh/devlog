@@ -4,7 +4,7 @@ tags:
   - io
   - stream
   - serializable
-draft: true
+draft: false
 ---
 >_**단방향**_  데이터 송수신을 위해 스트림을 활용하여 데이터를 주고 받음
 

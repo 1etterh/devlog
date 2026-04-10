@@ -3,7 +3,7 @@ tags:
   - database
   - db
   - sql
-draft: true
+draft: false
 ---
 > 1. 여러개의 Table을 한번에 조회할 때 사용
 > 2. 두개 이상의 테이블을 관련있는 컬럼을 통해 결합

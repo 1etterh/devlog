@@ -1,7 +1,7 @@
 ---
 tags:
   - java
-draft: true
+draft: false
 ---
 > 서로 관련있는 클래스 또는 인터페이스 등을 모아 하나의 묶음(그룹)으로 구성하는 것
 

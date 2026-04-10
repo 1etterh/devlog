@@ -1,7 +1,7 @@
 ---
 tags:
   - security
-draft: true
+draft: false
 ---
 > Internet Control Message Protocol
 

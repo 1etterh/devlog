@@ -4,7 +4,7 @@ tags:
   - db
   - sql
   - transaction
-draft: true
+draft: false
 ---
 >논리적 일의 단위
 >중간에 하나라도 실패하면 전부 다 취소해야됨

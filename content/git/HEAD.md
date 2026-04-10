@@ -4,7 +4,7 @@ tags:
   - github
   - head
   - git
-draft: true
+draft: false
 ---
 > 현재 위치를 가리키는 포인터 <br/> 
 > 일반적으로 가장 마지막 [[COMMIT|커밋]]을 의미함 

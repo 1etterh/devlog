@@ -1,6 +1,6 @@
 ---
 title: 패키지 매니저 선택 과정 - pnpm을 선택한 이유
-tags: [pnpm, npm, package-manager, air-gapped]
+tags: [pnpm, npm, package_manager, air_gapped]
 draft: false
 ---
 ### 패키지 매니저 선택

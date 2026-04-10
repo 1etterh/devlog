@@ -2,7 +2,7 @@
 tags:
   - java
   - class
-draft: true
+draft: false
 ---
 > 타 프레임워크와 호환을 위해 작성하는 규칙
 # Java Bean 작성규칙

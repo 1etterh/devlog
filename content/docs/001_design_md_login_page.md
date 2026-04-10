@@ -1,7 +1,7 @@
 ---
 title: "관리자 페이지 design.md 작성법 - 로그인 페이지 예시"
 type: question
-tags: [design-document, nuxt, vue, login, admin-dashboard, screen-spec]
+tags: [design_document, nuxt, vue, login, admin_dashboard, screen_spec]
 draft: true
 ---
 

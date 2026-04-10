@@ -2,7 +2,7 @@
 tags:
   - database
   - modeling
-draft: true
+draft: false
 ---
 1. 요구사항 분석(Requirements)
 2. 개념 모델링([[Conceptual Model]])

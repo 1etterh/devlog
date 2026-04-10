@@ -1,7 +1,7 @@
 ---
 tags:
   - git
-draft: true
+draft: false
 ---
 > Git 저장소의 내용을 나타내는 기본 데이터 구조
 

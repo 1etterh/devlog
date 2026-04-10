@@ -1,7 +1,7 @@
 ---
 title: .gitignore에 추가해도 변경사항에 계속 뜨는 이유
 type: question
-tags: [git, gitignore, tracked-files]
+tags: [git, gitignore, tracked_files]
 draft: false
 ---
 

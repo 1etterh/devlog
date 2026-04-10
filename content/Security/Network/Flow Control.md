@@ -1,7 +1,7 @@
 ---
 tags:
   - security
-draft: true
+draft: false
 ---
 
 > 수신 장치의 용량 이상으로 데이터가 넘치지 않도록 송신장치를 제어하는 기술

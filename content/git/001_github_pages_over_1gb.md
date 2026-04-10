@@ -1,7 +1,7 @@
 ---
 title: "GitHub Pages 1GB 제한 우회 - 대용량 사이트 배포 방법"
 type: question
-tags: [question, github-pages, deployment, cloudflare, storage, cdn]
+tags: [question, github_pages, deployment, cloudflare, storage, cdn]
 draft: false
 ---
 

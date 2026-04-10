@@ -3,7 +3,7 @@ tags:
   - java
   - enum
   - datatype
-draft: true
+draft: false
 ---
 > 관련있는 상수 집합(ex. 요일, 알파벳, ...)
 # enum의 장점

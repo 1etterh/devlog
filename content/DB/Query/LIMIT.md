@@ -1,6 +1,6 @@
 ---
 description: 구간 추출
-draft: true
+draft: false
 ---
 # LIMIT *starting_index*, *number of row set*
 

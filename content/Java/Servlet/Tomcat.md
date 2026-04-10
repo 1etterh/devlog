@@ -1,0 +1,25 @@
+---
+tags:
+  - servlet
+  - jsp
+draft: false
+---
+> Servlet Class를 관리([[LifeCycle]])하는 컨테이너 <br/>
+> 작성한 Servlet Class를 보관하고 요청에 따라 Servlet을 결정하고 실행
+
+
+# Deployment Descriptor(DD)
+> Application에 대한 전체 설정 정보를 가지고 있는 파일 <br/>
+> xml 형식
+
+
+
+# Servlet mapping
+> Client가 Servlet의 url로 요청을 보내면 Tomcat이 이를 해석한 후 매핑된 servlet으로 연결
+
+## 관련 문서
+- [[Servlet|Servlet]] - Tomcat이 관리하는 대상
+- [[LifeCycle|Servlet LifeCycle]] - Tomcat 컨테이너의 Servlet 생명주기 관리
+- [[Spring Framework|Spring Framework]] - Tomcat 위에서 동작하는 프레임워크
+- [[Filter|Filter]] - Tomcat 컨테이너가 관리하는 필터
+

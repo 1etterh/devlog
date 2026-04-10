@@ -2,7 +2,7 @@
 tags:
   - os
   - kernel
-draft: true
+draft: false
 ---
 
 

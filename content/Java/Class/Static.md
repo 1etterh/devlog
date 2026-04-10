@@ -3,7 +3,7 @@ tags:
   - java
   - jvm
   - static
-draft: true
+draft: false
 ---
 > 프로그램이 실행될 때 정적 메모리 영역(static)에 할당되는 변수이다. <br/>
 > 여러 인스턴스가 공유해서 사용할 목적의 공간이다. <br/>

@@ -3,7 +3,7 @@ tags:
   - class
   - java
   - overriding
-draft: true
+draft: false
 ---
 > 접근 가능한 범위 (public, protected, default, private)
 

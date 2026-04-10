@@ -1,5 +1,5 @@
 ---
-draft: true
+draft: false
 ---
 
 > CPU가 여러개인 경우 스케줄링은 더 복잡해짐

@@ -3,7 +3,7 @@ tags:
   - java
   - class
   - instance
-draft: true
+draft: false
 ---
 > `this`는 맥락에 따라 다양한 의미를 지닌다.
 # Cases

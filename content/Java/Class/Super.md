@@ -4,7 +4,7 @@ tags:
   - inheritance
   - class
   - java
-draft: true
+draft: false
 ---
 > super 키워드는 `super()`과 `super.` 로 나뉜다.
 

@@ -3,7 +3,7 @@ tags:
   - database
   - db
   - sql
-draft: true
+draft: false
 ---
 ## 1. Simple Nested Loop
 ## 2. Block Nested Loop

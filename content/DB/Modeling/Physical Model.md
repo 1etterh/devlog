@@ -2,7 +2,7 @@
 tags:
   - database
   - modeling
-draft: true
+draft: false
 ---
 > 실제 데이터베이스에 이식할 수 있도록 모델의 구조보다는 인덱스, 뷰, 테이블 타입과 사용하는 DBMS와 같은 물리적 요소에 집중하여 데이터베이스를 설계하는 단계이다. <br/>
 > 실제 성능을 고려하여 비정규화(Denormalization)를 진행하는 단계이다.

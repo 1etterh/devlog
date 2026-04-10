@@ -5,7 +5,7 @@ tags:
   - framework
   - list
   - iterable
-draft: true
+draft: false
 ---
 # List
 > Array의 단점을 개선한 자료구조

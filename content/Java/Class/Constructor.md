@@ -3,7 +3,7 @@ tags:
   - class
   - instance
   - this
-draft: true
+draft: false
 ---
 > 인스턴스를 생성하기 위해 사용하는 Class 명과 동일한 이름을 가진 함수이다.<br/>
 > 반환형이 없으며, 기본 생성자와 매개변수가 있는 생성자로 나눌 수 있다.

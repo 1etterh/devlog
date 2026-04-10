@@ -1,7 +1,7 @@
 ---
 title: java.io.File은 디스크 파일인가 메모리 파일인가
 type: question
-tags: [Java, File, IO, InputStream, filesystem]
+tags: [java, file, io, input_stream, filesystem]
 draft: false
 ---
 

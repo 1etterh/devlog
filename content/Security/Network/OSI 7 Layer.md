@@ -1,7 +1,7 @@
 ---
 tags:
   - security
-draft: true
+draft: false
 ---
 
 | 계층  | 이름                                         |     | 데이터 단위                   | 특징                                                                     | 예                                                                                |                                   |

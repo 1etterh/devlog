@@ -4,7 +4,7 @@ tags:
   - collections
   - set
   - tree
-draft: true
+draft: false
 ---
 > Tree 구조를 활용해 중복 제거 + 정렬
 # Syntax

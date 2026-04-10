@@ -3,7 +3,7 @@ tags:
   - lambda
   - java
   - methodreference
-draft: true
+draft: false
 ---
 # 1. Lambda
 > Method를 -> 로 표시함

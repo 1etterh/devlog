@@ -1,5 +1,5 @@
 ---
-draft: true
+draft: false
 ---
 
 > Deadline(기한)에 따라 우선순위를 결정함 

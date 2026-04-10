@@ -1,7 +1,7 @@
 ---
 tags:
   - git
-draft: true
+draft: false
 ---
 > [[Git]] 저장소에 디렉토리에 있는 모든 파일에 대한 스냅샷(Snapshot)을 기록하는 하나의 데이터 객체<br/>
 > 각 파일 객체의 변화만을 저장함.

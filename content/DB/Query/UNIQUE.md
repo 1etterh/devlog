@@ -3,7 +3,7 @@ tags:
   - database
   - db
   - sql
-draft: true
+draft: false
 ---
 > 중복 값이 들어가지 않도록 하는 제약 조건
 > Column Level, Table Level 모두 가능

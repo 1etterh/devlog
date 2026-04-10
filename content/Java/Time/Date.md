@@ -3,7 +3,7 @@ tags:
   - java
   - API
   - time
-draft: true
+draft: false
 ---
 > 컴퓨터 시스템의 시간을 가진 인스턴스를 생성한다. (deprecated)
 

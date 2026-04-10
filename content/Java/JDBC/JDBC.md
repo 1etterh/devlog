@@ -3,7 +3,7 @@ tags:
   - java
   - db
   - jdbc
-draft: true
+draft: false
 ---
 > Java Database Connectivity <br/>
 > Java에서 데이터 소스(DB)에 접근 가능하도록 하는 Programming API

@@ -1,5 +1,5 @@
 ---
-draft: true
+draft: false
 ---
 
 > 중복을 허락하지 않는 자료구조 <br/>

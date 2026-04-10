@@ -6,7 +6,7 @@ tags:
   - rdbms
   - references
   - foreignkey
-draft: true
+draft: false
 ---
 > 다른 테이블의 Primary Key 를 참조하는 Column을 Foreign Key로 선언
 > 다른 두 테이블의 상호 연관 관계 명시 

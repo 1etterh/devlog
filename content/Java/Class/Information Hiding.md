@@ -3,7 +3,7 @@ tags:
   - java
   - oop
   - class
-draft: true
+draft: false
 ---
 > 약결합을 위해 정보를 은닉하는 것
 

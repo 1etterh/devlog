@@ -3,7 +3,7 @@ tags:
   - ram
   - process
   - procedure
-draft: true
+draft: false
 ---
 
 

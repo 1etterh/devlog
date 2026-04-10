@@ -3,7 +3,7 @@ tags:
   - java
   - class
   - oop
-draft: true
+draft: false
 ---
 > specific realization of [[Class]]
 

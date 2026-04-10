@@ -1,7 +1,7 @@
 ---
 title: MariaDB 버전 간 Dump Import 호환성 (11.8 → 10.11)
 type: question
-tags: [mariadb, version-compatibility, dump, import, migration, sandbox-mode]
+tags: [mariadb, version_compatibility, dump, import, migration, sandbox_mode]
 draft: false
 ---
 

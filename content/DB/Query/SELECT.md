@@ -3,7 +3,7 @@ tags:
   - database
   - db
   - sql
-draft: true
+draft: false
 ---
 1.  조회할 Column을 지정
 2. SELECT * : 모든 Column을 추출

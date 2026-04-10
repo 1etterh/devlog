@@ -4,7 +4,7 @@ tags:
   - db
   - sql
   - ddl
-draft: true
+draft: false
 ---
 > Column Level에서만 지정 가능
 > 지정하지 않으면 NULLABLE(Default)상태로 지정되어 후에 NOT NULL 옵션 설정시 Modify 해야됨

@@ -1,7 +1,7 @@
 ---
 title: HTTP 요청으로 파일을 전송하는 5가지 방법
 type: question
-tags: [HTTP, 파일전송, multipart, octet-stream, Base64, presigned-url, chunked]
+tags: [http, 파일전송, multipart, octet_stream, base64, presigned_url, chunked]
 draft: false
 ---
 

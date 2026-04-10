@@ -3,7 +3,7 @@ tags:
   - java
   - hashmap
   - collections
-draft: true
+draft: false
 ---
 > key, value 모두 String인 HashMap <br/>
 > Generic Type을 별도로 요구하지 않음 <br/>

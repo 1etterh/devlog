@@ -4,7 +4,7 @@ tags:
   - collections
   - list
   - set
-draft: true
+draft: false
 ---
 > 중복 제거 + 순서 유지
 

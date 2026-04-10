@@ -1,6 +1,6 @@
 ---
 title: Unix 파일 시스템 구조 - Boot Block, Super Block, Inode, Data Block
-tags: [OS, Unix, 파일시스템, Inode]
+tags: [os, unix, 파일시스템, inode]
 draft: false
 ---
 ## 1. Boot Block

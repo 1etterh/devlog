@@ -4,7 +4,7 @@ tags:
   - class
   - designpattern
   - singleton
-draft: true
+draft: false
 ---
 > 어플리케이션이 시작되고 난 후 어떤 클래스가 최초 한번만 메모리에 할당(객체)되고 그 메모리에 인스턴스가 단 하나만 생성되어 공유되게 하는 것을 싱글톤 패턴이라고 한다. <br/>
 > (메모리 및 리소스 낭비 방지 목적)

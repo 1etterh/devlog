@@ -4,7 +4,7 @@ tags:
   - db
   - sql
   - dml
-draft: true
+draft: false
 ---
 >새로운 행을 추가할 때 사용
 >테이블의 행의 수가 증가

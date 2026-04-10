@@ -4,7 +4,7 @@ tags:
   - db
   - sql
   - ddl
-draft: true
+draft: false
 ---
 > 검색 속도를 향상 시키는 데이터 구조
 > 데이터를 빠르게 조회할 수 있는 포인터를 제공

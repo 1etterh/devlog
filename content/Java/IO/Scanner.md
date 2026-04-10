@@ -1,7 +1,7 @@
 ---
 tags:
   - java
-draft: true
+draft: false
 ---
 # Scanner 종류
 

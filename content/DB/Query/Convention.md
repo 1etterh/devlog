@@ -3,7 +3,7 @@ title: Convention
 description: Structured Query Language
 tags:
   - sql
-draft: true
+draft: false
 ---
 
 >SQL의 가독성을 위해 지키는 형식

@@ -3,7 +3,7 @@ tags:
   - method
   - java
   - parameter
-draft: true
+draft: false
 ---
 > 메소드 선언 괄호 안에 전달인자를 받기 위해 선언하는 변수
 

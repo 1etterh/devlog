@@ -1,7 +1,7 @@
 ---
 title: "퍼즐 솔버 자동 보드 크기 탐색 구현"
 type: question
-tags: [Python, numpy, algorithm, backtracking, puzzle]
+tags: [python, numpy, algorithm, backtracking, puzzle]
 draft: false
 ---
 

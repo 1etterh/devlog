@@ -5,7 +5,7 @@ tags:
   - ram
   - thread
   - jvm
-draft: true
+draft: false
 ---
 # [[Process]]
 

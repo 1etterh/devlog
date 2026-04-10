@@ -4,7 +4,7 @@ tags:
   - java
   - ide
   - idea
-draft: true
+draft: false
 ---
 # Intellij IDEA Keyboard Shortcut
 

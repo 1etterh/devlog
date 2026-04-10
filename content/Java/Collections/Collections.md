@@ -3,7 +3,7 @@ tags:
   - java
   - collections
   - framework
-draft: true
+draft: false
 ---
 > 자료구조를 구현한 클래스의 집합 <br/>
 > Generic Class를 사용함 (ex. List\<Integer\>)

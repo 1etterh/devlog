@@ -3,7 +3,7 @@ tags:
   - java
   - class
   - oop
-draft: true
+draft: false
 ---
 > 서로 다른 타입의 데이터와 메소드를 정의하여 만든 사용자 정의 자료형(Data type)<br/>
 > C++의 Struct와 유사하지만 기능이 추가되었다는 차이점이 있다.

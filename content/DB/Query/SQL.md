@@ -5,7 +5,7 @@ tags:
   - database
   - sql
   - db
-draft: true
+draft: false
 ---
 # SQL
 >_Structured Query Language_

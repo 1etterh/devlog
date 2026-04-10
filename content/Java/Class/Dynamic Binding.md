@@ -5,7 +5,7 @@ tags:
   - class
   - overriding
   - polymorphism
-draft: true
+draft: false
 ---
 > 컴파일 당시에는 해당 타입의 메소드와 연결되어 있다가 런타임 시점에 실제 객체가 가진 오버라이딩 된 메소드로 바인딩이 바뀌어 동작하는 것
 

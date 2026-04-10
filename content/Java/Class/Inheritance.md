@@ -4,7 +4,7 @@ tags:
   - java
   - class
   - inheritance
-draft: true
+draft: false
 ---
 > 부모 클래스를 확장하여 사용하는 기술.<br/> 
 > 상속 클래스를 작성할 때는 extends 키워드를 사용한다.

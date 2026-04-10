@@ -3,7 +3,7 @@ tags:
   - string
   - java
   - class
-draft: true
+draft: false
 ---
 > 문자열을 저장하고 다양한 메소드를 제공하는 클래스
 

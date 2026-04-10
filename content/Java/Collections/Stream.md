@@ -3,7 +3,7 @@ tags:
   - java
   - stream
   - collections
-draft: true
+draft: false
 ---
 # Stream
 > Collections의 각 요소를 하나씩 순회하면서 처리 <br/>

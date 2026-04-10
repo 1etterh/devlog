@@ -4,7 +4,7 @@ tags:
   - db
   - sql
   - ddl
-draft: true
+draft: false
 ---
 > NOT NULL + UNIQUE 제약 조건이라고 볼 수 있다.
 > 모든 테이블은 반드시 Primary Key를 가지고 있어야 한다.(레어닉)

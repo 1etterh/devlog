@@ -3,7 +3,7 @@ tags:
   - database
   - db
   - sql
-draft: true
+draft: false
 ---
 > 테이블에 이벤트가 발생할 때 실행되는(혹은 `트리거` 되는) 명령문의 세트
 >테이블의 변경 사항을 감지 후 자동으로 실행 

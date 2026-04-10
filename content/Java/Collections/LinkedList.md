@@ -1,5 +1,5 @@
 ---
-draft: true
+draft: false
 ---
 
 > 연결된 노드의 주소값을 저장하는 자료구조

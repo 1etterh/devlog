@@ -1,7 +1,7 @@
 ---
 tags:
   - git
-draft: true
+draft: false
 ---
 > GIT이 파일을 추적하는 과정
 

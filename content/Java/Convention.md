@@ -1,7 +1,7 @@
 ---
 tags:
   - java
-draft: true
+draft: false
 ---
 > 다수의 인원이 협업하기 위해 암묵적으로 사용하는 작명규칙. 언어마다 Convention이 다름
 

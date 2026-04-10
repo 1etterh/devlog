@@ -1,7 +1,7 @@
 ---
 title: GitHub Pages 사이트를 Google 검색에 노출시키는 방법
 type: question
-tags: [question, SEO, Google, GitHub-Pages, Quartz]
+tags: [question, seo, google, git_hub_pages, quartz]
 draft: false
 ---
 
