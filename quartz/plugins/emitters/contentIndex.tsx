@@ -126,6 +126,13 @@ export const ContentIndex: QuartzEmitterPlugin<Partial<Options>> = (opts) => {
           slug: "sitemap" as FullSlug,
           ext: ".xml",
         })
+
+        yield write({
+          ctx,
+          content: `User-agent: *\nAllow: /\n\nSitemap: https://${cfg.baseUrl}/sitemap.xml\n`,
+          slug: "robots" as FullSlug,
+          ext: ".txt",
+        })
       }
 
       if (opts?.enableRSS) {
