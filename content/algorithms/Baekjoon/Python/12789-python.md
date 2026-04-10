@@ -3,7 +3,7 @@ title: 12789-python
 tags:
   - stack
   - python
-draft: true
+draft: false
 ---
 #### 문제
 [백준 12789](https://www.acmicpc.net/problem/12789)

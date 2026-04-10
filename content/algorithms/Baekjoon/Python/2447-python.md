@@ -4,7 +4,7 @@ tags:
   - recursion
   - python
   - java
-draft: true
+draft: false
 ---
 #### 문제
 [백준 2447번](https://www.acmicpc.net/problem/2447)

@@ -3,7 +3,7 @@ title: 1967-python
 tags:
   - algorithms
   - dfs
-draft: true
+draft: false
 ---
 [백준 1967](https://www.acmicpc.net/problem/1967)
 

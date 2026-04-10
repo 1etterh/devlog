@@ -5,7 +5,7 @@ tags:
   - divideconquer
   - baekjoon
   - python
-draft: true
+draft: false
 ---
 [백준 1992](https://www.acmicpc.net/problem/1992)
 

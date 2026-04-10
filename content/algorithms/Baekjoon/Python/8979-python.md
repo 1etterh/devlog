@@ -4,7 +4,7 @@ tags:
   - algorithms
   - sort
   - baekjoon
-draft: true
+draft: false
 ---
 [백준 8979](https://www.acmicpc.net/problem/8979)
 #### 문제

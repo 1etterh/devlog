@@ -4,7 +4,7 @@ tags:
   - 백준
   - algorithms
   - bfs
-draft: true
+draft: false
 ---
 [백준 18500](https://www.acmicpc.net/problem/18500)
 

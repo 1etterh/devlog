@@ -6,7 +6,7 @@ tags:
   - regularexpression
   - 정규표현식
   - 정규식
-draft: true
+draft: false
 description:
 ---
 ## [문제 설명](https://www.acmicpc.net/problem/15725)

@@ -5,7 +5,7 @@ tags:
   - bfs
   - graph
   - baekjoon
-draft: true
+draft: false
 ---
 [백준 15591](https://www.acmicpc.net/problem/15591)
 

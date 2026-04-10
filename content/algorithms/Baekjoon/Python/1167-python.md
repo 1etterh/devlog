@@ -7,7 +7,7 @@ tags:
   - bfs
   - search
   - algorithms
-draft: true
+draft: false
 ---
 [트리의 지름](https://www.acmicpc.net/problem/1167)
 

@@ -5,7 +5,7 @@ tags:
   - dynamicprogramming
   - python
   - baekjoon
-draft: true
+draft: false
 ---
 [백준 13549](https://www.acmicpc.net/problem/13549)
 

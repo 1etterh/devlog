@@ -2,7 +2,7 @@
 tags:
   - datastructure
   - list
-draft: true
+draft: false
 ---
 ### ArrayList
 > 인덱스를 통해 원소에 접근하는 자료구조

@@ -6,7 +6,7 @@ tags:
   - loop
   - python
   - baekjoon
-draft: true
+draft: false
 ---
 [백준 17780번](https://www.acmicpc.net/problem/17780)
 

@@ -3,7 +3,7 @@ title: 2493-python
 tags:
   - stack
   - algorithms
-draft: true
+draft: false
 ---
 [백준 2493번](https://www.acmicpc.net/problem/2493)
 

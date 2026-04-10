@@ -5,7 +5,7 @@ tags:
   - dynamicprogramming
   - dp
   - baekjoon
-draft: true
+draft: false
 ---
 [백준 5525](https://www.acmicpc.net/problem/5525)
 

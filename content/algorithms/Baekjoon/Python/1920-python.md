@@ -5,7 +5,7 @@ tags:
   - baekjoon
   - algorithms
   - python
-draft: true
+draft: false
 ---
 
 [백준 1920번](https://www.acmicpc.net/problem/1920)

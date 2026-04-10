@@ -2,5 +2,5 @@
 tags:
   - abstraction
   - datastructure
-draft: true
+draft: false
 ---

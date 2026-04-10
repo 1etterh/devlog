@@ -3,7 +3,7 @@ title: 2178-python
 tags:
   - algorithms
   - bfs
-draft: true
+draft: false
 ---
 [백준 2178](https://www.acmicpc.net/problem/2178)
 

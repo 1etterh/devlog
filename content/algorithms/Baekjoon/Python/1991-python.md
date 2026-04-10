@@ -4,7 +4,7 @@ tags:
   - algorithms
   - dfs
   - tree
-draft: true
+draft: false
 ---
 [백준 1991](https://www.acmicpc.net/problem/1991)
 

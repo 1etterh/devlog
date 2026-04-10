@@ -5,7 +5,7 @@ tags:
   - algorithms
   - bfs
   - baekjoon
-draft: true
+draft: false
 ---
 [백준 14466](https://www.acmicpc.net/problem/14466)
 #### 문제 설명

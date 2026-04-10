@@ -4,7 +4,7 @@ tags:
   - 백준
   - bfs
   - algorithms
-draft: true
+draft: false
 ---
 
 ##### 문제

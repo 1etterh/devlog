@@ -3,7 +3,7 @@ title: 1725-python
 tags:
   - stack
   - python
-draft: true
+draft: false
 ---
 ## 문제
 #### [백준 1725](https://www.acmicpc.net/problem/1725)

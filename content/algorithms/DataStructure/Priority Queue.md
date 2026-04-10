@@ -2,7 +2,7 @@
 tags:
   - datastructure
   - queue
-draft: true
+draft: false
 ---
 > 우선순위가 있는 Queue
 

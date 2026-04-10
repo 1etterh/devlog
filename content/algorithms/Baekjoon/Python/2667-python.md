@@ -4,7 +4,7 @@ tags:
   - algorithms
   - bfs
   - queue
-draft: true
+draft: false
 ---
 [백준 2667](https://www.acmicpc.net/problem/2667)
 

@@ -2,6 +2,6 @@
 tags:
   - datastructure
   - queue
-draft: true
+draft: false
 ---
 > Double Ended Queue

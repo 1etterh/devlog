@@ -1,6 +1,6 @@
 ---
 tags:
   - algorithms
-draft: true
+draft: false
 ---
 ### [[Dynamic Programming]]

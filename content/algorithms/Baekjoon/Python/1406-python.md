@@ -4,7 +4,7 @@ tags:
   - stack
   - algorithms
   - baekjoon
-draft: true
+draft: false
 ---
 [백준 1406](https://www.acmicpc.net/problem/1406)
 #### 문제 요약

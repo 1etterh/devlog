@@ -3,7 +3,7 @@ title: 10799-python
 tags:
   - algorithms
   - stack
-draft: true
+draft: false
 ---
 [백준 10799번](https://www.acmicpc.net/problem/10799)
 

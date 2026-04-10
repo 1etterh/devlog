@@ -5,7 +5,7 @@ tags:
   - python
   - loop
   - algorithms
-draft: true
+draft: false
 ---
 사용 개념: 반복문(for loop)
 

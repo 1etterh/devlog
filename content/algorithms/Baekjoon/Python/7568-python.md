@@ -3,7 +3,7 @@ title: 7568-python
 tags:
   - algorithms
   - list
-draft: true
+draft: false
 ---
 [백준 7568](https://www.acmicpc.net/problem/7568)
 
