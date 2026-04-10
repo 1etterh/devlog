@@ -68,14 +68,6 @@ type TweenNode = {
   stop: () => void
 }
 
-function getCenterLabel(slug: string): string {
-  const parts = slug.split("/")
-  if (parts.length <= 1) {
-    return "⟡ devlog"
-  }
-  return "⟡ " + parts[parts.length - 2]
-}
-
 async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
   const slug = simplifySlug(fullSlug)
   const visited = getVisited()
@@ -263,15 +255,13 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
     const tweenGroup = new TweenGroup()
 
     for (const l of linkRenderData) {
-      let alpha = 0.3
+      let alpha = 0.4
 
-      // if we are hovering over a node, we want to highlight the immediate neighbours
-      // with full alpha and the rest with default alpha
       if (hoveredNodeId) {
-        alpha = l.active ? 0.8 : 0.1
+        alpha = l.active ? 0.6 : 0.15
       }
 
-      l.color = l.active ? "#8888bb" : "#2a2a44"
+      l.color = l.active ? "#ffffff" : "#8888bb"
       tweenGroup.add(new Tweened<LinkRenderData>(l).to({ alpha }, 200))
     }
 
@@ -292,6 +282,7 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
     const activeScale = defaultScale * 1.1
     for (const n of nodeRenderData) {
       const nodeId = n.simulationData.id
+      const isTag = nodeId.startsWith("tags/")
 
       if (hoveredNodeId === nodeId) {
         tweenGroup.add(
@@ -299,6 +290,19 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
             {
               alpha: 1,
               scale: { x: activeScale, y: activeScale },
+            },
+            100,
+          ),
+        )
+      } else if (isTag) {
+        // Tag labels: show only if center-adjacent or hovered-neighbour
+        const shouldShow =
+          centerAdjacentTags.has(nodeId) || (hoveredNodeId !== null && hoveredNeighbours.has(nodeId))
+        tweenGroup.add(
+          new Tweened<Text>(n.label).to(
+            {
+              alpha: shouldShow ? 1 : 0,
+              scale: { x: defaultScale, y: defaultScale },
             },
             100,
           ),
@@ -383,15 +387,40 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
 
   const glowRenderData: { gfx: Graphics; phase: number }[] = []
 
+  // Precompute nodes directly connected to the current page node
+  const centerAdjacentTags = new Set<string>()
+  const centerAdjacentNodes = new Set<string>()
+  for (const l of graphData.links) {
+    if (l.source.id === slug) {
+      if (l.target.id.startsWith("tags/")) {
+        centerAdjacentTags.add(l.target.id)
+      } else {
+        centerAdjacentNodes.add(l.target.id)
+      }
+    }
+    if (l.target.id === slug) {
+      if (l.source.id.startsWith("tags/")) {
+        centerAdjacentTags.add(l.source.id)
+      } else {
+        centerAdjacentNodes.add(l.source.id)
+      }
+    }
+  }
+
   for (const n of graphData.nodes) {
     const nodeId = n.id
     const isCenterNode = nodeId === slug
 
+    const isTagNode = nodeId.startsWith("tags/")
+    const isCenterAdjacentTag = isTagNode && centerAdjacentTags.has(nodeId)
+    const isCenterAdjacent = isCenterAdjacentTag || centerAdjacentNodes.has(nodeId)
+    const initialLabelAlpha = isCenterNode || isCenterAdjacent ? 1 : 0
+
     const label = new Text({
       interactive: false,
       eventMode: "none",
-      text: isCenterNode ? getCenterLabel(slug) : n.text,
-      alpha: isCenterNode ? 1 : 0,
+      text: n.text,
+      alpha: initialLabelAlpha,
       anchor: { x: 0.5, y: 1.2 },
       style: {
         fontSize: isCenterNode ? fontSize * 20 : fontSize * 15,
@@ -402,10 +431,26 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
     })
     label.scale.set(1 / scale)
 
-    let oldLabelOpacity = isCenterNode ? 1 : 0
-    const isTagNode = nodeId.startsWith("tags/")
+    let oldLabelOpacity = initialLabelAlpha
     const r = nodeRadius(n)
-    const nodeColor = isTagNode ? computedStyleMap["--light"] : color(n)
+
+    // Random tag color: blend between white, blue, purple with random brightness
+    function randomTagColor(): string {
+      const palette = [
+        [255, 255, 255],   // white
+        [100, 140, 255],   // blue
+        [180, 120, 255],   // purple
+      ]
+      const base = palette[Math.floor(Math.random() * palette.length)]
+      const brightness = 0.6 + Math.random() * 0.4 // 0.6 ~ 1.0
+      const r = Math.min(255, Math.round(base[0] * brightness))
+      const g = Math.min(255, Math.round(base[1] * brightness))
+      const b = Math.min(255, Math.round(base[2] * brightness))
+      return `#${r.toString(16).padStart(2, "0")}${g.toString(16).padStart(2, "0")}${b.toString(16).padStart(2, "0")}`
+    }
+
+    const tagColor = isTagNode ? randomTagColor() : null
+    const nodeColor = isTagNode ? tagColor! : color(n)
 
     // Star core
     const gfx = new Graphics({
@@ -417,7 +462,7 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
     })
 
     if (isTagNode) {
-      gfx.star(0, 0, 5, r * 2, r * 1.4).fill({ color: computedStyleMap["--tertiary"] })
+      gfx.circle(0, 0, r).fill({ color: tagColor! })
     } else {
       gfx.circle(0, 0, r).fill({ color: isCenterNode ? "#ffffff" : nodeColor })
     }
@@ -442,7 +487,7 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
     const glowGfx = new Graphics({ interactive: false, eventMode: "none" })
     const glowColor = isCenterNode ? "#ffffff" : nodeColor
     for (let g = 6; g >= 1.5; g -= 0.5) {
-      glowGfx.circle(0, 0, r * g).fill({ color: glowColor, alpha: 0.008 })
+      glowGfx.circle(0, 0, r * g).fill({ color: glowColor, alpha: isTagNode ? 0.015 : 0.008 })
     }
     if (isCenterNode) {
       for (let g = 10; g >= 2; g -= 1) {
@@ -474,8 +519,8 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
     const linkRenderDatum: LinkRenderData = {
       simulationData: l,
       gfx,
-      color: "#2a2a44",
-      alpha: 0.3,
+      color: "#8888bb",
+      alpha: 0.4,
       active: false,
     }
 
@@ -550,8 +595,13 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
 
           for (const label of labelsContainer.children) {
             if (!activeNodes.includes(label)) {
+              const nd = nodeRenderData.find((n) => n.label === label)
+              const isTag = nd?.simulationData.id.startsWith("tags/")
+
               if (label === centerLabel) {
                 label.alpha = Math.max(scaleOpacity, 0.8)
+              } else if (isTag && !centerAdjacentTags.has(nd!.simulationData.id)) {
+                label.alpha = 0
               } else {
                 label.alpha = scaleOpacity
               }
@@ -576,18 +626,20 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
       // Star twinkling
       const glow = glowRenderData[i]
       glow.gfx.position.set(x + width / 2, y + height / 2)
-      glow.gfx.alpha = 0.4 + 0.6 * Math.sin(time * 0.0015 + glow.phase)
+      glow.gfx.alpha = 0.6 + 0.4 * Math.sin(time * 0.0015 + glow.phase)
     }
 
     for (let li = 0; li < linkRenderData.length; li++) {
       const l = linkRenderData[li]
       const linkData = l.simulationData
-      const sparkle = 0.4 + 0.3 * Math.sin(time * 0.003 + li * 1.7)
+      const drawAlpha = l.active
+        ? l.alpha
+        : l.alpha * (0.4 + 0.3 * Math.sin(time * 0.003 + li * 1.7))
       l.gfx.clear()
       l.gfx.moveTo(linkData.source.x! + width / 2, linkData.source.y! + height / 2)
       l.gfx
         .lineTo(linkData.target.x! + width / 2, linkData.target.y! + height / 2)
-        .stroke({ alpha: l.alpha * sparkle, width: 0.5, color: l.color })
+        .stroke({ alpha: drawAlpha, width: 0.5, color: l.color })
     }
 
     tweens.forEach((t) => t.update(time))
@@ -595,7 +647,7 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
     // Sine-wave color brightness on node cores via tint
     for (let i = 0; i < nodeRenderData.length; i++) {
       const phase = glowRenderData[i].phase
-      const brightness = 0.6 + 0.4 * Math.sin(time * 0.002 + phase)
+      const brightness = 0.7 + 0.3 * Math.sin(time * 0.002 + phase)
       const b = Math.round(brightness * 255)
       nodeRenderData[i].gfx.tint = (b << 16) | (b << 8) | b
     }
