@@ -2,7 +2,7 @@
 title: RestfulAPIService.uploadFile 외부 서버 요청 실패 시 동작 분석
 type: debug
 tags: [Spring, HttpClient, exception-handling, file-upload, transaction]
-draft: false
+draft: true
 ---
 
 ## 상황

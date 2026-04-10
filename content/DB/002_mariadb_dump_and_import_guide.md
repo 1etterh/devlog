@@ -2,7 +2,7 @@
 title: MariaDB Dump & Import로 데이터베이스 이관하기
 type: question
 tags: [mariadb, mysql, dump, import, migration, database, backup]
-draft: true
+draft: false
 ---
 
 ## 개요

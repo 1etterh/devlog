@@ -26,18 +26,23 @@ flowchart TD
 ```
 
 ### 1. 개요
+
 - 페이지 경로, 레이아웃, 사용 컴포넌트, 인증 방식 등 기본 정보
 
 ### 2. 화면 구조
+
 - ASCII 아트로 레이아웃 표현 (PPT 대체)
 
 ### 3. 구성요소 상세
+
 - 헤더/폼필드/기능/버튼/안내문구 등 각 요소를 테이블로 정리
 
 ### 4. 인증 플로우
+
 - Mermaid sequenceDiagram으로 전체 인증 흐름 시각화
 
 ### 5~9. 부가 상세
+
 - 다이얼로그, 미들웨어, 상태관리, 설정, 파일 구조
 
 ## 핵심: Config-Driven 패턴
@@ -46,26 +51,28 @@ flowchart TD
 
 ```typescript
 const loginConfig: ILoginConfig = {
-  title: '로그인',
+  title: "로그인",
   appName: runtimeConfig.public.APP_NAME,
-  fields: { id: { placeholder: 'Id' }, password: { placeholder: 'Password' } },
+  fields: { id: { placeholder: "Id" }, password: { placeholder: "Password" } },
   rememberIdEnabled: true,
   certConfig: { enabled: true },
-  onSubmit: async (id, password) => { /* 인증 처리 */ }
-};
+  onSubmit: async (id, password) => {
+    /* 인증 처리 */
+  },
+}
 ```
 
 design.md에서 이 설정값들을 명시하면, 구현 시 그대로 코드에 반영할 수 있다.
 
 ## design.md의 장점 (vs PPT)
 
-| 항목 | PPT | design.md |
-|------|-----|-----------|
-| 버전 관리 | 파일 통째로 교체 | Git diff로 변경 추적 |
-| 검색 | 불가 | grep/IDE 검색 가능 |
-| 코드 연동 | 수동 비교 | 파일 경로/타입 직접 참조 |
-| 다이어그램 | 도형 수동 배치 | Mermaid 코드로 자동 렌더링 |
-| 협업 | 메일로 공유 | PR 리뷰로 협업 |
+| 항목       | PPT              | design.md                  |
+| ---------- | ---------------- | -------------------------- |
+| 버전 관리  | 파일 통째로 교체 | Git diff로 변경 추적       |
+| 검색       | 불가             | grep/IDE 검색 가능         |
+| 코드 연동  | 수동 비교        | 파일 경로/타입 직접 참조   |
+| 다이어그램 | 도형 수동 배치   | Mermaid 코드로 자동 렌더링 |
+| 협업       | 메일로 공유      | PR 리뷰로 협업             |
 
 ## 파일 구조 규칙
 

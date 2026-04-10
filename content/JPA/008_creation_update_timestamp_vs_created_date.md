@@ -2,7 +2,7 @@
 title: CreationTimestamp vs CreatedDate - 자동 시간 세팅 방식 비교
 type: question
 tags: [question, jpa, hibernate, auditing, timestamp]
-draft: true
+draft: false
 ---
 
 ## 질문

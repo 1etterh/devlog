@@ -2,7 +2,7 @@
 title: "Java 메모리 객체를 파일로 저장하고 다른 서버에서 로드하는 방법"
 type: question
 tags: [serialization, jackson, protobuf, object-persistence]
-draft: true
+draft: false
 ---
 
 ## 개요

@@ -2,7 +2,7 @@
 title: Obsidian 위키 링크 교차 참조로 문서 연결성 강화하기
 type: question
 tags: [obsidian, wiki-link, cross-reference, knowledge-management]
-draft: true
+draft: false
 ---
 
 ## 개요

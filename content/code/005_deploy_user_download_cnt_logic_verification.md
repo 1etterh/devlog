@@ -41,14 +41,14 @@ stateDiagram-v2
 
 ## 시나리오별 검증
 
-| 시나리오 | originalCnt | maxCnt | diff | newCnt | b1 | b2 | x | y | 결과 |
-|---|---|---|---|---|---|---|---|---|---|
-| increase, max 도달 | 4 | 5 | +1 | 5 | T | T | **T** | F | 잠금 (S + SLEEP) |
-| decrease, max 미달 | 5 | 5 | -1 | 4 | F | F | F | **T** | 해제 (DS + ALIVE) |
-| increase, 아직 미달 | 3 | 5 | +1 | 4 | T | F | F | F | 변경 없음 |
-| decrease, 여전히 도달 | 6 | 5 | -1 | 5 | F | T | F | F | 변경 없음 |
-| maxCnt=0 (무제한) | any | 0 | ±N | ≥0 | F | T | F | F | 변경 없음 |
-| newCnt < 0 | 0 | 5 | -1 | -1 | - | - | - | - | early return |
+| 시나리오              | originalCnt | maxCnt | diff | newCnt | b1  | b2  | x     | y     | 결과              |
+| --------------------- | ----------- | ------ | ---- | ------ | --- | --- | ----- | ----- | ----------------- |
+| increase, max 도달    | 4           | 5      | +1   | 5      | T   | T   | **T** | F     | 잠금 (S + SLEEP)  |
+| decrease, max 미달    | 5           | 5      | -1   | 4      | F   | F   | F     | **T** | 해제 (DS + ALIVE) |
+| increase, 아직 미달   | 3           | 5      | +1   | 4      | T   | F   | F     | F     | 변경 없음         |
+| decrease, 여전히 도달 | 6           | 5      | -1   | 5      | F   | T   | F     | F     | 변경 없음         |
+| maxCnt=0 (무제한)     | any         | 0      | ±N   | ≥0     | F   | T   | F     | F     | 변경 없음         |
+| newCnt < 0            | 0           | 5      | -1   | -1     | -   | -   | -     | -     | early return      |
 
 ## 왜 이 패턴이 동작하는가
 

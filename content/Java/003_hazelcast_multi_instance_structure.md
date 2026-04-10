@@ -135,7 +135,7 @@ config:
 ```yaml
 config:
   hazelcast:
-    config: config/hazelcast.yml   # ❌ List<Config>에 바인딩 불가
+    config: config/hazelcast.yml # ❌ List<Config>에 바인딩 불가
 ```
 
 `@ConfigurationProperties`는 타입에 맞게 바인딩하므로, `List<Config>`에 단순 문자열을 넣으면 파싱이 실패하거나 빈 리스트가 된다.
@@ -145,15 +145,17 @@ config:
 DEPLOY 전용 클러스터가 필요한 경우:
 
 1. **별도 hazelcast yml 생성** (`config/hazelcast-deploy.yml`):
+
    ```yaml
    hazelcast:
-     cluster-name: deploy-cluster   # COMMON과 다른 이름
+     cluster-name: deploy-cluster # COMMON과 다른 이름
      network:
        port:
-         port: 23904               # COMMON과 다른 포트
+         port: 23904 # COMMON과 다른 포트
    ```
 
 2. **application yml에 항목 추가**:
+
    ```yaml
    config:
      hazelcast:
@@ -168,10 +170,10 @@ DEPLOY 전용 클러스터가 필요한 경우:
 
 ## 정리
 
-| 구성 요소 | 역할 |
-|-----------|------|
-| `Cluster` enum | 인스턴스 식별 키 |
-| `DataGridConfig` | yml → `HazelcastInstance` 생성 + `Map` 등록 |
-| `HazelcastInstances` | `Map<Cluster, HI>` 래퍼, Bean으로 주입 |
-| yml `config` 리스트 | 클러스터별 이름 + hazelcast 설정 파일 경로 |
-| 소비자 서비스 | `get(Cluster.XXX)`로 인스턴스 꺼내 사용, 필요시 폴백 |
+| 구성 요소            | 역할                                                 |
+| -------------------- | ---------------------------------------------------- |
+| `Cluster` enum       | 인스턴스 식별 키                                     |
+| `DataGridConfig`     | yml → `HazelcastInstance` 생성 + `Map` 등록          |
+| `HazelcastInstances` | `Map<Cluster, HI>` 래퍼, Bean으로 주입               |
+| yml `config` 리스트  | 클러스터별 이름 + hazelcast 설정 파일 경로           |
+| 소비자 서비스        | `get(Cluster.XXX)`로 인스턴스 꺼내 사용, 필요시 폴백 |

@@ -2,7 +2,7 @@
 title: Java Serialization 보안 취약점과 대안
 type: question
 tags: [question, java, serialization, security, deserialization, rce]
-draft: true
+draft: false
 ---
 
 ## 개요

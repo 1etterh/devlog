@@ -2,7 +2,7 @@
 title: Windows와 macOS 경로 구분자 차이 - 백슬래시 vs 슬래시
 type: error
 tags: [OS, path, filesystem, Windows, macOS, Linux, cross-platform]
-draft: false
+draft: true
 ---
 
 ## 증상

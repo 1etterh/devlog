@@ -2,7 +2,7 @@
 title: ObjectInputFilter로 Java 역직렬화 화이트리스트 적용하기
 type: question
 tags: [question, java, serialization, security, ObjectInputFilter, deserialization]
-draft: true
+draft: false
 ---
 
 ## 배경

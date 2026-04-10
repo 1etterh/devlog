@@ -2,7 +2,7 @@
 title: GitHub Pages 사이트를 Google 검색에 노출시키는 방법
 type: question
 tags: [question, SEO, Google, GitHub-Pages, Quartz]
-draft: true
+draft: false
 ---
 
 ## 배경
@@ -59,5 +59,5 @@ flowchart TD
 
 ## 참고
 - Search Console 등록 후 실제 검색 노출까지 며칠~몇 주 소요될 수 있음
-- `draft: true`인 글은 Quartz의 `RemoveDrafts()` 필터에 의해 빌드에서 제외되므로 검색에도 노출되지 않음
+- `draft: false`인 글은 Quartz의 `RemoveDrafts()` 필터에 의해 빌드에서 제외되므로 검색에도 노출되지 않음
 - 개별 페이지 색인 요청은 Search Console의 **URL 검사** 도구에서 가능

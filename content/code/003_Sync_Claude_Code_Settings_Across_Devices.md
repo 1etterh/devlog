@@ -2,7 +2,7 @@
 title: Claude Code 설정을 여러 기기에서 동기화하는 방법
 type: question
 tags: [claude-code, dotfiles, git, symlink, sync, multi-device]
-draft: true
+draft: false
 ---
 
 ## 문제 상황

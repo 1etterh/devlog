@@ -2,7 +2,7 @@
 title: JPA EntityListener - 엔티티 라이프사이클 콜백
 type: question
 tags: [question, jpa, entity-listener, lifecycle, auditing]
-draft: true
+draft: false
 ---
 
 ## EntityListener란
