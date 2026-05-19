@@ -2,7 +2,7 @@
 title: Phase 3 — 컨테이너 로그 파일 분석
 type: project
 tags: [project, docker, container_logs, json_log, troubleshooting, sudo_glob]
-draft: true
+draft: false
 ---
 
 > `containers/`가 2.0TB라는 건 확인. 어느 컨테이너의 로그가 큰지 식별하고, 컨테이너 ID를 이름으로 매핑.

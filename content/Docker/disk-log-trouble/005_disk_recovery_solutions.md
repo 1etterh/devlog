@@ -2,7 +2,7 @@
 title: Phase 5 — 해결 액션 (즉시 회수 + 영구 차단)
 type: project
 tags: [project, docker, truncate, volume_prune, inotify, log_rotation, daemon_json]
-draft: true
+draft: false
 ---
 
 > 즉시 회수 → 영구 차단 순서. 2가지 영구 해결 옵션(A: package.json 수정 / B: compose command 변경) 비교.

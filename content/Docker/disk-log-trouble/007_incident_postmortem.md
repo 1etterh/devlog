@@ -2,7 +2,7 @@
 title: 운영 컨테이너 로그 폭주로 인한 디스크 풀 장애 포스트모템
 type: project
 tags: [project, docker, container_logs, inotify, nuxt, disk_full, log_rotation, json_log, postmortem]
-draft: true
+draft: false
 ---
 
 > 운영 서버 디스크가 거의 100% 차서 추적해보니, 단일 컨테이너의 로그 파일 한 개가 1.7TB를 차지하고 있던 사건. 진단부터 근본 원인, 해결까지의 흐름 기록.

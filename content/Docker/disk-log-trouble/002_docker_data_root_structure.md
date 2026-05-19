@@ -2,7 +2,7 @@
 title: Phase 2 — Docker 데이터 구조 파악
 type: project
 tags: [project, docker, data_root, overlay2, symlink, troubleshooting]
-draft: true
+draft: false
 ---
 
 > `/home/group/docker`에 2.2TB가 있다는 것까진 확인. 이 안이 표준 Docker data-root인지, 어디가 큰지 분석.

@@ -2,7 +2,7 @@
 title: Phase 4 — 근본 원인 분석 (Nuxt dev 모드, inotify, package.json 함정)
 type: project
 tags: [project, docker, nuxt, inotify, enospc, package_json, watch_mode, root_cause]
-draft: true
+draft: false
 ---
 
 > `container-a`가 1.7TB 로그를 뿜은 이유. ENOSPC 에러 → Nuxt dev/watch 모드 → `package.json`과 `docker-compose.yml`의 함정까지.

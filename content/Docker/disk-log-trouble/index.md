@@ -2,7 +2,7 @@
 title: 운영 서버 디스크 풀 트러블슈팅 — 개요
 type: project
 tags: [project, docker, container_logs, disk_full, postmortem, overview]
-draft: true
+draft: false
 ---
 
 > Docker 컨테이너 로그가 2TB를 차지한 사건의 진단부터 해결까지 전체 기록.

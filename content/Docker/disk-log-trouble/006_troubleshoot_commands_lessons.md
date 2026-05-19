@@ -2,7 +2,7 @@
 title: Phase 6 — 참고 자료 (명령어 / 함정 / 교훈)
 type: project
 tags: [project, docker, reference, cheatsheet, pitfalls, lessons]
-draft: true
+draft: false
 ---
 
 > 이번 사건에서 자주 쓴 명령어, 부딪힌 함정, 일반화된 교훈 정리.

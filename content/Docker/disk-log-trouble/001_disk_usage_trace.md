@@ -2,7 +2,7 @@
 title: Phase 1 — 디스크 사용량 추적
 type: project
 tags: [project, docker, disk_full, du, df, troubleshooting]
-draft: true
+draft: false
 ---
 
 > 어디가 큰지부터 좁혀 나간 과정. 표준 흐름: `df -h` → `du --max-depth=1`을 단계별로 내려가기.
