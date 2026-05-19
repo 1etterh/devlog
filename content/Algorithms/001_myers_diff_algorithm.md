@@ -1,13 +1,17 @@
 ---
-title: Myers diff 알고리즘은 무엇인가
-type: archive
-tags: [archive, git, diff, algorithm, myers]
-draft: true
+title: Myers diff 알고리즘은 무엇인가 — Git이 기본으로 쓰는 diff 원리
+type: question
+tags: [question, git, diff, algorithm, myers]
+draft: false
 ---
 
-**Q**: Myers 알고리즘은 무엇인가? Git diff가 기본으로 쓴다는데 어떻게 동작하는가?
+## 의문
 
-**A**: 두 텍스트 시퀀스 사이의 **최소 편집 거리(SES, Shortest Edit Script)** 를 찾는 diff 알고리즘. Eugene W. Myers, 1986년 논문 *"An O(ND) Difference Algorithm and Its Variations"*. Git/GNU diff/Mercurial 등 대부분 도구의 기본값.
+`git diff`는 두 파일의 차이를 어떻게 계산하는가? 기본값으로 쓴다는 Myers 알고리즘은 어떤 원리인가?
+
+## 답
+
+Myers 알고리즘은 두 텍스트 시퀀스 사이의 **최소 편집 거리(SES, Shortest Edit Script)** 를 찾는 알고리즘이다. Eugene W. Myers, 1986년 논문 *"An O(ND) Difference Algorithm and Its Variations"*. Git/GNU diff/Mercurial 등 대부분 도구의 기본값.
 
 ## 핵심 아이디어: edit graph 최단 경로
 
@@ -24,7 +28,7 @@ draft: true
 
 - 시간: **O((N+M)·D)** — D = 편집 횟수
 - 공간: 분할정복 변형으로 O(N+M)까지 줄임
-- 의미: 변경이 적을수록(D가 작을수록) 매우 빠름. 코드 diff처럼 작은 변경에 특히 효율적
+- 의미: 변경이 적을수록(D가 작을수록) 매우 빠름. 코드 변경처럼 작은 편집에 특히 효율적
 
 ## Git의 diff 알고리즘 비교
 
@@ -39,17 +43,17 @@ draft: true
 
 ## 한계
 
-Myers는 “편집 횟수 최소화”만 추구하므로 사람이 보기에 어색한 매칭이 나올 수 있다. 함수 블록 두 개가 교체된 경우 줄을 뒤섞어 매칭하기도 하는데, 이런 상황에서는 `histogram`이 더 깔끔하다. 그래서 많은 팀이 `git config --global diff.algorithm histogram`을 사용한다.
+Myers는 "편집 횟수 최소화"만 추구하므로 사람이 보기에 어색한 매칭이 나올 수 있다. 함수 블록 두 개가 교체된 경우 줄을 뒤섞어 매칭하기도 하는데, 이런 상황에서는 `histogram`이 더 깔끔하다. 그래서 많은 팀이 `git config --global diff.algorithm histogram`을 사용한다.
 
 ## 한 줄 정리
 
-“두 파일을 비교해 가장 짧은 삽입·삭제 시퀀스를 찾는 알고리즘”이며, 그 시퀀스가 곧 우리가 보는 `git diff`의 `+`/`-` 줄이다.
+"두 파일을 비교해 가장 짧은 삽입·삭제 시퀀스를 찾는 알고리즘"이며, 그 시퀀스가 곧 우리가 보는 `git diff`의 `+`/`-` 줄이다.
 
 ---
 
-## 작은 예시로 그려보기: `ABC` → `AXC`
+## 예시: `ABC` → `AXC`
 
-직관적으로 “B 삭제 + X 삽입” 2번이면 된다. Myers는 이걸 2D 격자 위 최단 경로 문제로 본다.
+직관적으로 "B 삭제 + X 삽입" 2번이면 된다. Myers는 이걸 2D 격자 위 최단 경로 문제로 본다.
 
 ### Edit graph
 
@@ -69,13 +73,6 @@ Myers는 “편집 횟수 최소화”만 추구하므로 사람이 보기에 �
         └─────┴──────┴──────┴─────┘
    ↑ 새 문자열 B = "AXC" (세로축)
 ```
-
-가로축은 원본 `ABC`, 세로축은 목표 `AXC`. `(0,0)`에서 `(3,3)`까지 최소 비용 경로를 찾는다.
-
-대각선 매치 검증:
-- `(0,0) → (1,1)`: 가로 1번째 `A`, 세로 1번째 `A` → 매치
-- `(2,1) → (2,2)`: 가로 2번째 `B`, 세로 2번째 `X` → 다름, 매치 불가
-- `(2,2) → (3,3)`: 가로 3번째 `C`, 세로 3번째 `C` → 매치
 
 ### 경로 추적
 
