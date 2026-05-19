@@ -1,7 +1,7 @@
 ---
 title: Phase 4 — 근본 원인 분석 (Nuxt dev 모드, inotify, package.json 함정)
-type: archive
-tags: [archive, docker, nuxt, inotify, enospc, package_json, watch_mode, root_cause]
+type: project
+tags: [project, docker, nuxt, inotify, enospc, package_json, watch_mode, root_cause]
 draft: true
 ---
 
@@ -165,4 +165,4 @@ Change: 2026-05-19 11:00:42 +0900
 | `compose`에 로그 로테이션 이미 추가됨 (당일) | 부분적 응급조치 |
 | `source/*`가 bind mount → 호스트 파일 수정만으로 적용 가능 | 해결의 열쇠 |
 
-**다음 Phase**: 즉시 회수 + 영구 해결 → [[05-solutions]]
+**다음 Phase**: 즉시 회수 + 영구 해결 → [[005_disk_recovery_solutions]]

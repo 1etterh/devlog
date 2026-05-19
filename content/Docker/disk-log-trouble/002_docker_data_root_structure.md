@@ -1,7 +1,7 @@
 ---
 title: Phase 2 — Docker 데이터 구조 파악
-type: archive
-tags: [archive, docker, data_root, overlay2, symlink, troubleshooting]
+type: project
+tags: [project, docker, data_root, overlay2, symlink, troubleshooting]
 draft: true
 ---
 
@@ -131,7 +131,7 @@ sudo du -h --max-depth=1 /home/group/docker/overlay/ 2>/dev/null | sort -hr
 | 3 | `ls /home/group/docker/overlay/` | 표준 구조 확인 (권한 풀고 보니) |
 | 4 | `du --max-depth=1 .../overlay/` | `containers/` 2.0TB로 압도적 |
 
-**다음 Phase**: `containers/`의 로그 파일 분석 → [[03-log-analysis]]
+**다음 Phase**: `containers/`의 로그 파일 분석 → [[003_container_log_file_analysis]]
 
 ---
 

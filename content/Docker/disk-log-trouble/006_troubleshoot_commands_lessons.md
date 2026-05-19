@@ -1,7 +1,7 @@
 ---
 title: Phase 6 — 참고 자료 (명령어 / 함정 / 교훈)
-type: archive
-tags: [archive, docker, reference, cheatsheet, pitfalls, lessons]
+type: project
+tags: [project, docker, reference, cheatsheet, pitfalls, lessons]
 draft: true
 ---
 

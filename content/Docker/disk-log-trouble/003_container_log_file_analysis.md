@@ -1,7 +1,7 @@
 ---
 title: Phase 3 — 컨테이너 로그 파일 분석
-type: archive
-tags: [archive, docker, container_logs, json_log, troubleshooting, sudo_glob]
+type: project
+tags: [project, docker, container_logs, json_log, troubleshooting, sudo_glob]
 draft: true
 ---
 
@@ -129,7 +129,7 @@ sudo find /home/group/docker/overlay/containers -name "*-json.log" -exec du -b {
 | 2 | `find ... -name "*-json.log" -exec du` | 로그 파일 1.7TB / 252GB가 압도적 |
 | 3 | ID 앞 12자리 매칭 | `container-a` / `container-b`가 주범 |
 
-**다음 Phase**: 왜 이 두 컨테이너가 로그를 폭주시켰는지 → [[04-root-cause]]
+**다음 Phase**: 왜 이 두 컨테이너가 로그를 폭주시켰는지 → [[004_nuxt_dev_mode_inotify_root_cause]]
 
 ---
 

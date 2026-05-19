@@ -1,7 +1,7 @@
 ---
 title: Phase 1 — 디스크 사용량 추적
-type: archive
-tags: [archive, docker, disk_full, du, df, troubleshooting]
+type: project
+tags: [project, docker, disk_full, du, df, troubleshooting]
 draft: true
 ---
 
@@ -90,7 +90,7 @@ sudo du -h --max-depth=1 /home/group 2>/dev/null | sort -hr | head -20
 | 3 | `du -h --max-depth=1 /home` | `/home/group`이 2.4TB |
 | 4 | `du -h --max-depth=1 /home/group` | `/home/group/docker`이 2.2TB |
 
-**다음 Phase**: `/home/group/docker` 안 구조 분석 → [[02-docker-structure]]
+**다음 Phase**: `/home/group/docker` 안 구조 분석 → [[002_docker_data_root_structure]]
 
 ---
 

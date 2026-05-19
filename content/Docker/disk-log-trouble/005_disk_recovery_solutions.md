@@ -1,7 +1,7 @@
 ---
 title: Phase 5 — 해결 액션 (즉시 회수 + 영구 차단)
-type: archive
-tags: [archive, docker, truncate, volume_prune, inotify, log_rotation, daemon_json]
+type: project
+tags: [project, docker, truncate, volume_prune, inotify, log_rotation, daemon_json]
 draft: true
 ---
 
@@ -198,4 +198,4 @@ sudo systemctl restart docker
 | 옵션 B: compose command 변경 | 영구 해결 | 낮음 (백업 후) |
 | daemon.json + 데몬 재시작 | 안전장치 | 중간 (모든 컨테이너 다운타임) |
 
-**다음 Phase**: 명령어/함정/교훈 정리 → [[06-reference]]
+**다음 Phase**: 명령어/함정/교훈 정리 → [[006_troubleshoot_commands_lessons]]

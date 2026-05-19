@@ -25,4 +25,4 @@ draft: true
 
 ---
 
-**실제 사례**: 위 4가지 누적 패턴 중 "컨테이너 로그 파일"이 1.7TB까지 폭주한 장애의 진단·해결 전체 흐름은 [[00-overview|docker/storage/00-overview]] (Phase별 상세) 또는 [[incident-report]] (종합 보고서) 참조.
+**실제 사례**: 위 4가지 누적 패턴 중 "컨테이너 로그 파일"이 1.7TB까지 폭주한 장애의 진단·해결 전체 흐름은 [[index|Docker/disk-log-trouble/index]] (Phase별 상세) 또는 [[007_incident_postmortem]] (종합 보고서) 참조.

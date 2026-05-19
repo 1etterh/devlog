@@ -1,12 +1,12 @@
 ---
 title: 운영 서버 디스크 풀 트러블슈팅 — 개요
-type: archive
-tags: [archive, docker, container_logs, disk_full, postmortem, overview]
+type: project
+tags: [project, docker, container_logs, disk_full, postmortem, overview]
 draft: true
 ---
 
-> Docker 컨테이너 로그가 2TB 차지한 사건의 진단부터 해결까지 전체 기록.
-> Phase별 상세 내용은 같은 디렉토리의 `NN-*.md` 참조.
+> Docker 컨테이너 로그가 2TB를 차지한 사건의 진단부터 해결까지 전체 기록.
+> Phase별 상세 내용은 같은 디렉토리의 `00N_*.md` 참조.
 
 관련 개념: [[011_docker_overlay2_storage]]
 
@@ -14,7 +14,7 @@ draft: true
 
 ## 사건 요약
 
-- **증상**: 운영 서버 `sv`의 디스크가 거의 100% 사용 중. 누군가 "Docker overlay가 2TB"라고 함.
+- **증상**: 운영 서버의 디스크가 거의 100% 사용 중. 누군가 "Docker overlay가 2TB"라고 함.
 - **실제 범인**: `container-a`의 로그 파일 단독으로 **1.7TB**, `container-b` **252GB**.
 - **근본 원인**:
   1. Nuxt 앱이 운영 환경에서 **dev 모드 또는 watch 빌드 모드**로 떠 있음
@@ -30,13 +30,13 @@ draft: true
 
 | 파일 | 내용 |
 |---|---|
-| **01-disk-trace.md** | `df` / `du`로 어느 디렉토리가 큰지 좁혀나간 과정 |
-| **02-docker-structure.md** | Docker data-root 위치 확인 (심볼릭 링크) + 표준 디렉토리 구조 |
-| **03-log-analysis.md** | `docker system df` 와 디렉토리 실측치 차이 + 컨테이너 로그 파일 식별 + ID→이름 매핑 |
-| **04-root-cause.md** | Nuxt dev 모드 / inotify 한도 / `package.json`·`docker-compose.yml`의 함정 |
-| **05-solutions.md** | 즉시 회수 + 영구 해결 방안 (옵션 A: package.json 수정 / 옵션 B: compose command 변경) |
-| **06-reference.md** | 자주 쓴 명령어 모음, 트러블슈팅 함정, 교훈 |
-| **incident-report.md** | 종합 포스트모템 (회사 보고서 양식, 일반화) |
+| **[[001_disk_usage_trace]]** | `df` / `du`로 어느 디렉토리가 큰지 좁혀나간 과정 |
+| **[[002_docker_data_root_structure]]** | Docker data-root 위치 확인 (심볼릭 링크) + 표준 디렉토리 구조 |
+| **[[003_container_log_file_analysis]]** | `docker system df`와 디렉토리 실측치 차이 + 컨테이너 로그 파일 식별 + ID→이름 매핑 |
+| **[[004_nuxt_dev_mode_inotify_root_cause]]** | Nuxt dev 모드 / inotify 한도 / `package.json`·`docker-compose.yml`의 함정 |
+| **[[005_disk_recovery_solutions]]** | 즉시 회수 + 영구 해결 방안 (옵션 A: package.json 수정 / 옵션 B: compose command 변경) |
+| **[[006_troubleshoot_commands_lessons]]** | 자주 쓴 명령어 모음, 트러블슈팅 함정, 교훈 |
+| **[[007_incident_postmortem]]** | 종합 포스트모템 (회사 보고서 양식, 일반화) |
 
 ---
 

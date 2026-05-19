@@ -1,7 +1,7 @@
 ---
 title: 운영 컨테이너 로그 폭주로 인한 디스크 풀 장애 포스트모템
-type: archive
-tags: [archive, docker, container_logs, inotify, nuxt, disk_full, log_rotation, json_log, postmortem]
+type: project
+tags: [project, docker, container_logs, inotify, nuxt, disk_full, log_rotation, json_log, postmortem]
 draft: true
 ---
 
@@ -13,7 +13,7 @@ draft: true
 
 ### 1-1. 무슨 일이 일어났는가
 
-운영 서버 `sv`의 `/home` 파티션 2.4TB가 거의 100% 사용된 상태가 확인됨. 추적 결과 단일 컨테이너의 **로그 파일만 1.7TB**를 차지하고 있었고, 두 번째 컨테이너가 추가로 **252GB**를 점유. 합쳐서 약 2TB가 일부 컨테이너의 로그 폭주로 발생.
+운영 서버의 `/home` 파티션 2.4TB가 거의 100% 사용된 상태가 확인됨. 추적 결과 단일 컨테이너의 **로그 파일만 1.7TB**를 차지하고 있었고, 두 번째 컨테이너가 추가로 **252GB**를 점유. 합쳐서 약 2TB가 일부 컨테이너의 로그 폭주로 발생.
 
 ### 1-2. 무엇이 원인이었는가
 
@@ -300,7 +300,7 @@ OK    container-a             {"Type":"json-file","Config":{"max-file":"3","max-
 MISSING=$(sudo find /app /home -name "docker-compose*.y*ml" -not -path "*/node_modules/*" 2>/dev/null | \
   xargs -I {} sh -c 'grep -L "logging:" "{}"')
 if [ -n "$MISSING" ]; then
-  echo "logging 설정 누락 compose 파일 발견:" | mail -s "[sv] Docker logging 점검 알림" infra@example.com
+  echo "logging 설정 누락 compose 파일 발견:" | mail -s "[운영] Docker logging 점검 알림" infra@example.com
   echo "$MISSING" | mail ...
 fi
 ```
