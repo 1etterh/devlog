@@ -103,9 +103,12 @@ CLAUDE="$HOME/.claude"
 DEVICE=$(scutil --get ComputerName | tr ' ' '-' | tr '[:upper:]' '[:lower:]')
 
 # 옵션 B: 하드웨어 시리얼 기반 (충돌 0, 권장)
-# SERIAL=$(ioreg -l | awk -F'"' '/IOPlatformSerialNumber/{print $4}')
+# 주의: `ioreg -l`은 레지스트리 전체를 덤프해 바이너리 바이트가 섞여 들어가는데,
+# UTF-8 로케일에선 awk가 이를 변환하다 `towc: multibyte conversion failure`를 뱉는다.
+# 노드 하나(-rd1 -c IOPlatformExpertDevice)로 범위를 좁히고, LC_ALL=C로 raw 바이트 처리.
+# SERIAL=$(ioreg -rd1 -c IOPlatformExpertDevice | LC_ALL=C awk -F'"' '/IOPlatformSerialNumber/{print $4}')
 # MODEL=$(sysctl -n hw.model | sed 's/[0-9,]//g')   # Macmini, MacBookPro 등
-# DEVICE="${MODEL}-${SERIAL}"                        # 예: Macmini-G99VYW6X3X
+# DEVICE="${MODEL}-${SERIAL}"                        # 예: Macmini-XXXXXXXXXX
 
 # 백업
 cp -R "$CLAUDE" "$CLAUDE.backup-$(date +%Y%m%d)"
@@ -164,12 +167,74 @@ Windows에서 주의할 점:
 - **항상 보관**: 파일 탐색기에서 폴더 우클릭 → "이 장치에 항상 보관" (macOS의 "이 Mac에 항상 보관"과 동일 역할)
 - **iCloud for Windows 안정성**: macOS 네이티브보다 sync 지연이 길고 가끔 fail. 동시 사용 자제 권고가 더 중요
 
+### 셋업 검증
+
+스크립트를 돌린 뒤 세 가지만 확인하면 된다: ① `DEVICE`가 의도대로 잡혔는가, ② `~/.claude`의 링크가 iCloud 실데이터를 가리키는가, ③ 백업 사본과 클라우드 업로드가 살아 있는가.
+
+```bash
+# ① DEVICE 값 — 시리얼 조합이면 'Macmini-XXXXXXXXXX' 형태여야 한다 (빈 값이면 옵션 B 추출 실패)
+echo "$DEVICE"
+
+# ② 링크 정상 여부 — 둘 다 '-> .../claude-shared/...' 화살표가 보여야 한다
+ls -la ~/.claude/CLAUDE.md ~/.claude/qa-history
+
+# 링크가 실제로 열리는지(타겟이 내려와 있는지)까지 확인 — 깨진 링크면 에러가 난다
+cat ~/.claude/CLAUDE.md >/dev/null && echo "CLAUDE.md OK"
+ls  ~/.claude/qa-history >/dev/null && echo "qa-history OK"
+
+# ③ 로컬 백업 사본 존재 (되돌릴 안전망)
+ls -d ~/.claude.backup-*
+```
+
+iCloud 폴더 구조는 `config/`·`qa-history/` 양쪽에 **같은 DEVICE 폴더 하나씩**이 있으면 정상이다(`tree`로 확인).
+
+```
+claude-shared/
+├── config/
+│   └── Macmini-XXXXXXXXXX/
+│       └── CLAUDE.md
+└── qa-history/
+    └── Macmini-XXXXXXXXXX/
+        ├── 2026-04-02.md
+        └── ...
+```
+
+클라우드 업로드 완료 여부:
+
+```bash
+# 출력이 비면 업로드 완료. 'upload' 줄이 남아 있으면 아직 올리는 중이다.
+ICLOUD="$HOME/Library/Mobile Documents/com~apple~CloudDocs/claude-shared"
+brctl status "$ICLOUD" 2>/dev/null | grep -i upload
+```
+
+Finder에서 `claude-shared`의 파일 옆 **구름 아이콘이 사라졌는지**로도 같은 걸 확인할 수 있다.
+
+Windows에서는 PowerShell로 링크 타입·타겟을 본다.
+
+```powershell
+echo $DEVICE
+Get-Item $env:USERPROFILE\.claude\CLAUDE.md, $env:USERPROFILE\.claude\qa-history |
+  Select-Object Name, LinkType, Target          # LinkType이 SymbolicLink/Junction, Target이 iCloud 경로면 정상
+Get-ChildItem -Directory "$env:USERPROFILE\.claude.backup-*"
+```
+
+검증이 모두 통과하면 마지막으로 `claude-shared`에 "항상 보관" 핀을 걸고(안전 수칙 #1), 며칠 정상 동작을 확인한 뒤 백업 사본을 지운다.
+
+**흔한 실패 신호와 원인**
+
+| 증상 | 원인 | 대응 |
+| --- | --- | --- |
+| `ls -la`에 화살표 없이 일반 파일/폴더로 보임 | 링크가 아니라 실파일이 로컬에 남음 (셋업이 중간에 끊김) | 백업 사본에서 복구 후 재실행 |
+| 화살표는 있는데 `cat`이 `No such file` | iCloud 타겟이 아직 안 내려왔거나 evict됨 | "항상 보관" 핀 + 잠시 대기 |
+| `qa-history/<DEVICE>/qa-history`처럼 한 단계 더 깊게 생성됨 | `mv` 전에 타겟 디렉토리를 미리 만든 경우(앞서 경고한 `mv` 함정) | 깊어진 폴더를 한 단계 끌어올리고 링크 재생성 |
+| `echo "$DEVICE"`가 빈 값 | 옵션 B 시리얼 추출 실패(awk 로케일 등) | 위 수정된 시리얼 명령으로 다시 잡고 재실행 |
+
 ### DEVICE 식별자 선택
 
 | OS      | 방식                                                    | 예시                   | 충돌 가능성                                | 비고                                         |
 | ------- | ------------------------------------------------------- | ---------------------- | ------------------------------------------ | -------------------------------------------- |
 | macOS   | `scutil --get ComputerName`                             | `macbook-pro`          | 있음 (사용자가 같은 이름으로 설정 가능)    | Time Machine 복원·마이그레이션으로 복제 위험 |
-| macOS   | `IOPlatformSerialNumber` + `hw.model`                   | `Macmini-G99VYW6X3X`   | 0 (하드웨어 시리얼)                        | OS 재설치·이름 변경에 영향 없음, **권장**    |
+| macOS   | `IOPlatformSerialNumber` + `hw.model`                   | `Macmini-XXXXXXXXXX`   | 0 (하드웨어 시리얼)                        | OS 재설치·이름 변경에 영향 없음, **권장**    |
 | Windows | `$env:COMPUTERNAME`                                     | `desktop-home`         | 있음 (이미지 복제·도메인 환경에서 충돌)    | 가장 쉬움                                    |
 | Windows | `Win32_BIOS.SerialNumber` + `Win32_ComputerSystem.Model` | `OptiPlex7090-ABCD1234` | 0 (BIOS 시리얼)                            | 일부 자작 PC는 시리얼이 비어있을 수 있음, **권장** |
 
