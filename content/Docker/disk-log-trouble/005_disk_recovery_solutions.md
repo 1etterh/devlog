@@ -14,7 +14,7 @@ draft: false
 ### A. 컨테이너 로그 truncate (~2TB 회수)
 
 ```bash
-sudo sh -c 'truncate -s 0 /home/group/docker/overlay/containers/*/*-json.log'
+sudo sh -c 'truncate -s 0 /home/<user>/docker/overlay/containers/*/*-json.log'
 df -h /home
 ```
 
@@ -125,7 +125,7 @@ sudo vi /etc/docker/daemon.json
 
 ```json
 {
-  "data-root": "/app/docker/overlay",
+  "data-root": "/srv/docker/overlay",
   "tls": true,
   "tlsverify": true,
   "tlscacert": "/etc/docker/tls/ca.pem",
@@ -158,7 +158,7 @@ sudo systemctl restart docker
 
 ```
 [지금 — Docker 켜져있어도 안전]
-1. sudo sh -c 'truncate -s 0 /home/group/docker/overlay/containers/*/*-json.log'
+1. sudo sh -c 'truncate -s 0 /home/<user>/docker/overlay/containers/*/*-json.log'
    → df -h /home으로 회수 확인 (~2TB)
 
 2. docker volume prune
@@ -181,7 +181,7 @@ sudo systemctl restart docker
 [검증]
 8. 1분 후 docker logs --tail 100 container-a | grep -i "ENOSPC\|listening\|ready"
    → ENOSPC 없고 "Nuxt server listening on..." 나오면 성공
-9. 1시간 후 du -sh /home/group/docker/overlay/containers
+9. 1시간 후 du -sh /home/<user>/docker/overlay/containers
    → 다시 GB 단위로 안 늘어나면 진짜 해결
 ```
 

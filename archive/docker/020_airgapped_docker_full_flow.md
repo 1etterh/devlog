@@ -1,8 +1,9 @@
 ---
 title: "폐쇄망 Docker 배포 전체 흐름"
-type: question
-tags: [question, docker, airgapped, offline_deployment, docker_save, docker_load]
-draft: false
+type: archive
+origin: content/Projects/offline-deploy-toolkit/001_airgapped_docker_full_flow.md
+tags: [archive, docker, airgapped, offline_deployment, docker_save, docker_load]
+draft: true
 ---
 
 ## 개요

@@ -8,7 +8,6 @@ draft: false
 > Docker 컨테이너 로그가 2TB를 차지한 사건의 진단부터 해결까지 전체 기록.
 > Phase별 상세 내용은 같은 디렉토리의 `00N_*.md` 참조.
 
-관련 개념: [[011_docker_overlay2_storage]]
 
 ---
 
@@ -46,7 +45,7 @@ draft: false
 
 ```bash
 # 1. 로그 truncate (즉시 2TB 회수)
-sudo sh -c 'truncate -s 0 /home/group/docker/overlay/containers/*/*-json.log'
+sudo sh -c 'truncate -s 0 /home/<user>/docker/overlay/containers/*/*-json.log'
 
 # 2. dangling volume 정리 (125GB 추가 회수)
 docker volume prune

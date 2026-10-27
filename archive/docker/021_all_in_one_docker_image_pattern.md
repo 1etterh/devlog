@@ -1,8 +1,9 @@
 ---
 title: "올인원 Docker 이미지 패턴"
-type: question
-tags: [question, docker, multi_app, docker_compose, environment_variable]
-draft: false
+type: archive
+origin: content/Projects/offline-deploy-toolkit/002_all_in_one_docker_image_pattern.md
+tags: [archive, docker, multi_app, docker_compose, environment_variable]
+draft: true
 ---
 
 ## 문제

@@ -1,8 +1,9 @@
 ---
 title: "linux/amd64로 빌드한 Docker 이미지가 Mac(arm64)에서 작동하는 이유"
-type: question
-tags: [question, docker, platform, arm64, amd64, apple_silicon, rosetta, emulation]
-draft: false
+type: archive
+origin: content/Docker/005_why_amd64_image_works_on_mac_arm64.md
+tags: [archive, docker, platform, arm64, amd64, apple_silicon, rosetta, emulation]
+draft: true
 ---
 
 ## 의문

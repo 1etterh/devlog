@@ -53,7 +53,7 @@ sudo du -h --max-depth=1 /home 2>/dev/null | sort -hr | head -20
 
 **실제 결과**:
 ```
-2.4T    /home/group
+2.4T    /home/<user>
 7.0G    /home/user-001
 6.9G    /home/user-002
 975M    /home/user-003
@@ -61,23 +61,23 @@ sudo du -h --max-depth=1 /home 2>/dev/null | sort -hr | head -20
 ...
 ```
 
-→ `/home/group` 단독으로 2.4TB. 다른 사용자 디렉토리는 정상 범위.
+→ `/home/<user>` 단독으로 2.4TB. 다른 사용자 디렉토리는 정상 범위.
 
 ---
 
 ## 1-4. 계속 좁히기
 
 ```bash
-sudo du -h --max-depth=1 /home/group 2>/dev/null | sort -hr | head -20
+sudo du -h --max-depth=1 /home/<user> 2>/dev/null | sort -hr | head -20
 ```
 
 **실제 결과**:
 ```
-2.4T    /home/group
-2.2T    /home/group/docker      ← Docker 데이터 발견
+2.4T    /home/<user>
+2.2T    /home/<user>/docker      ← Docker 데이터 발견
 ```
 
-→ Docker가 `/home/group/docker`에 2.2TB를 쌓고 있음. `/var/lib/docker`(기본 경로)가 아님.
+→ Docker가 `/home/<user>/docker`에 2.2TB를 쌓고 있음. `/var/lib/docker`(기본 경로)가 아님.
 
 ---
 
@@ -87,10 +87,10 @@ sudo du -h --max-depth=1 /home/group 2>/dev/null | sort -hr | head -20
 |---|---|---|
 | 1 | `df -h` | `/home` 마운트 거의 100% |
 | 2 | `du -h --max-depth=1 /` | `/home`이 2.4TB |
-| 3 | `du -h --max-depth=1 /home` | `/home/group`이 2.4TB |
-| 4 | `du -h --max-depth=1 /home/group` | `/home/group/docker`이 2.2TB |
+| 3 | `du -h --max-depth=1 /home` | `/home/<user>`이 2.4TB |
+| 4 | `du -h --max-depth=1 /home/<user>` | `/home/<user>/docker`이 2.2TB |
 
-**다음 Phase**: `/home/group/docker` 안 구조 분석 → [[002_docker_data_root_structure]]
+**다음 Phase**: `/home/<user>/docker` 안 구조 분석 → [[002_docker_data_root_structure]]
 
 ---
 

@@ -40,7 +40,7 @@ Build Cache        0B      0B
 
 처음 시도한 명령:
 ```bash
-sudo du -h /home/group/docker/overlay/containers/*/*-json.log 2>/dev/null | sort -hr
+sudo du -h /home/<user>/docker/overlay/containers/*/*-json.log 2>/dev/null | sort -hr
 ```
 
 **결과: 빈 출력**. 아무것도 안 나옴.
@@ -51,10 +51,10 @@ sudo du -h /home/group/docker/overlay/containers/*/*-json.log 2>/dev/null | sort
 
 ```bash
 # 방법 1: sh -c 안에서 glob 펼치기 (glob이 sudo 권한으로 평가됨)
-sudo sh -c "du -h /home/group/docker/overlay/containers/*/*-json.log | sort -hr | head -20"
+sudo sh -c "du -h /home/<user>/docker/overlay/containers/*/*-json.log | sort -hr | head -20"
 
 # 방법 2: find 사용 (glob 의존 없음, 더 안전)
-sudo find /home/group/docker/overlay/containers -name "*-json.log" \
+sudo find /home/<user>/docker/overlay/containers -name "*-json.log" \
   -exec du -h {} + 2>/dev/null | sort -hr | head -20
 ```
 
@@ -103,7 +103,7 @@ b39029cb5b66    container-a:3.0.00     container-a     ← 1.7TB 주인
 다음번에는 이 한 줄로 바로 이름이 보이게 할 수 있음:
 
 ```bash
-sudo find /home/group/docker/overlay/containers -name "*-json.log" -exec du -b {} + 2>/dev/null | \
+sudo find /home/<user>/docker/overlay/containers -name "*-json.log" -exec du -b {} + 2>/dev/null | \
   sort -rn | head -10 | \
   while read size path; do
     cid=$(basename $(dirname "$path"))

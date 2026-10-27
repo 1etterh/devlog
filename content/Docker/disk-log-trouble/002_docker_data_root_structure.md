@@ -5,16 +5,15 @@ tags: [project, docker, data_root, overlay2, symlink, troubleshooting]
 draft: false
 ---
 
-> `/home/group/docker`에 2.2TB가 있다는 것까진 확인. 이 안이 표준 Docker data-root인지, 어디가 큰지 분석.
+> `/home/<user>/docker`에 2.2TB가 있다는 것까진 확인. 이 안이 표준 Docker data-root인지, 어디가 큰지 분석.
 
-관련 개념: [[011_docker_overlay2_storage]]
 
 ---
 
 ## 2-1. 일단 들어가봤더니 표준 구조가 아님
 
 ```bash
-sudo ls -la /home/group/docker/
+sudo ls -la /home/<user>/docker/
 ```
 
 **결과**:
@@ -27,7 +26,7 @@ drwxrwxr-x  3 user user  154 May  6 15:21 registry
 
 → 보통 Docker data-root 안에는 `containers/`, `volumes/`, `image/`, `network/` 등이 있어야 하는데 **`overlay/`와 `registry/`만 있음**. 게다가 `overlay/`는 root 소유에 권한 `drwx--x---`로 잠겨 있음.
 
-이 상태로는 `/home/group/docker` 자체가 data-root인지, 아니면 그 안의 어딘가가 진짜 data-root인지 알 수 없음.
+이 상태로는 `/home/<user>/docker` 자체가 data-root인지, 아니면 그 안의 어딘가가 진짜 data-root인지 알 수 없음.
 
 ---
 
@@ -41,34 +40,34 @@ sudo cat /etc/docker/daemon.json
 **결과**:
 ```
  Storage Driver: overlay2
- Docker Root Dir: /home/group/docker/overlay
+ Docker Root Dir: /home/<user>/docker/overlay
 ```
 ```json
 {
-  "data-root": "/app/docker/overlay",
+  "data-root": "/srv/docker/overlay",
   "tls": true,
   ...
 }
 ```
 
 **중요한 발견**:
-- `daemon.json`엔 `/app/docker/overlay`로 적혀 있는데 `docker info`는 `/home/group/docker/overlay`로 답함.
-- 두 경로가 다른데 동일한 데이터를 가리킴 → **`/app/docker`가 `/home/group/docker`로의 심볼릭 링크**.
+- `daemon.json`엔 `/srv/docker/overlay`로 적혀 있는데 `docker info`는 `/home/<user>/docker/overlay`로 답함.
+- 두 경로가 다른데 동일한 데이터를 가리킴 → **`/srv/docker`가 `/home/<user>/docker`로의 심볼릭 링크**.
 
 확인 명령:
 ```bash
-ls -la /app/docker
-readlink -f /app/docker/overlay
+ls -la /srv/docker
+readlink -f /srv/docker/overlay
 ```
 
 ---
 
 ## 2-3. 진짜 data-root 안 구조
 
-이제 `/home/group/docker/overlay/`가 진짜 data-root임을 알았으니, 그 안을 봄.
+이제 `/home/<user>/docker/overlay/`가 진짜 data-root임을 알았으니, 그 안을 봄.
 
 ```bash
-sudo ls /home/group/docker/overlay/
+sudo ls /home/<user>/docker/overlay/
 ```
 
 **결과**:
@@ -83,22 +82,22 @@ buildkit  containers  engine-id  image  network  overlay2  plugins  runtimes  sw
 ## 2-4. 어느 서브디렉토리가 큰지
 
 ```bash
-sudo du -h --max-depth=1 /home/group/docker/overlay/ 2>/dev/null | sort -hr
+sudo du -h --max-depth=1 /home/<user>/docker/overlay/ 2>/dev/null | sort -hr
 ```
 
 **결과**:
 ```
-2.2T    /home/group/docker/overlay/
-2.0T    /home/group/docker/overlay/containers     ← 컨테이너 로그 파일
-145G    /home/group/docker/overlay/volumes        ← named volume 데이터
-92G     /home/group/docker/overlay/overlay2       ← 이미지 + 컨테이너 쓰기 레이어
-358M    /home/group/docker/overlay/buildkit
-92M     /home/group/docker/overlay/image
-432K    /home/group/docker/overlay/network
-0       /home/group/docker/overlay/tmp
-0       /home/group/docker/overlay/swarm
-0       /home/group/docker/overlay/runtimes
-0       /home/group/docker/overlay/plugins
+2.2T    /home/<user>/docker/overlay/
+2.0T    /home/<user>/docker/overlay/containers     ← 컨테이너 로그 파일
+145G    /home/<user>/docker/overlay/volumes        ← named volume 데이터
+92G     /home/<user>/docker/overlay/overlay2       ← 이미지 + 컨테이너 쓰기 레이어
+358M    /home/<user>/docker/overlay/buildkit
+92M     /home/<user>/docker/overlay/image
+432K    /home/<user>/docker/overlay/network
+0       /home/<user>/docker/overlay/tmp
+0       /home/<user>/docker/overlay/swarm
+0       /home/<user>/docker/overlay/runtimes
+0       /home/<user>/docker/overlay/plugins
 ```
 
 → **`containers/`가 2.0TB**. 이게 진짜 범인. 컨테이너 로그 파일이 쌓인 것.
@@ -126,9 +125,9 @@ sudo du -h --max-depth=1 /home/group/docker/overlay/ 2>/dev/null | sort -hr
 
 | 단계 | 명령 | 발견 |
 |---|---|---|
-| 1 | `ls -la /home/group/docker` | 표준 구조 아님 (`overlay`, `registry`만) |
-| 2 | `docker info` + `cat daemon.json` | `/app/docker → /home/group/docker` 심볼릭 링크 발견 |
-| 3 | `ls /home/group/docker/overlay/` | 표준 구조 확인 (권한 풀고 보니) |
+| 1 | `ls -la /home/<user>/docker` | 표준 구조 아님 (`overlay`, `registry`만) |
+| 2 | `docker info` + `cat daemon.json` | `/srv/docker → /home/<user>/docker` 심볼릭 링크 발견 |
+| 3 | `ls /home/<user>/docker/overlay/` | 표준 구조 확인 (권한 풀고 보니) |
 | 4 | `du --max-depth=1 .../overlay/` | `containers/` 2.0TB로 압도적 |
 
 **다음 Phase**: `containers/`의 로그 파일 분석 → [[003_container_log_file_analysis]]

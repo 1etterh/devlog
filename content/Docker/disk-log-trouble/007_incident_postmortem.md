@@ -39,8 +39,8 @@ draft: false
 
 ```
 2.4T  /home                                              (전체)
-  2.4T  /home/group                                      (단일 사용자/그룹 디렉토리)
-    2.2T  /home/group/docker                             (Docker data-root, 커스텀 경로)
+  2.4T  /home/<user>                                      (단일 사용자/그룹 디렉토리)
+    2.2T  /home/<user>/docker                             (Docker data-root, 커스텀 경로)
       2.0T  ~/docker/overlay/containers                  (컨테이너 로그)
       145G  ~/docker/overlay/volumes                     (named volumes, dangling 다수)
        92G  ~/docker/overlay/overlay2                    (이미지 + 컨테이너 쓰기 레이어)
@@ -70,8 +70,8 @@ docker system df 보고치:    169GB
 
 ### 2-4. Docker 환경 정보
 
-- Storage Driver: `overlay2` (개념 정리: [[011_docker_overlay2_storage]])
-- Docker Root Dir: `/home/group/docker/overlay` (`daemon.json`엔 `/app/docker/overlay`로 적혀있음 → 심볼릭 링크)
+- Storage Driver: `overlay2`
+- Docker Root Dir: `/home/<user>/docker/overlay` (`daemon.json`엔 `/srv/docker/overlay`로 적혀있음 → 심볼릭 링크)
 - 실행 컨테이너 수: 50+ 개
 - 이미지 수: 39개 (총 33GB)
 - 사설 registry: `registry.example.com:15000`
@@ -158,7 +158,7 @@ stdout → docker가 *-json.log에 저장
 #### A. 컨테이너 로그 truncate — 약 2TB 즉시 회수
 
 ```bash
-sudo sh -c 'truncate -s 0 /home/group/docker/overlay/containers/*/*-json.log'
+sudo sh -c 'truncate -s 0 /home/<user>/docker/overlay/containers/*/*-json.log'
 df -h /home
 ```
 
@@ -362,7 +362,7 @@ docker logs --tail 200 container-a | grep -iE "ENOSPC|Watchpack|listening|ready"
 ### 6-3. 장기 검증 (24시간 후)
 
 ```bash
-sudo du -sh /home/group/docker/overlay/containers/*/
+sudo du -sh /home/<user>/docker/overlay/containers/*/
 # → 어느 컨테이너도 1GB 이상 증가하지 않아야 함
 ```
 
@@ -402,4 +402,4 @@ Vue/Nuxt/Webpack/Vite 같은 환경은 기본 `fs.inotify.max_user_watches`(보�
 
 ### 7-6. Custom data-root와 심볼릭 링크는 진단을 어렵게 한다
 
-`daemon.json`엔 `/app/docker/overlay`로 적혀 있고, 실제 데이터는 `/home/group/docker/overlay`에 있는 식의 심볼릭 링크 구조는 처음 진단할 때 큰 혼란을 줌. data-root 위치 변경 시 인프라 문서에 명시하고, 진단 시 `docker info`의 `Docker Root Dir`와 `daemon.json`의 `data-root`를 둘 다 확인 + `readlink -f`로 실제 경로 파악 습관 필요.
+`daemon.json`엔 `/srv/docker/overlay`로 적혀 있고, 실제 데이터는 `/home/<user>/docker/overlay`에 있는 식의 심볼릭 링크 구조는 처음 진단할 때 큰 혼란을 줌. data-root 위치 변경 시 인프라 문서에 명시하고, 진단 시 `docker info`의 `Docker Root Dir`와 `daemon.json`의 `data-root`를 둘 다 확인 + `readlink -f`로 실제 경로 파악 습관 필요.

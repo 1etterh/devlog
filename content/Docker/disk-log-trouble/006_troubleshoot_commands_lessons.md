@@ -101,12 +101,12 @@ sudo find /path -maxdepth 1 -exec du -sh {} +
 
 ### 함정 2: `docker info` Root Dir와 `daemon.json` data-root 경로가 다름
 
-**원인**: 심볼릭 링크. 예) `daemon.json`은 `/app/docker/overlay`, `docker info`는 `/home/group/docker/overlay` → `/app/docker`가 `/home/group/docker`로의 symlink.
+**원인**: 심볼릭 링크. 예) `daemon.json`은 `/srv/docker/overlay`, `docker info`는 `/home/<user>/docker/overlay` → `/srv/docker`가 `/home/<user>/docker`로의 symlink.
 
 **해결**:
 ```bash
-ls -la /app/docker
-readlink -f /app/docker/overlay
+ls -la /srv/docker
+readlink -f /srv/docker/overlay
 ```
 
 ### 함정 3: `docker system df`의 숫자와 디스크 실측치가 안 맞음

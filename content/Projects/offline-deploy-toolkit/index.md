@@ -30,9 +30,7 @@ offline-deploy/
 
 ## 관련 글
 
-1. [[001_airgapped_docker_full_flow|폐쇄망 Docker 배포 전체 흐름]]
-2. [[002_all_in_one_docker_image_pattern|올인원 Docker 이미지 패턴]]
-3. [[003_airgapped_deploy_checklist|폐쇄망 배포 체크리스트]]
-4. [[004_airgapped_deploy_troubleshooting|폐쇄망 배포 트러블슈팅]]
-5. [[005_airgapped_dev_environment_checklist|폐쇄망 개발 환경 반입 체크리스트]]
-6. [[006_airgapped_onsite_retrospective|폐쇄망 장기 상주 회고]]
+1. [[003_airgapped_deploy_checklist|폐쇄망 배포 체크리스트]]
+2. [[004_airgapped_deploy_troubleshooting|폐쇄망 배포 트러블슈팅]]
+3. [[005_airgapped_dev_environment_checklist|폐쇄망 개발 환경 반입 체크리스트]]
+4. [[006_airgapped_onsite_retrospective|폐쇄망 장기 상주 회고]]
