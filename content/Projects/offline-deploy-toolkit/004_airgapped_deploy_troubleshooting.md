@@ -2,7 +2,7 @@
 title: "폐쇄망 배포 트러블슈팅"
 type: question
 tags: [question, docker, airgapped, troubleshooting, nuxt_layer, pnpm]
-draft: true
+draft: false
 ---
 
 ## 1. Nuxt Layer — `~` alias 프로덕션 빌드 실패

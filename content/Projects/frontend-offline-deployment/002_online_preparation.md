@@ -2,7 +2,7 @@
 title: "02. 온라인 단계 — pnpm 실행파일 + store 준비"
 type: implementation
 tags: [implementation, pnpm, fetch, store, frozen_lockfile, tarball, offline_deployment]
-draft: true
+draft: false
 ---
 
 > 폐쇄망으로 옮기기 전, 온라인 PC에서 준비해야 할 두 가지: `pnpm` 실행 파일과 모든 의존성이 충전된 `pnpm store`.

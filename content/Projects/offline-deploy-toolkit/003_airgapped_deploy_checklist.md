@@ -2,7 +2,7 @@
 title: "폐쇄망 배포 체크리스트"
 type: question
 tags: [question, docker, airgapped, checklist, deployment]
-draft: true
+draft: false
 ---
 
 ## 준비 단계 (인터넷 환경)

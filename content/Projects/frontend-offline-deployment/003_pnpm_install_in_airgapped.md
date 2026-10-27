@@ -2,7 +2,7 @@
 title: "03. 폐쇄망 pnpm 설치 — 4가지 방법 비교"
 type: implementation
 tags: [implementation, pnpm, install, windows, powershell, corepack, npm_pack, air_gapped]
-draft: true
+draft: false
 ---
 
 > 폐쇄망 PC에 pnpm을 설치하는 4가지 방법. 환경(Node.js 유무, 권한, OS, 운영자 숙련도)에 따라 적절한 선택지가 다르다.

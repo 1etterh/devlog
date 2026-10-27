@@ -2,7 +2,7 @@
 title: "폐쇄망 Docker 배포 전체 흐름"
 type: question
 tags: [question, docker, airgapped, offline_deployment, docker_save, docker_load]
-draft: true
+draft: false
 ---
 
 ## 개요

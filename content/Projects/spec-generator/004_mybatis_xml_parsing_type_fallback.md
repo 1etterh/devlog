@@ -2,7 +2,7 @@
 title: "MyBatis XML 파싱과 타입 폴백"
 type: question
 tags: [question, python, mybatis, xml_parsing, sql, static_analysis]
-draft: true
+draft: false
 ---
 
 ## 역할

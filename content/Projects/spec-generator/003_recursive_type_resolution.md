@@ -2,7 +2,7 @@
 title: "재귀적 타입 추론 시스템"
 type: question
 tags: [question, python, type_inference, static_analysis, java, recursion]
-draft: true
+draft: false
 ---
 
 ## 문제

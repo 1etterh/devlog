@@ -2,7 +2,7 @@
 title: "01. 의사결정 진화 — 폐쇄망 Frontend 배포 방식이 4번 바뀐 이야기"
 type: implementation
 tags: [implementation, pnpm, nuxt, offline_deployment, architecture_decision, monorepo]
-draft: true
+draft: false
 ---
 
 > 다중 Nuxt 프로젝트의 폐쇄망 배포 방식을 결정하면서 4단계 변형을 거쳤다. 단순히 “이렇게 하면 된다”가 아니라 “왜 다른 방식을 버렸는가”까지 정리한다.

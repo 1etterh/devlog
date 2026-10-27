@@ -5,7 +5,7 @@ tags:
   - static_analysis
   - api_spec
   - code_generation
-draft: true
+draft: false
 ---
 > Java Spring 소스 코드를 정적 분석하여 API 명세서와 DB 설계서를 자동 생성하는 Python 도구
 

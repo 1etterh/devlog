@@ -2,7 +2,7 @@
 title: 다중 Nuxt 프로젝트의 폐쇄망 오프라인 배포 — pnpm store 방식
 type: implementation
 tags: [implementation, pnpm, nuxt, offline_deployment, air_gapped, store, monorepo, frontend]
-draft: true
+draft: false
 ---
 
 > 인터넷이 차단된 환경에 여러 Nuxt 프로젝트를 한 번에 배포하기 위한 pnpm store 기반 오프라인 워크플로우 종합 정리.

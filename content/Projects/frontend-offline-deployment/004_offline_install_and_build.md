@@ -2,7 +2,7 @@
 title: "04. 오프라인 설치 + nuxt prepare + 트러블슈팅"
 type: implementation
 tags: [implementation, pnpm, nuxt, offline_install, frozen_lockfile, postinstall, troubleshooting]
-draft: true
+draft: false
 ---
 
 > 폐쇄망 PC에서 store 압축을 해제하고, 다중 Nuxt 프로젝트를 올바른 순서로 install·build·start하는 절차. 그리고 흔히 만나는 에러 6가지의 원인과 해결.

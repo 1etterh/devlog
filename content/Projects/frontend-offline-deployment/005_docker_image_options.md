@@ -2,7 +2,7 @@
 title: "05. Docker 이미지 두 가지 옵션 — Lean vs Full deps"
 type: implementation
 tags: [implementation, docker, dockerfile, pnpm, multi_stage, deps_image, volume_mount, comparison]
-draft: true
+draft: false
 ---
 
 > 폐쇄망에 옮길 단위를 “store tar.gz”가 아니라 **Docker 이미지**로 잡는 두 가지 방식. 이미지에 deps를 넣지 않는 경량 옵션과 deps까지 통째로 굽는 풀 옵션을 만드는 과정·운영 패턴·트레이드오프를 정리한다.

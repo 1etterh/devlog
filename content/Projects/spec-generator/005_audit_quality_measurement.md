@@ -2,7 +2,7 @@
 title: "명세서 품질 측정 — Audit 시스템"
 type: question
 tags: [question, python, quality_assurance, metrics, static_analysis]
-draft: true
+draft: false
 ---
 
 ## 목적

@@ -2,7 +2,7 @@
 title: "Java 소스 정적 분석 — Scanner 구현"
 type: question
 tags: [question, python, static_analysis, java, regex, parsing]
-draft: true
+draft: false
 ---
 
 ## 목표

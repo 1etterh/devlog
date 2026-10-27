@@ -2,7 +2,7 @@
 title: "올인원 Docker 이미지 패턴"
 type: question
 tags: [question, docker, multi_app, docker_compose, environment_variable]
-draft: true
+draft: false
 ---
 
 ## 문제

@@ -2,7 +2,7 @@
 title: "API 명세서 자동 생성 — 전체 파이프라인"
 type: question
 tags: [question, python, static_analysis, api_spec, java, spring, code_generation]
-draft: true
+draft: false
 ---
 
 ## 문제
