@@ -1,19 +1,27 @@
+# OS / editor
 .DS_Store
+.obsidian
+.replit
+replit.nix
+
+# Node / build
 node_modules
 public
 prof
 tsconfig.tsbuildinfo
-.obsidian
-.quartz-cache
-private/
-.replit
-replit.nix
-.quartz/
-quartz/cli/tui/dist/
 .turbo/
+quartz/cli/tui/dist/
+quartz.lock.json
 
+# Quartz cache
+.quartz-cache
+.quartz/
 
-**/.claude*
+# Private content
+private/
+
+# AI tool local state (blog-rules.md만 공유)
+**/.claude*/*
+!/.claude/blog-rules.md
 **/.bkit*
 **/.pdca*
-quartz.lock.json
