@@ -76,8 +76,13 @@ if (!isCaseSensitive(OUTPUT)) {
   process.exit(0)
 }
 
+// folders that were later deleted have nothing to redirect
+const existingDirs = Object.entries(LEGACY_DIRS).filter(([dir]) =>
+  fs.existsSync(path.join(CONTENT, dir)),
+)
+
 let count = 0
-for (const [dir, oldDir] of Object.entries(LEGACY_DIRS)) {
+for (const [dir, oldDir] of existingDirs) {
   // folder listing page: /DB/ -> /db/
   if (writeRedirect(`${oldDir}/index`, `${dir}/index`)) count++
 
@@ -91,7 +96,7 @@ for (const [dir, oldDir] of Object.entries(LEGACY_DIRS)) {
 
 // files directly under a renamed parent but in an unrenamed subfolder
 // (e.g. Docker/disk-log-trouble/*, Projects/<slug>/*)
-for (const [dir, oldDir] of Object.entries(LEGACY_DIRS)) {
+for (const [dir, oldDir] of existingDirs) {
   for (const entry of fs.readdirSync(path.join(CONTENT, dir), { withFileTypes: true })) {
     if (!entry.isDirectory()) continue
     const sub = `${dir}/${entry.name}`
