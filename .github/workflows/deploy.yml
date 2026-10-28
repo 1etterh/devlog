@@ -30,6 +30,8 @@ jobs:
         run: npx quartz plugin install --from-config
       - name: Build Quartz
         run: npx quartz build
+      - name: Write legacy (v4 uppercase) URL redirects
+        run: node scripts/write-legacy-redirects.mjs
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

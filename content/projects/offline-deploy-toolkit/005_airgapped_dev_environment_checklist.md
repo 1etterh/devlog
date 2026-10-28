@@ -267,4 +267,4 @@ docker exec -i mariadb mariadb -uroot -p'<password>' < ./db.sql
 
 - [[003_airgapped_deploy_checklist|폐쇄망 배포 체크리스트]] — 서비스 배포 관점의 체크리스트
 - [[004_airgapped_deploy_troubleshooting|폐쇄망 배포 트러블슈팅]] — 서비스 배포 중 겪은 문제들
-- [[Projects/frontend-offline-deployment/005_docker_image_options|05. Docker 이미지 옵션]]
+- [[projects/frontend-offline-deployment/005_docker_image_options|05. Docker 이미지 옵션]]

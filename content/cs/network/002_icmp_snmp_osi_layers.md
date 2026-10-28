@@ -9,7 +9,7 @@ draft: false
 
 NMS가 데이터를 모으는 기본 방법이 ICMP(ping)와 SNMP다. 둘 다 "장비 상태를 확인한다"는데, OSI 계층으로 보면 각각 어디에 있고 그 차이가 실무에서 무엇을 바꾸는가?
 
-> 계층 설명은 [[001_osi_layers|OSI 7계층과 TCP/IP 4계층]], NMS 데이터 수집 방법은 [[Network/003_what_is_nms|NMS란 무엇인가]] 참고
+> 계층 설명은 [[001_osi_layers|OSI 7계층과 TCP/IP 4계층]], NMS 데이터 수집 방법은 [[network/003_what_is_nms|NMS란 무엇인가]] 참고
 
 ## 답
 

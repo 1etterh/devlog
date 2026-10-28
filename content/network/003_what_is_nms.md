@@ -43,8 +43,8 @@ ISO/ITU-T가 정의한 네트워크 관리 5대 영역이다. 대부분의 NMS �
 
 | 방식 | 설명 |
 | --- | --- |
-| ICMP (ping) | 장비가 살아 있는지 확인하는 가장 기본적인 방법. [[CS/Network/001_osi_layers\|OSI]] L3 ([[CS/Network/002_icmp_snmp_osi_layers\|계층 설명]]) |
-| SNMP | 표준 관리 프로토콜. NMS가 주기적으로 값을 묻고(Polling), 장비가 이벤트를 먼저 보내기도 함(Trap). UDP 위의 L7 ([[CS/Network/002_icmp_snmp_osi_layers\|계층 설명]]) |
+| ICMP (ping) | 장비가 살아 있는지 확인하는 가장 기본적인 방법. [[cs/network/001_osi_layers\|OSI]] L3 ([[cs/network/002_icmp_snmp_osi_layers\|계층 설명]]) |
+| SNMP | 표준 관리 프로토콜. NMS가 주기적으로 값을 묻고(Polling), 장비가 이벤트를 먼저 보내기도 함(Trap). UDP 위의 L7 ([[cs/network/002_icmp_snmp_osi_layers\|계층 설명]]) |
 | Syslog | 장비가 남기는 로그 메시지 수집 |
 | NetFlow / sFlow / IPFIX | "누가 누구와 얼마나 통신했는지" 같은 흐름(flow) 정보. 트래픽 분석의 핵심 |
 | Streaming Telemetry (gNMI 등) | 장비가 데이터를 실시간으로 밀어 보내는 최신 방식. SNMP 폴링보다 촘촘함 |
