@@ -1,5 +1,5 @@
 ---
-title: "bash에서 비밀번호에 !가 들어가면 'event not found'가 나는 이유"
+title: "bash 비밀번호의 !와 event not found"
 type: error
 tags: [error, bash, history_expansion, shell_quoting, mysqldump]
 draft: false

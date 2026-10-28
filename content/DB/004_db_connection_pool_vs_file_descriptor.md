@@ -1,5 +1,5 @@
 ---
-title: DB connection pool은 파일 시스템에 대응되는 개념이 있는가
+title: DB 커넥션 풀과 파일 디스크립터
 type: question
 tags: [question, connection_pool, file_descriptor, database, operating_system]
 draft: false

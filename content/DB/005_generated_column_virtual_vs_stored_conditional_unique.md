@@ -1,5 +1,5 @@
 ---
-title: 생성 컬럼의 PERSISTENT는 무엇이고, 생략해도 UNIQUE가 걸리는가
+title: 생성 컬럼 PERSISTENT와 UNIQUE
 type: question
 tags: [question, db, mariadb, mysql, generated_column, virtual_column, unique_index, partial_unique]
 draft: false

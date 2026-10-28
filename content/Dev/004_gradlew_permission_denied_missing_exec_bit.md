@@ -1,5 +1,5 @@
 ---
-title: 스크립트에서 ./gradlew 실행 시 Permission denied — 실행 비트가 빠진 래퍼
+title: "./gradlew Permission denied"
 type: error
 tags: [error, gradle_wrapper, file_permission, git_file_mode, shell_script]
 draft: false

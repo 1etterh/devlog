@@ -1,5 +1,5 @@
 ---
-title: docker exec로 한 줄 SQL 실행하기 - 리다이렉트 연산자 오해 바로잡기
+title: docker exec로 한 줄 SQL 실행하기
 type: question
 tags: [question, docker, mariadb, mysql, shell_redirection, heredoc]
 draft: false

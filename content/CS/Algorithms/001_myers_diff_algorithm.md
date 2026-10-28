@@ -1,5 +1,5 @@
 ---
-title: Myers diff 알고리즘은 무엇인가 — Git이 기본으로 쓰는 diff 원리
+title: Myers diff 알고리즘
 type: question
 tags: [question, git, diff, algorithm, myers]
 draft: false

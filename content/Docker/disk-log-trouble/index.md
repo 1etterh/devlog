@@ -1,5 +1,5 @@
 ---
-title: 운영 서버 디스크 풀 트러블슈팅 — 개요
+title: 디스크 풀 트러블슈팅 개요
 type: project
 tags: [project, docker, container_logs, disk_full, postmortem, overview]
 draft: false

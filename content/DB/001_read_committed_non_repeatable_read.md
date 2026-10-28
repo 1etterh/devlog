@@ -1,5 +1,5 @@
 ---
-title: READ_COMMITTED인데 왜 Non-Repeatable Read가 발생하는가
+title: READ_COMMITTED와 Non-Repeatable Read
 type: question
 tags: [db, transaction, isolation_level, read_committed, mvcc, concurrency]
 draft: false

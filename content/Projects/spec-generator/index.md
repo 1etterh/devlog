@@ -32,7 +32,7 @@ draft: false
 
 ## 관련 글
 
-1. [[001_api_spec_generation_pipeline|API 명세서 자동 생성 — 전체 파이프라인]]
+1. [[001_api_spec_generation_pipeline|API 명세서 자동 생성 파이프라인]]
 2. [[002_java_source_static_analysis_scanner|Java 소스 정적 분석 — Scanner 구현]]
 3. [[003_recursive_type_resolution|재귀적 타입 추론 시스템]]
 4. [[004_mybatis_xml_parsing_type_fallback|MyBatis XML 파싱과 타입 폴백]]

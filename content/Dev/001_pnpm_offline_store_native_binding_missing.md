@@ -1,5 +1,5 @@
 ---
-title: macOS에서 준비한 pnpm 오프라인 store를 Windows에서 사용할 때 네이티브 바이너리 누락 에러
+title: pnpm 오프라인 store 네이티브 바이너리 누락
 type: error
 tags: [error, pnpm, offline_install, native_binding, cross_platform]
 draft: false

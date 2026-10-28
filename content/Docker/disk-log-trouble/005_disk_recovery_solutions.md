@@ -1,5 +1,5 @@
 ---
-title: Phase 5 — 해결 액션 (즉시 회수 + 영구 차단)
+title: Phase 5 — 해결 액션
 type: project
 tags: [project, docker, truncate, volume_prune, inotify, log_rotation, daemon_json]
 draft: false

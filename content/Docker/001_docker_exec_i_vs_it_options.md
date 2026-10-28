@@ -1,5 +1,5 @@
 ---
-title: docker exec의 -i와 -it 옵션 차이 정리
+title: docker exec의 -i와 -it 차이
 type: question
 tags: [question, docker, container, stdin, tty, shell]
 draft: false

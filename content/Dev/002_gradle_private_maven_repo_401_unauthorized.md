@@ -1,5 +1,5 @@
 ---
-title: Gradle이 사내 Maven 저장소 의존성만 못 읽을 때 — 401 Unauthorized 진단
+title: Gradle 사설 Maven 저장소 401
 type: debug
 tags: [debug, gradle, maven_repository, nexus, unauthorized_401, dependency_resolution]
 draft: false

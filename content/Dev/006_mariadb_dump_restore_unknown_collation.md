@@ -1,5 +1,5 @@
 ---
-title: MariaDB 덤프 복구 시 Unknown collation 에러 해결
+title: MariaDB 덤프 Unknown collation
 type: error
 tags: [error, mariadb, mysql, collation, mysqldump, docker]
 draft: false

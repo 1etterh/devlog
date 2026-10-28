@@ -1,5 +1,5 @@
 ---
-title: Phase 3 — 컨테이너 로그 파일 분석
+title: Phase 3 — 로그 파일 분석
 type: project
 tags: [project, docker, container_logs, json_log, troubleshooting, sudo_glob]
 draft: false

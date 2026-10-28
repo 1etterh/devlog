@@ -1,5 +1,5 @@
 ---
-title: Phase 2 — Docker 데이터 구조 파악
+title: Phase 2 — Docker 데이터 구조
 type: project
 tags: [project, docker, data_root, overlay2, symlink, troubleshooting]
 draft: false

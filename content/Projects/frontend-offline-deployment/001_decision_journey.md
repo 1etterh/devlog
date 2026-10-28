@@ -1,5 +1,5 @@
 ---
-title: "01. 의사결정 진화 — 폐쇄망 Frontend 배포 방식이 4번 바뀐 이야기"
+title: "01. 배포 방식 의사결정 과정"
 type: implementation
 tags: [implementation, pnpm, nuxt, offline_deployment, architecture_decision, monorepo]
 draft: false
@@ -152,4 +152,4 @@ flowchart TB
 
 다음 챕터에서는 시도 4 방식의 구체적 구현 — 온라인 단계에서 pnpm 실행 파일과 store를 어떻게 준비하는지를 다룬다.
 
-→ [[002_online_preparation|02. 온라인 단계 — pnpm 실행파일 + store 준비]]
+→ [[002_online_preparation|02. 온라인 준비 단계]]

@@ -1,5 +1,5 @@
 ---
-title: Phase 4 — 근본 원인 분석 (Nuxt dev 모드, inotify, package.json 함정)
+title: Phase 4 — 근본 원인 분석
 type: project
 tags: [project, docker, nuxt, inotify, enospc, package_json, watch_mode, root_cause]
 draft: false

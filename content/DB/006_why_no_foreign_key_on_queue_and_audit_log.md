@@ -1,5 +1,5 @@
 ---
-title: 왜 큐·감사 로그 테이블에는 외래 키(FK)를 걸지 않는가
+title: 왜 큐·감사 로그 테이블엔 FK가 없나
 type: question
 tags: [question, db, mariadb, mysql, innodb, foreign_key, audit_log, job_queue, lock_contention]
 draft: false

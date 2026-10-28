@@ -1,5 +1,5 @@
 ---
-title: docker 명령어의 컨테이너 식별자 - 이름·ID·Prefix 차이와 선택 기준
+title: "docker 컨테이너 식별자: 이름 vs ID"
 type: question
 tags: [question, docker, container, container_id, naming]
 draft: false

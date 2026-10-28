@@ -1,5 +1,5 @@
 ---
-title: 날아간 DB를 복구하다 InnoDB 페이지 구조까지 — 디스크 위의 DB 들여다보기
+title: InnoDB 페이지 구조 들여다보기
 type: question
 tags: [question, db, innodb, page, b_tree, mvcc, storage_engine, mariadb, docker_volume]
 draft: false

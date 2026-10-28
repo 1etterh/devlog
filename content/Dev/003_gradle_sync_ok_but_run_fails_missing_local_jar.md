@@ -1,5 +1,5 @@
 ---
-title: Gradle 새로고침은 되는데 실행은 안 될 때 — files() 로컬 jar 누락
+title: Gradle 로컬 jar 누락으로 실행 실패
 type: debug
 tags: [debug, gradle, local_jar, file_dependency, gitignore]
 draft: false

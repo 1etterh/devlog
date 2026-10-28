@@ -1,5 +1,5 @@
 ---
-title: "04. 오프라인 설치 + nuxt prepare + 트러블슈팅"
+title: "04. 오프라인 설치와 빌드"
 type: implementation
 tags: [implementation, pnpm, nuxt, offline_install, frozen_lockfile, postinstall, troubleshooting]
 draft: false
@@ -342,7 +342,7 @@ pnpm install --frozen-lockfile --offline 2>&1 | grep -E "downloaded|reused|added
 > 각 install에 `--frozen-lockfile --offline` 필수. 모든 단계에서 `downloaded 0`을 확인.
 
 ← 처음부터 다시: [[index|개요]]
-← 의사결정: [[001_decision_journey|01. 의사결정 진화]]
-← 온라인 단계: [[002_online_preparation|02. 온라인 단계]]
-← pnpm 설치: [[003_pnpm_install_in_airgapped|03. 폐쇄망 pnpm 설치]]
-→ Docker 이미지 옵션: [[005_docker_image_options|05. Docker 이미지 두 가지 옵션 — Lean vs Full deps]]
+← 의사결정: [[001_decision_journey|01. 배포 방식 의사결정 과정]]
+← 온라인 단계: [[002_online_preparation|02. 온라인 준비 단계]]
+← pnpm 설치: [[003_pnpm_install_in_airgapped|03. 폐쇄망 pnpm 설치 방법 비교]]
+→ Docker 이미지 옵션: [[005_docker_image_options|05. Docker 이미지 옵션]]

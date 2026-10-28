@@ -1,5 +1,5 @@
 ---
-title: 다중 Nuxt 프로젝트의 폐쇄망 오프라인 배포 — pnpm store 방식
+title: Nuxt 프로젝트 폐쇄망 배포
 type: implementation
 tags: [implementation, pnpm, nuxt, offline_deployment, air_gapped, store, monorepo, frontend]
 draft: false
@@ -50,11 +50,11 @@ flowchart LR
 
 | 챕터 | 내용 |
 |---|---|
-| [[001_decision_journey\|01. 의사결정 진화 — 왜 이 구조에 도달했는가]] | 4단계 변형 시도와 최종 선택 |
-| [[002_online_preparation\|02. 온라인 단계 — pnpm 실행파일 + store 준비]] | 다운로드, fetch, 압축, 전송 목록 |
-| [[003_pnpm_install_in_airgapped\|03. 폐쇄망 pnpm 설치 — 4가지 방법 비교]] | exe 직접 / PATH 등록 / npm pack / corepack |
-| [[004_offline_install_and_build\|04. 오프라인 설치 + nuxt prepare + 트러블슈팅]] | store 해제, install 순서, postinstall 처리 |
-| [[005_docker_image_options\|05. Docker 이미지 두 가지 옵션 — Lean vs Full deps]] | node+pnpm only 이미지 vs deps 통째 이미지, multi-stage 빌드, 비교 |
+| [[001_decision_journey\|01. 배포 방식 의사결정 과정]] | 4단계 변형 시도와 최종 선택 |
+| [[002_online_preparation\|02. 온라인 준비 단계]] | 다운로드, fetch, 압축, 전송 목록 |
+| [[003_pnpm_install_in_airgapped\|03. 폐쇄망 pnpm 설치 방법 비교]] | exe 직접 / PATH 등록 / npm pack / corepack |
+| [[004_offline_install_and_build\|04. 오프라인 설치와 빌드]] | store 해제, install 순서, postinstall 처리 |
+| [[005_docker_image_options\|05. Docker 이미지 옵션]] | node+pnpm only 이미지 vs deps 통째 이미지, multi-stage 빌드, 비교 |
 
 ## 핵심 인사이트
 

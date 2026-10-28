@@ -1,5 +1,5 @@
 ---
-title: "05. Docker 이미지 두 가지 옵션 — Lean vs Full deps"
+title: "05. Docker 이미지 옵션"
 type: implementation
 tags: [implementation, docker, dockerfile, pnpm, multi_stage, deps_image, volume_mount, comparison]
 draft: false
@@ -372,7 +372,7 @@ services:
 4. **옵션 A의 store mount는 “복원 가능한 상태”를 호스트에 두는 것이다.** 호스트의 store가 손상되면 모든 앱이 일제히 install 실패한다. 호스트 store는 backup 정책을 함께 설계해야 한다.
 
 ← 처음부터: [[index|개요]]
-← 의사결정: [[001_decision_journey|01. 의사결정 진화]]
-← 온라인 단계: [[002_online_preparation|02. 온라인 단계]]
-← pnpm 설치: [[003_pnpm_install_in_airgapped|03. 폐쇄망 pnpm 설치]]
-← 오프라인 빌드: [[004_offline_install_and_build|04. 오프라인 설치 + 빌드]]
+← 의사결정: [[001_decision_journey|01. 배포 방식 의사결정 과정]]
+← 온라인 단계: [[002_online_preparation|02. 온라인 준비 단계]]
+← pnpm 설치: [[003_pnpm_install_in_airgapped|03. 폐쇄망 pnpm 설치 방법 비교]]
+← 오프라인 빌드: [[004_offline_install_and_build|04. 오프라인 설치와 빌드]]

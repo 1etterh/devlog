@@ -1,5 +1,5 @@
 ---
-title: 여러 기기에서 Claude Code 데이터를 공유하는 가장 안전한 방법
+title: 여러 기기에서 Claude Code 설정 공유하기
 type: implementation
 tags: [implementation, claude_code, icloud, git, symbolic_link, multi_device_sync, macos, windows]
 draft: false

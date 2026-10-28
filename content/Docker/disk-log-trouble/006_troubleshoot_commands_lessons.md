@@ -1,5 +1,5 @@
 ---
-title: Phase 6 — 참고 자료 (명령어 / 함정 / 교훈)
+title: Phase 6 — 참고 자료
 type: project
 tags: [project, docker, reference, cheatsheet, pitfalls, lessons]
 draft: false

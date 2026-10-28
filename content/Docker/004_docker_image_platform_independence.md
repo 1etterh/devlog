@@ -1,5 +1,5 @@
 ---
-title: Docker 이미지는 정말 실행 환경과 독립적일까 — OS 독립 vs CPU 아키텍처 독립
+title: Docker 이미지는 정말 환경 독립적인가
 type: question
 tags: [question, docker, architecture, arm64, amd64, qemu, rosetta, platform]
 draft: false

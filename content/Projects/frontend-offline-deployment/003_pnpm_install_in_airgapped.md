@@ -1,5 +1,5 @@
 ---
-title: "03. 폐쇄망 pnpm 설치 — 4가지 방법 비교"
+title: "03. 폐쇄망 pnpm 설치 방법 비교"
 type: implementation
 tags: [implementation, pnpm, install, windows, powershell, corepack, npm_pack, air_gapped]
 draft: false
@@ -221,4 +221,4 @@ where pnpm
 
 설치 후 다음 챕터에서는 pnpm store를 압축 해제하고 4개 프로젝트를 오프라인으로 install·build하는 단계를 다룬다.
 
-→ [[004_offline_install_and_build|04. 오프라인 설치 + nuxt prepare + 트러블슈팅]]
+→ [[004_offline_install_and_build|04. 오프라인 설치와 빌드]]

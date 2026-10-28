@@ -1,5 +1,5 @@
 ---
-title: "폐쇄망 개발 환경 반입 체크리스트 — 도구·설치 파일·문서·DB 덤프"
+title: "폐쇄망 개발 환경 반입 체크리스트"
 type: implementation
 tags: [implementation, airgapped, offline_deployment, dev_environment, checklist, docker, mariadb]
 draft: false
@@ -251,8 +251,8 @@ docker exec -i mariadb mariadb -uroot -p'<password>' < ./db.sql
 
 - **순서**: 사용자 → DB. 프로시저·뷰의 `DEFINER`로 지정된 계정이 먼저 있어야 경고나 실행 오류가 줄어든다.
 - `-f`(`--force`): 에러가 나도 다음 문장을 계속 실행한다. `root` 같은 기존 계정의 `CREATE USER` 충돌을 넘기기 위해 users 쪽에만 쓴다.
-- 파일 리다이렉트(`<`)를 쓰므로 `-it`가 아니라 **`-i`만** 준다. TTY를 붙이면 입력이 깨진다. → [[001_docker_exec_i_vs_it_options|docker exec의 -i와 -it 옵션 차이]]
-- 원본과 대상의 MariaDB 버전이 다르면 collation 에러가 날 수 있다. → [[006_mariadb_dump_restore_unknown_collation|Unknown collation 에러 해결]]
+- 파일 리다이렉트(`<`)를 쓰므로 `-it`가 아니라 **`-i`만** 준다. TTY를 붙이면 입력이 깨진다. → [[001_docker_exec_i_vs_it_options|docker exec의 -i와 -it 차이]]
+- 원본과 대상의 MariaDB 버전이 다르면 collation 에러가 날 수 있다. → [[006_mariadb_dump_restore_unknown_collation|MariaDB 덤프 Unknown collation]]
 
 ---
 
@@ -267,4 +267,4 @@ docker exec -i mariadb mariadb -uroot -p'<password>' < ./db.sql
 
 - [[003_airgapped_deploy_checklist|폐쇄망 배포 체크리스트]] — 서비스 배포 관점의 체크리스트
 - [[004_airgapped_deploy_troubleshooting|폐쇄망 배포 트러블슈팅]] — 서비스 배포 중 겪은 문제들
-- [[Projects/frontend-offline-deployment/005_docker_image_options|Docker 이미지 두 가지 옵션 — Lean vs Full deps]]
+- [[Projects/frontend-offline-deployment/005_docker_image_options|05. Docker 이미지 옵션]]
