@@ -1,5 +1,5 @@
 ---
-title: ICMP와 SNMP는 OSI 몇 계층인가
+title: ICMP·SNMP는 몇 계층인가
 type: question
 tags: [question, network, icmp, snmp, osi_model, nms, network_monitoring]
 draft: false

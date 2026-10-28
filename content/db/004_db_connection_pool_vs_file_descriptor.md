@@ -1,5 +1,5 @@
 ---
-title: DB 커넥션 풀과 파일 디스크립터
+title: 커넥션 풀과 파일 디스크립터
 type: question
 tags: [question, connection_pool, file_descriptor, database, operating_system]
 draft: false

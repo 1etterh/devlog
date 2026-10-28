@@ -118,5 +118,5 @@ L1  010110100101...                                   ← 신호
 
 ## 관련 글
 
-- [[002_icmp_snmp_osi_layers|ICMP와 SNMP는 OSI 몇 계층인가]]
+- [[002_icmp_snmp_osi_layers|ICMP·SNMP는 몇 계층인가]]
 - [[network/003_what_is_nms|NMS란 무엇인가]]

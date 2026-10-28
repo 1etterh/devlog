@@ -1,5 +1,5 @@
 ---
-title: Docker 이미지는 정말 환경 독립적인가
+title: Docker 이미지는 환경 독립적인가
 type: question
 tags: [question, docker, architecture, arm64, amd64, qemu, rosetta, platform]
 draft: false

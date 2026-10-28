@@ -1,5 +1,5 @@
 ---
-title: InnoDB 페이지 구조 들여다보기
+title: InnoDB 페이지 구조
 type: question
 tags: [question, db, innodb, page, b_tree, mvcc, storage_engine, mariadb, docker_volume]
 draft: false

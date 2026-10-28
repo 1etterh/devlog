@@ -1,5 +1,5 @@
 ---
-title: docker exec로 한 줄 SQL 실행하기
+title: docker exec로 SQL 실행
 type: question
 tags: [question, docker, mariadb, mysql, shell_redirection, heredoc]
 draft: false

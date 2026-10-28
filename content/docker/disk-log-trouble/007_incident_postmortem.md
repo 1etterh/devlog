@@ -1,5 +1,5 @@
 ---
-title: 로그 폭주 디스크 풀 포스트모템
+title: 디스크 풀 포스트모템
 type: project
 tags: [project, docker, container_logs, inotify, nuxt, disk_full, log_rotation, json_log, postmortem]
 draft: false

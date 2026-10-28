@@ -1,5 +1,5 @@
 ---
-title: Nuxt extends에서 ~ alias가 안 되는 이유
+title: Nuxt extends와 ~ alias
 type: question
 tags: [question, nuxt, path_resolution, layer, alias]
 draft: false

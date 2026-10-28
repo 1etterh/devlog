@@ -1,5 +1,5 @@
 ---
-title: 왜 레거시 스키마에는 FK가 없나
+title: 왜 레거시 스키마엔 FK가 없나
 type: question
 tags: [question, db, mariadb, mysql, innodb, foreign_key, schema_design, polymorphic_association, partitioning]
 draft: false
@@ -7,7 +7,7 @@ draft: false
 
 ## 의문
 
-외부에서 받은 업무 DB 덤프에 테이블이 40개 가까이 있는데 `FOREIGN KEY`가 단 하나도 없다. 로그·큐 테이블이라면 이유를 알겠다([[006_why_no_foreign_key_on_queue_and_audit_log|왜 큐·감사 로그 테이블엔 FK가 없나]]). 그런데 사용자, 조직, 매핑 같은 평범한 테이블까지 FK가 없는 건 왜일까?
+외부에서 받은 업무 DB 덤프에 테이블이 40개 가까이 있는데 `FOREIGN KEY`가 단 하나도 없다. 로그·큐 테이블이라면 이유를 알겠다([[006_why_no_foreign_key_on_queue_and_audit_log|왜 큐·감사 로그엔 FK가 없나]]). 그런데 사용자, 조직, 매핑 같은 평범한 테이블까지 FK가 없는 건 왜일까?
 
 ## 답
 

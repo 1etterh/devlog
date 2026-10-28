@@ -255,4 +255,4 @@ pnpm install --frozen-lockfile --offline
 
 다음 챕터에서는 폐쇄망에 도착한 pnpm 실행 파일을 어떻게 설치하는지 — 4가지 방법을 비교한다.
 
-→ [[003_pnpm_install_in_airgapped|03. 폐쇄망 pnpm 설치 방법 비교]]
+→ [[003_pnpm_install_in_airgapped|03. 폐쇄망 pnpm 설치 비교]]

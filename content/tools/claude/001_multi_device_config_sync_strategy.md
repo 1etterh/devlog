@@ -1,5 +1,5 @@
 ---
-title: 여러 기기에서 Claude Code 설정 공유하기
+title: Claude Code 설정 동기화
 type: implementation
 tags: [implementation, claude_code, icloud, git, symbolic_link, multi_device_sync, macos, windows]
 draft: false

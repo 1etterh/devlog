@@ -116,4 +116,4 @@ Cisco 스위치에서 포트가 내려가면 이런 로그가 NMS의 Syslog 수�
 | OSS (Operations Support System) | 통신사의 운영 시스템 전체. NMS에 개통·주문·과금 등이 더해짐 | 인터넷 회선 신청 → 장비 포트 할당·설정 → 개통 → 요금 청구까지 이어서 처리 |
 | AIOps / 자율 네트워크 | AI로 이상 징후를 예측하고, 원인 분석·조치까지 자동화하는 최근 흐름 | 이상 징후를 찾아 대응 방안을 자동 추천하는 AI 관제 |
 
-NMS와 OSS의 구조와 연결 방식은 [[001_nms_oss_architecture|NMS와 OSS의 차이와 연결]]에서 이어서 다룬다.
+NMS와 OSS의 구조와 연결 방식은 [[001_nms_oss_architecture|NMS와 OSS]]에서 이어서 다룬다.

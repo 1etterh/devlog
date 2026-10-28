@@ -38,7 +38,7 @@ flowchart LR
 
 ## 1. 들어가 보니 정말 필요했던 것
 
-준비할 때 챙길 목록은 많았다. 그런데 실제로 써 보니 **없으면 일이 멈추는** 것은 세 가지로 좁혀졌다. 나머지 세부 목록은 [[005_airgapped_dev_environment_checklist|폐쇄망 개발 환경 반입 체크리스트]]에 정리했다.
+준비할 때 챙길 목록은 많았다. 그런데 실제로 써 보니 **없으면 일이 멈추는** 것은 세 가지로 좁혀졌다. 나머지 세부 목록은 [[005_airgapped_dev_environment_checklist|개발 환경 반입 체크리스트]]에 정리했다.
 
 ### 1) 공식 문서
 
@@ -189,8 +189,8 @@ flowchart TD
 
 ## 관련 글
 
-- [[005_airgapped_dev_environment_checklist|폐쇄망 개발 환경 반입 체크리스트]]
+- [[005_airgapped_dev_environment_checklist|개발 환경 반입 체크리스트]]
 - [[003_airgapped_deploy_checklist|폐쇄망 배포 체크리스트]]
 - [[004_airgapped_deploy_troubleshooting|폐쇄망 배포 트러블슈팅]]
-- [[003_pnpm_install_in_airgapped|03. 폐쇄망 pnpm 설치 방법 비교]]
-- [[001_pnpm_offline_store_native_binding_missing|pnpm 오프라인 store 네이티브 바이너리 누락]]
+- [[003_pnpm_install_in_airgapped|03. 폐쇄망 pnpm 설치 비교]]
+- pnpm 오프라인 store 네이티브 바이너리 누락

@@ -1,5 +1,5 @@
 ---
-title: NMS와 OSS의 차이와 연결
+title: NMS와 OSS
 type: question
 tags: [question, network, nms, oss, network_management, northbound_interface, fcaps]
 draft: false

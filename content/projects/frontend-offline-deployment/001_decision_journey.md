@@ -1,5 +1,5 @@
 ---
-title: "01. 배포 방식 의사결정 과정"
+title: "01. 배포 방식 결정"
 type: implementation
 tags: [implementation, pnpm, nuxt, offline_deployment, architecture_decision, monorepo]
 draft: false

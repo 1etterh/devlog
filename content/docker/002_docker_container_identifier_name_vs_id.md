@@ -1,5 +1,5 @@
 ---
-title: "docker 컨테이너 식별자: 이름 vs ID"
+title: "컨테이너 이름 vs ID"
 type: question
 tags: [question, docker, container, container_id, naming]
 draft: false

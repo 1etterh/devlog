@@ -50,9 +50,9 @@ flowchart LR
 
 | 챕터 | 내용 |
 |---|---|
-| [[001_decision_journey\|01. 배포 방식 의사결정 과정]] | 4단계 변형 시도와 최종 선택 |
+| [[001_decision_journey\|01. 배포 방식 결정]] | 4단계 변형 시도와 최종 선택 |
 | [[002_online_preparation\|02. 온라인 준비 단계]] | 다운로드, fetch, 압축, 전송 목록 |
-| [[003_pnpm_install_in_airgapped\|03. 폐쇄망 pnpm 설치 방법 비교]] | exe 직접 / PATH 등록 / npm pack / corepack |
+| [[003_pnpm_install_in_airgapped\|03. 폐쇄망 pnpm 설치 비교]] | exe 직접 / PATH 등록 / npm pack / corepack |
 | [[004_offline_install_and_build\|04. 오프라인 설치와 빌드]] | store 해제, install 순서, postinstall 처리 |
 | [[005_docker_image_options\|05. Docker 이미지 옵션]] | node+pnpm only 이미지 vs deps 통째 이미지, multi-stage 빌드, 비교 |
 

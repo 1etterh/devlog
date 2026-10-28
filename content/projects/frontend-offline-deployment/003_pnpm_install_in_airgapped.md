@@ -1,5 +1,5 @@
 ---
-title: "03. 폐쇄망 pnpm 설치 방법 비교"
+title: "03. 폐쇄망 pnpm 설치 비교"
 type: implementation
 tags: [implementation, pnpm, install, windows, powershell, corepack, npm_pack, air_gapped]
 draft: false
