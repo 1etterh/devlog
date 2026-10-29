@@ -1,8 +1,16 @@
 ---
 title: 생성 컬럼 PERSISTENT와 UNIQUE
 type: question
-tags: [question, db, mariadb, mysql, generated_column, virtual_column, unique_index, partial_unique]
-draft: false
+tags:
+  - question
+  - db
+  - mariadb
+  - mysql
+  - generated_column
+  - virtual_column
+  - unique_index
+  - partial_unique
+draft: true
 ---
 
 ## 의문
