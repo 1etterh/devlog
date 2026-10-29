@@ -1,8 +1,8 @@
 ---
 title: docker exec로 SQL 실행
-type: question
-tags: [question, docker, mariadb, mysql, shell_redirection, heredoc]
-draft: false
+type: archive
+tags: [archive, docker, mariadb, mysql, shell_redirection, heredoc]
+draft: true
 ---
 
 ## 질문

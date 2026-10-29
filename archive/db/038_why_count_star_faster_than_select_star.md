@@ -1,15 +1,15 @@
 ---
 title: 왜 COUNT(*)는 SELECT *보다 빠른가
-type: question
-tags: [question, db, innodb, count, index, clustered_index, secondary_index, mvcc]
-draft: false
+type: archive
+tags: [archive, db, innodb, count, index, clustered_index, secondary_index, mvcc]
+draft: true
 ---
 
 ## 의문
 
 `SELECT COUNT(*) FROM tb_users`와 `SELECT * FROM tb_users` — 직관적으로는 둘 다 "전체 row를 다 봐야 하니까" 비슷한 비용일 것 같다. 그런데 실제로는 `COUNT(*)`가 압도적으로 빠르다. 왜?
 
-> 사전 지식으로 InnoDB의 B+ 트리·페이지 구조가 필요하다 → [[002_innodb_page_structure|InnoDB 페이지 구조]]
+> 사전 지식으로 InnoDB의 B+ 트리·페이지 구조가 필요하다 → InnoDB 페이지 구조
 
 ## 핵심 차이
 

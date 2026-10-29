@@ -1,8 +1,8 @@
 ---
 title: Docker 이미지는 환경 독립적인가
-type: question
-tags: [question, docker, architecture, arm64, amd64, qemu, rosetta, platform]
-draft: false
+type: archive
+tags: [archive, docker, architecture, arm64, amd64, qemu, rosetta, platform]
+draft: true
 ---
 
 "Docker 이미지는 어디서든 똑같이 돌아간다"는 말을 자주 듣는다. 틀린 말은 아니지만 절반만 맞다. 정확히 말하면 Docker는 **OS 독립**이지 **CPU 아키텍처 독립은 아니다**. 이 차이를 모르면 Apple Silicon Mac에서 "왜 이렇게 느리지?" 하는 순간이 온다.

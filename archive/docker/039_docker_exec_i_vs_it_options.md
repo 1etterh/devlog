@@ -1,8 +1,8 @@
 ---
 title: docker exec -i vs -it
-type: question
-tags: [question, docker, container, stdin, tty, shell]
-draft: false
+type: archive
+tags: [archive, docker, container, stdin, tty, shell]
+draft: true
 ---
 
 ## 질문

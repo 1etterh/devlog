@@ -1,7 +1,7 @@
 ---
 title: "폐쇄망 배포 체크리스트"
-type: question
-tags: [question, docker, airgapped, checklist, deployment]
+type: log
+tags: [log, docker, airgapped, checklist, deployment]
 draft: false
 ---
 

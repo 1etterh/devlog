@@ -1,8 +1,8 @@
 ---
 title: NMS와 OSS
-type: question
-tags: [question, network, nms, oss, network_management, northbound_interface, fcaps]
-draft: false
+type: archive
+tags: [archive, network, nms, oss, network_management, northbound_interface, fcaps]
+draft: true
 ---
 
 ## 질문

@@ -1,8 +1,8 @@
 ---
 title: NMS란 무엇인가
-type: question
-tags: [question, network, nms, network_management, fcaps, snmp, syslog]
-draft: false
+type: archive
+tags: [archive, network, nms, network_management, fcaps, snmp, syslog]
+draft: true
 ---
 
 ## 질문
@@ -41,14 +41,14 @@ ISO/ITU-T가 정의한 네트워크 관리 5대 영역이다. 대부분의 NMS �
 
 ## 데이터를 모으는 방법
 
-| 방식 | 설명 |
-| --- | --- |
-| ICMP (ping) | 장비가 살아 있는지 확인하는 가장 기본적인 방법. [[cs/network/001_osi_layers\|OSI]] L3 ([[cs/network/002_icmp_snmp_osi_layers\|계층 설명]]) |
-| SNMP | 표준 관리 프로토콜. NMS가 주기적으로 값을 묻고(Polling), 장비가 이벤트를 먼저 보내기도 함(Trap). UDP 위의 L7 ([[cs/network/002_icmp_snmp_osi_layers\|계층 설명]]) |
-| Syslog | 장비가 남기는 로그 메시지 수집 |
-| NetFlow / sFlow / IPFIX | "누가 누구와 얼마나 통신했는지" 같은 흐름(flow) 정보. 트래픽 분석의 핵심 |
-| Streaming Telemetry (gNMI 등) | 장비가 데이터를 실시간으로 밀어 보내는 최신 방식. SNMP 폴링보다 촘촘함 |
-| CLI / API (SSH, NETCONF, REST) | 설정 조회·변경, 자동화 |
+| 방식                             | 설명                                                                                                                          |
+| ------------------------------ | --------------------------------------------------------------------------------------------------------------------------- |
+| ICMP (ping)                    | 장비가 살아 있는지 확인하는 가장 기본적인 방법. OSI L3          |
+| SNMP                           | 표준 관리 프로토콜. NMS가 주기적으로 값을 묻고(Polling), 장비가 이벤트를 먼저 보내기도 함(Trap). UDP 위의 L7 |
+| Syslog                         | 장비가 남기는 로그 메시지 수집                                                                                                           |
+| NetFlow / sFlow / IPFIX        | "누가 누구와 얼마나 통신했는지" 같은 흐름(flow) 정보. 트래픽 분석의 핵심                                                                               |
+| Streaming Telemetry (gNMI 등)   | 장비가 데이터를 실시간으로 밀어 보내는 최신 방식. SNMP 폴링보다 촘촘함                                                                                  |
+| CLI / API (SSH, NETCONF, REST) | 설정 조회·변경, 자동화                                                                                                               |
 
 ```mermaid
 flowchart LR
@@ -116,4 +116,4 @@ Cisco 스위치에서 포트가 내려가면 이런 로그가 NMS의 Syslog 수�
 | OSS (Operations Support System) | 통신사의 운영 시스템 전체. NMS에 개통·주문·과금 등이 더해짐 | 인터넷 회선 신청 → 장비 포트 할당·설정 → 개통 → 요금 청구까지 이어서 처리 |
 | AIOps / 자율 네트워크 | AI로 이상 징후를 예측하고, 원인 분석·조치까지 자동화하는 최근 흐름 | 이상 징후를 찾아 대응 방안을 자동 추천하는 AI 관제 |
 
-NMS와 OSS의 구조와 연결 방식은 [[001_nms_oss_architecture|NMS와 OSS]]에서 이어서 다룬다.
+NMS와 OSS의 구조와 연결 방식은 NMS와 OSS에서 이어서 다룬다.

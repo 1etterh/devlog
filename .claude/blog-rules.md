@@ -88,26 +88,33 @@ Every response must be summarized and appended to a centralized daily history fi
 다음 유형만 블로그로 작성한다. 그 외에는 작성하지 않는다.
 
 - **question**: 개념에 대한 **의심·의문** (회사 맥락 무관). 본인의 의문에서 출발한 짧고 명확한 분석 글.
-  - **“왜(why) X는 Y인가?”** 처럼 원인·이유를 묻는 질문 → **즉시 자동 작성**
-  - 그 외 의문 (“정말 X인가?”, “X vs Y의 차이는?”, “X는 무엇인가?” 등) → **자동 작성 X**, 사용자에게 “블로그 글로 작성할까?”를 먼저 묻고 수락 시에만 작성
+  - **출발점 기준 (최우선 판정)**: 질문이 어디서 나왔는지로 기본 저장 위치를 먼저 정한다.
+    - **직접 개발·경험하면서 가진 의문** (현재 작업 중인 코드·환경·실험에서 생긴 의문) → **content가 기본값**. 아래 why/그 외 규칙을 적용한다.
+    - **직접 개발·경험과 무관한 단순 질문** (개념·도구·제품에 대한 일반 질문) → **archive가 기본값**. why 질문이라도 묻지 않고 archive에 바로 작성하고, 사용자가 블로그를 요청할 때만 content로 작성한다.
+    - 판정이 애매하면 단순 질문(archive)으로 본다.
+  - (개발 중 의문) **“왜(why) X는 Y인가?”** 처럼 원인·이유를 묻는 질문 → **즉시 자동 작성**
+  - (개발 중 의문) 그 외 의문 (“정말 X인가?”, “X vs Y의 차이는?”, “X는 무엇인가?” 등) → **자동 작성 X**, 사용자에게 “블로그 글로 작성할까?”를 먼저 묻고 수락 시에만 작성
   - 본문은 짧게 의문에 답하되, **답변과 직결된 관련 개념(상위 카테고리·형제 옵션·비교군)은 간단한 표 또는 리스트로 함께 정리**해 self-contained하게 만든다. (아래 “Question Article Style” 섹션 참조)
 - **error**: 에러 해결 과정 (에러 메시지, 원인, 해결 방법) → 즉시 자동 작성
 - **debug**: 디버깅 과정 (증상, 추적, 원인, 수정) → 즉시 자동 작성
 - **implementation**: 구현 작업·시스템 설계·코드 결정에 대한 글. → **자동 저장 X**. qa-history에는 자동 기록되며, **사용자 요청 시에만** 긴 글로 합성한다. (아래 “Implementation & Project Articles” 섹션 참조)
 - **project**: 하나의 큰 task/프로젝트 완료 시점의 종합 회고 글. → **자동 저장 X**, 사용자 트리거 시 매우 길게(3000자+) 작성. (아래 섹션 참조)
+- **log**: 회고·기록성 글. 현장 작업 회고, 체크리스트, 트러블슈팅 모음, 작업 일지처럼 **겪은 일을 정리·기록**하는 글. → **자동 저장 X**, 사용자 요청 시에만 작성. (아래 “Log Articles” 섹션 참조)
 
 ### Type Selection Guide (질문 성격 → type)
 
 | 질문 성격 | type | 자동 작성? | 길이 |
 |---|---|:---:|---|
-| “왜(why) X는 Y인가?” 원인·이유 질문 | `question` | ✅ | **짧게** (단순 개념 정리) |
-| 그 외 개념 의문 (“정말 X인가?”, “X vs Y”, “X는 무엇?”) | `question` | ❓ (확인 후) | **짧게** (단순 개념 정리) |
+| 직접 개발·경험과 무관한 단순 질문 (why 포함) | `archive` | ✅ (archive에) | 5~20줄 |
+| (개발 중 의문) “왜(why) X는 Y인가?” 원인·이유 질문 | `question` | ✅ | **짧게** (단순 개념 정리) |
+| (개발 중 의문) 그 외 개념 의문 (“정말 X인가?”, “X vs Y”, “X는 무엇?”) | `question` | ❓ (확인 후) | **짧게** (단순 개념 정리) |
 | 에러 메시지 해결 | `error` | ✅ | 보통 |
 | 버그·증상 디버깅 | `debug` | ✅ | 보통 |
 | 코드 구현·시스템 설계 (단일~중간 단위) | `implementation` | ❌ (요청 시) | **길게** (qa-history 합성) |
 | 큰 task/프로젝트 완료 종합 회고 | `project` | ❌ (요청 시) | 매우 길게 (3000자+) |
+| 회고·체크리스트·트러블슈팅 모음·작업 일지 | `log` | ❌ (요청 시) | 자유 (내용에 맞게) |
 
-핵심 원칙: **“왜”로 시작하는 의문은 즉시 짧게**, **나머지 개념 의문은 확인 후 작성**, **구현은 자동 X·요청 시 길게**.
+핵심 원칙: **단순 질문은 archive가 기본, 개발 중 의문은 content가 기본**, **(개발 중) “왜”로 시작하는 의문은 즉시 짧게**, **나머지 개념 의문은 확인 후 작성**, **구현은 자동 X·요청 시 길게**.
 
 ### 작성 제외 대상 (Blacklist)
 다음은 **자동** 블로그 작성 대상이 아니다. (단, qa-history에는 기록되며, 일부는 사용자 요청 시 implementation/project type으로 긴 글 작성 가능)
@@ -148,17 +155,19 @@ Every response must be summarized and appended to a centralized daily history fi
    - **question** (개념 의심): 주제에 맞는 폴더 사용 (java, db, os, network 등)
    - **implementation** (구현 작업): 작업 영역에 맞는 기술 폴더 사용 (`java/spring/`, `db/`, `docker/` 등). 시리즈 또는 한 프로젝트의 일부면 `projects/{slug}/`에 저장
    - **project** (task 완료 종합 글): `projects/{project-slug}/` 폴더에 저장
+   - **log** (회고·기록): 특정 프로젝트에 속하면 `projects/{project-slug}/`, 아니면 주제에 맞는 기술 폴더에 저장
    - Java 관련 하위 기술은 `java/` 하위 폴더 사용 (java/spring, java/jpa, java/mybatis, java/msa, java/servlet 등)
    - 기존 폴더가 있으면 재사용, 없으면 새로 생성
    - **폴더명은 항상 소문자** (Quartz 5는 URL을 소문자로 만들기 때문에 원본 폴더도 소문자로 통일. 예: `dev/`, `java/spring/`)
 3. 파일명: `{NNN}_{영문 제목}.md` (해당 폴더 내 기존 번호 이어서, 없으면 001부터)
    - 영문 제목도 회사·서비스명을 포함하지 않는다
 4. 작성 언어: 한국어
-5. draft 결정:
-   - **question**: `draft: false` (공개) — 개념 의심에서 출발한 짧고 명확한 글
+5. draft 결정: **모든 type의 기본값은 `draft: true`**. content에 작성하더라도 공개 전환(`draft: false`)은 사용자가 검토 후 직접 하거나 명시적으로 요청할 때만 한다.
+   - **question**: `draft: true` (개념 의심에서 출발한 짧고 명확한 글이라도 1차 비공개)
    - **error**, **debug**: `draft: true` (일반화했더라도 1차 비공개로 두고 추후 검토)
    - **implementation**: `draft: true` (회사 코드·아키텍처 노출 위험, 일반화 후 본인 검토 필수)
    - **project**: `draft: true` (회사 맥락 노출 위험이 가장 큼, 반드시 일반화 후 본인 검토)
+   - **log**: `draft: true` (현장·작업 맥락이 드러나기 쉬움, 일반화 후 본인 검토)
 6. tags 작성 규칙:
    - 영어로 작성
    - **snake_case** 사용 (예: `null_pointer`, `transaction_rollback`, `connection_leak`)
@@ -170,9 +179,9 @@ Every response must be summarized and appended to a centralized daily history fi
 ```markdown
 ---
 title: {일반화된 블로그 제목}
-type: {question | error | debug | implementation | project}
+type: {question | error | debug | implementation | project | log}
 tags: [snake_case 태그들]
-draft: {question → false, error/debug → true}
+draft: true  # 모든 type 기본값, 공개 전환은 사용자 검토 후
 ---
 
 {본문: 유형에 맞게 정리, 회사 정보는 모두 일반화}
@@ -212,12 +221,13 @@ draft: {question → false, error/debug → true}
 
 ### 저장 대상
 
-다음 두 경우 모두 archive에 작성한다.
+다음 경우 모두 archive에 작성한다.
 
+0. **직접 개발·경험과 무관한 단순 질문** — archive가 기본값이므로 블로그 작성 여부를 묻지 않고 바로 archive에 작성한다 (why 질문 포함). 사용자가 블로그를 요청하면 그때 content로 작성한다
 1. **사용자가 블로그 작성을 거절한 concept 질문** — "정말 X인가?", "X vs Y 차이?", "X는 무엇?" 같은 의문을 AI가 "블로그로 작성할까?" 물었을 때 사용자가 거절한 경우
 2. **Blacklist된 순수 개념 정리(위키성)·정의 나열** — 본인의 의문이 출발점이 아니어서 블로그로 작성하지 않는 개념 질문
 
-"왜(why) X는 Y인가?" 처럼 즉시 자동 작성되는 question은 archive 대상이 아니다 (이미 블로그에 있음).
+개발 중 의문에서 나온 "왜(why) X는 Y인가?" 처럼 즉시 자동 작성되는 question은 archive 대상이 아니다 (이미 블로그에 있음).
 
 ### 저장 형식
 
@@ -266,6 +276,31 @@ draft: true
 | 길이 | 길게 (1500~3000자 권장) | 매우 길게 (3000자 이상 필수) |
 | 저장 위치 | 기술 폴더(`java/spring/`, `db/`, …) 또는 `projects/{slug}/` | `projects/{slug}/` |
 | 본문 구조 | 문제 → 옵션 비교 → 선택·근거 → 구현 핵심 → 회고 | 배경 → 요구사항 → 의사결정 흐름 → 아키텍처 → 회고 |
+
+## Log Articles (회고·기록 글)
+
+`log` type은 **겪은 일을 정리·기록**하는 글이다. 의사결정·아키텍처를 설명하는 `project`와 달리, 현장에서 무엇을 했고 무엇이 문제였고 다음엔 무엇을 챙길지를 남기는 것이 목적이다.
+
+### 작성 대상
+- 현장 작업·장기 상주·배포 작업 회고 (잘 된 점, 아쉬운 점, 다음에 챙길 것)
+- 작업 체크리스트 (준비·실행·검증 단계별 항목)
+- 트러블슈팅 모음 (여러 건의 증상·원인·해결을 한 글에 나열. 단건 심층 분석은 `error`/`debug`)
+- 작업 일지 (시간 순 진행 기록)
+
+### 작성 규칙
+- **자동 작성 X**, 사용자 요청 시에만 작성한다. 요청 시 qa-history의 관련 entry를 합성한다
+- 저장: 특정 프로젝트에 속하면 `projects/{project-slug}/`, 아니면 주제 기술 폴더
+- `draft: true`, tags 첫 항목은 `log`
+- 길이 제한 없음. 체크리스트는 체크박스(`- [ ]`), 회고는 "잘 된 점 / 아쉬운 점 / 다음에 할 것" 구조 권장
+- 일반화 규칙 동일 적용 (현장명·고객사·장비 식별 정보 제거)
+
+### project vs log 구분
+
+| 구분 | `project` | `log` |
+|---|---|---|
+| 초점 | 왜 그렇게 설계·결정했는가 | 무엇을 했고 무엇을 겪었는가 |
+| 예시 | "오프라인 설치 시스템 구축 완료" 종합 글 | 현장 상주 회고, 배포 체크리스트, 트러블슈팅 모음 |
+| 길이 | 3000자 이상 필수 | 자유 |
 
 ## Project Completion Article (Task 완료 종합 글)
 
@@ -366,7 +401,8 @@ grep -rln "\[\[FILENAME" content/ 2>/dev/null
 
 **Why**: "Concept Question Archive" 섹션의 저장 대상 #2(본인의 의문이 출발점이 아닌 순수 개념 정리·정의 나열)에 해당. 의문에서 출발하지 않은 정의·나열성 콘텐츠는 블로그 본문 가치가 낮다.
 
-**How to apply**:
-- **"왜 X는 Y인가?"** → 즉시 블로그 자동 작성 (`content/...`)
-- **"정말 X인가?", "X vs Y 차이는?"** 같은 본인 의문 출발 비교/검증 → "블로그로 작성할까?" 물어보기
+**How to apply** (출발점 기준과 함께 적용):
+- 직접 개발·경험과 무관한 단순 질문 → why 질문 포함 **묻지 말고 archive 직행**, 본문 5~20줄
+- (개발 중 의문) **"왜 X는 Y인가?"** → 즉시 블로그 자동 작성 (`content/...`, `draft: true`)
+- (개발 중 의문) **"정말 X인가?", "X vs Y 차이는?"** 같은 비교/검증 → "블로그로 작성할까?" 물어보기
 - **"X 설명", "X 종류", "X는 무엇", "X 정리"** 같은 위키성 정의·나열 → **묻지 말고 archive 직행**, 본문 5~20줄

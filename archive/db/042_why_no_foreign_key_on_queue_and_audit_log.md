@@ -1,8 +1,8 @@
 ---
 title: 왜 큐·감사 로그엔 FK가 없나
-type: question
-tags: [question, db, mariadb, mysql, innodb, foreign_key, audit_log, job_queue, lock_contention]
-draft: false
+type: archive
+tags: [archive, db, mariadb, mysql, innodb, foreign_key, audit_log, job_queue, lock_contention]
+draft: true
 ---
 
 ## 의문

@@ -1,7 +1,7 @@
 ---
 title: "폐쇄망 배포 트러블슈팅"
-type: question
-tags: [question, docker, airgapped, troubleshooting, nuxt_layer, pnpm]
+type: log
+tags: [log, docker, airgapped, troubleshooting, nuxt_layer, pnpm]
 draft: false
 ---
 

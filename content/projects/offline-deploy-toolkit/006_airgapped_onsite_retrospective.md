@@ -1,7 +1,7 @@
 ---
 title: "폐쇄망 장기 상주 회고"
-type: project
-tags: [project, airgapped, retrospective, onsite, offline_deployment, dev_environment]
+type: log
+tags: [log, airgapped, retrospective, onsite, offline_deployment, dev_environment]
 draft: false
 ---
 
