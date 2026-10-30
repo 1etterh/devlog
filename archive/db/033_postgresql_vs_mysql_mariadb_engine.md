@@ -1,17 +1,95 @@
 ---
-title: PostgreSQL vs MySQL/MariaDB 엔진 구조 비교
+title: PostgreSQL과 MySQL/MariaDB(InnoDB) 엔진 구조 비교
 type: archive
-tags: [archive, db, postgresql, mysql, mariadb, innodb, mvcc]
+tags: [archive, db, postgresql, innodb, mysql, mariadb, mvcc, storage_engine, vacuum, undo_log, wal, isolation_level]
 draft: true
 ---
 
-**Q**: PostgreSQL과 MySQL(MariaDB)은 엔진 구조가 어떻게 다른가?
+## 질문
 
-**A**:
-- 연결 모델: PG는 연결당 프로세스를 띄우므로 연결이 많으면 PgBouncer 같은 풀러가 필요하다. MySQL은 연결당 스레드를 쓴다
-- MVCC: PG는 UPDATE 때 heap에 새 튜플을 추가하고 VACUUM으로 회수한다(bloat, XID wraparound 주의). InnoDB는 행을 제자리에서 갱신하고 이전 값을 undo log에 둔 뒤 purge로 정리한다(긴 트랜잭션이 있으면 undo가 쌓임)
-- 저장 구조: InnoDB는 클러스터드 인덱스(PK가 곧 테이블)이고 보조 인덱스는 PK를 가리킨다. PG는 heap 테이블에 인덱스가 ctid를 가리키며, UPDATE 때마다 모든 인덱스를 갱신한다(HOT이면 예외)
-- 로그·복제: PG는 WAL 하나로 물리 복제와 논리 복제를 모두 한다. MySQL은 redo + undo + binlog를 2PC로 맞추고, 복제는 binlog 기반이다
-- 격리 수준: PG 기본은 RC이고 Serializable은 SSI로 구현한다. 트랜잭셔널 DDL을 지원한다. InnoDB 기본은 RR이며 gap/next-key lock을 쓰고, UPDATE는 최신값을 읽는 current read로 동작한다
+PostgreSQL과 MySQL(MariaDB)은 서로 다른 엔진을 쓰는데, 구조적으로 비교하면 어떻게 다른가?
 
-선택 기준: 복잡한 쿼리, 확장(PostGIS, pgvector, TimescaleDB), 엄격한 정합성이 필요하면 PG가 유리하다. PK 위주의 단순 OLTP, 연결이 많은 환경, binlog/Galera 생태계가 필요하면 MySQL 계열이 유리하다. MariaDB는 JSON 타입, GTID 형식, 엔진 구성이 달라서 MySQL의 드롭인 대체로 볼 수 없다.
+## 핵심: 이전 버전을 어디에 두느냐
+
+두 DB 모두 MVCC 기반이지만, **행의 이전 버전을 어디에 저장하고 언제 치우는지**가 다르다. 이 선택이 저장 구조, 인덱스, 로그, 격리 수준 동작까지 갈라놓는다.
+
+| | PostgreSQL | InnoDB |
+|---|---|---|
+| UPDATE 방식 | **새 튜플을 heap에 추가** (append) | **행을 제자리에서 갱신** (in-place) |
+| 이전 버전 위치 | 같은 테이블 heap 안 (dead tuple) | **undo log** (별도 영역) |
+| 버전 식별 | 튜플 헤더의 `xmin` / `xmax` (트랜잭션 ID) | 행의 숨은 컬럼 `DB_TRX_ID` + `DB_ROLL_PTR`(undo 포인터) |
+| 과거 버전 읽기 | heap에서 보이는 튜플을 골라 읽음 | 최신 행에서 undo 체인을 거슬러 재구성 |
+| 정리 주체 | **VACUUM** (autovacuum) | **purge 스레드** |
+
+```mermaid
+flowchart LR
+    subgraph PG["PostgreSQL: UPDATE balance=200"]
+        direction TB
+        T1["튜플 v1 (balance=100)<br/>xmin=10, xmax=20"] -.dead.-> T2["튜플 v2 (balance=200)<br/>xmin=20, xmax=0"]
+        V["VACUUM"] -->|"v1 회수"| T1
+    end
+    subgraph INNO["InnoDB: UPDATE balance=200"]
+        direction TB
+        R["행 (balance=200)<br/>DB_TRX_ID=20"] -->|"DB_ROLL_PTR"| U["undo 레코드<br/>(balance=100, trx=10)"]
+        P["purge"] -->|"undo 정리"| U
+    end
+```
+
+## 1. 저장 구조: heap vs 클러스터드 인덱스
+
+| | PostgreSQL | InnoDB |
+|---|---|---|
+| 테이블 | **heap** (순서 없는 페이지 묶음, 8KB) | **클러스터드 인덱스** = PK B+Tree의 leaf가 곧 행 (16KB) |
+| 보조 인덱스가 가리키는 것 | 물리 위치 `ctid` (페이지 번호, 슬롯) | **PK 값** |
+| 보조 인덱스 조회 | 인덱스 → heap 1회 | 보조 인덱스 → PK 인덱스 재탐색 (2번 탐색) |
+| UPDATE 시 인덱스 | 새 튜플 위치가 바뀌므로 **모든 인덱스에 새 엔트리** (HOT 예외) | 인덱스 컬럼이 바뀐 인덱스만 갱신 |
+
+**HOT(Heap-Only Tuple)**: 인덱스 컬럼이 바뀌지 않고 같은 페이지에 빈 공간이 있으면, PostgreSQL은 인덱스를 건드리지 않고 같은 페이지 안에서 튜플 체인만 잇는다.
+
+## 2. 로그와 크래시 복구
+
+| | PostgreSQL | MySQL + InnoDB |
+|---|---|---|
+| 로그 종류 | **WAL 하나** | InnoDB **redo** + **undo** + 서버 계층 **binlog** |
+| 일관성 맞추기 | WAL만 보면 됨 | redo와 binlog를 **내부 2PC**로 맞춤 |
+| torn page 방지 | `full_page_writes` | **doublewrite buffer** |
+| 복제 | WAL 스트리밍(물리), logical decoding(논리) | **binlog** 기반 |
+| 버퍼 | `shared_buffers` + OS 페이지 캐시 | `innodb_buffer_pool` 중심, 보통 `O_DIRECT`로 OS 캐시 우회 |
+
+MySQL은 **스토리지 엔진이 플러그인**이라 구조가 갈린다. binlog는 엔진과 무관한 서버 계층 로그이고 redo는 InnoDB 내부 로그라서, 둘을 맞추는 절차가 따로 필요하다. PostgreSQL은 엔진이 하나라 WAL 하나로 복구와 복제를 모두 처리한다.
+
+```mermaid
+sequenceDiagram
+    participant C as COMMIT
+    participant R as InnoDB redo
+    participant B as binlog
+    C->>R: 1. prepare (redo fsync)
+    C->>B: 2. binlog write + fsync
+    C->>R: 3. commit 마킹
+    Note over R,B: 크래시 시 binlog에 있으면 commit, 없으면 rollback
+```
+
+## 3. 격리 수준과 락
+
+| | PostgreSQL | InnoDB |
+|---|---|---|
+| 기본 격리 수준 | **READ COMMITTED** | **REPEATABLE READ** |
+| RR의 실체 | Snapshot Isolation | 일반 SELECT는 스냅샷, **UPDATE/DELETE/`FOR UPDATE`는 최신 값(current read)** |
+| RR에서 동시 UPDATE 충돌 | **에러** (`could not serialize access`) | 락 대기 후 **최신 값 기준으로 갱신** |
+| Phantom 방지 | 스냅샷 | **gap lock / next-key lock** |
+| SERIALIZABLE | **SSI** (의존성 추적 후 충돌 시 abort) | 락 기반 |
+| 행 락 저장 위치 | 튜플 헤더(`xmax`) | 메모리의 lock system |
+| DDL | **트랜잭셔널 DDL** (롤백 가능) | 암묵적 커밋 |
+
+## 4. 연결·프로세스 모델
+
+| | PostgreSQL | MySQL |
+|---|---|---|
+| 연결당 | **OS 프로세스** (fork) | **스레드** |
+| 연결 비용 | 크다 | 작다 |
+
+## 정리
+
+- **PostgreSQL**은 새 버전을 테이블에 쌓고 나중에 치운다. **InnoDB**는 제자리에서 고치고 이전 버전을 undo에 빼둔다.
+- 이 차이가 heap vs 클러스터드 인덱스, WAL 하나 vs redo+binlog 2PC, VACUUM vs purge로 이어진다.
+- 같은 `REPEATABLE READ`라도 PostgreSQL은 충돌을 에러로, InnoDB는 current read와 락으로 처리한다.
