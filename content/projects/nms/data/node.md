@@ -25,8 +25,6 @@ draft: false
 | IP 주소(ip)  | -   | 관리 IP                                          | LLDP-MIB `lldpLocManAddr` 또는 등록 값 |
 | 생성 방식(origin) | O | MANUAL(사람이 등록) / DISCOVERED(자동 발견) | 자체 정의 (링크 `origin`과 같은 값) |
 | 승인 상태(approval) | O | pending(발견됨, 승인 대기) / approved / ignored. 맵 표시·주기 수집은 **approved만** (pending은 발견 시 한 번만 조회) | 자체 정의 |
-|            |     |                                                |                                   |
-
 ### 유형(type)
 
 망 안에서 맡는 **계층·역할**이다. Cisco 3계층(Core / Distribution / Access)에 서버를 더했다.
