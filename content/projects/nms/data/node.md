@@ -23,6 +23,8 @@ draft: false
 | 유형(type)   | O   | core / dist / access / server. 범례·모양·크기        | 자체 정의 (참고: Cisco 3계층)             |
 | 상태(status) | O   | UP / WARN / DOWN / UNKNOWN. 색                  | 자체 정의 (ping·SNMP 응답)              |
 | IP 주소(ip)  | -   | 관리 IP                                          | LLDP-MIB `lldpLocManAddr` 또는 등록 값 |
+| 생성 방식(origin) | O | MANUAL(사람이 등록) / DISCOVERED(자동 발견) | 자체 정의 (링크 `origin`과 같은 값) |
+| 승인 상태(approval) | O | pending(발견됨, 승인 대기) / approved / ignored. 맵 표시·주기 수집은 **approved만** (pending은 발견 시 한 번만 조회) | 자체 정의 |
 |            |     |                                                |                                   |
 
 ### 유형(type)
@@ -50,12 +52,40 @@ draft: false
 
 | 항목                | 1순위                | 대안                                   | 비고                               |
 | ----------------- | ------------------ | ------------------------------------ | -------------------------------- |
-| 식별자(id)           | 백엔드가 등록 시 부여       | —                                    | 수집 값이 아님                         |
+| 식별자(id) | 백엔드가 노드를 만들 때 부여 (수동 등록 또는 자동 발견) | — | 수집 값이 아님. 같은 장비인지는 [중복 판별](#중복-판별)로 가린다 |
 | 이름(name)          | SNMP 폴링 `sysName`  | 수동 입력                                |                                  |
 | 유형(type)          | 수동 지정              | `sysObjectID` · `sysDescr`로 장비 종류 추정 | 망에서의 역할(코어·분배·액세스)은 장비가 알려주지 않는다 |
 | 상태(status)        | ping + SNMP 응답 여부  | —                                    | 판정 기준은 자체 정의                     |
-| IP 주소(ip)         | 등록 값(수집 대상 주소)     | LLDP `lldpLocManAddr`                | 수집하려면 이 주소를 먼저 알아야 한다            |
+| IP 주소(ip) | 등록 값(수집 대상 주소) | 자동 발견: 이웃 장비의 LLDP `lldpRemManAddr`, 대역 스캔 | 수집하려면 이 주소를 먼저 알아야 한다 |
 | 모델 · 제조사 · 일련번호   | SNMP 폴링 ENTITY-MIB | SSH CLI `show version`               |                                  |
 | 소속 사이트 · 사이트 안 위치 | 수동 지정              | `sysLocation` 참고                     | [[projects/nms/data/site#수집-방법|사이트 › 수집 방법]]     |
 
 필요한 것: 장비 SNMP 활성화와 접속 정보(v2c 커뮤니티 또는 v3 계정 — v3 권장), 수집 서버 → 장비 UDP 161 · ICMP 허용.
+
+### 등록 경로
+
+수동 등록과 자동 발견을 섞는다. 사이트·유형(역할)은 장비가 알려주지 않으므로 자동 발견한 노드도 사람이 승인하며 지정한다.
+
+```
+시드 장비 수동 등록 (코어 등)
+  → 자동 발견 (아래 방식)
+  → 발견됨: approval = pending, origin = DISCOVERED
+  → 운영자 승인: 사이트 · 유형 지정 → approved → 수집 시작
+```
+
+| 자동 발견 방식 | 어떻게 | 특징 |
+|---|---|---|
+| 이웃 따라가기 | 시드 장비의 LLDP·CDP 이웃 테이블에서 상대 관리 주소(`lldpRemManAddr`)를 얻고, 그 장비를 다시 조회하며 퍼져 나간다 | 가장 많이 쓴다. 링크도 함께 얻는다 |
+| 대역 스캔 | 지정 IP 대역에 ping + SNMP 요청, 응답하는 장비를 후보로 | LLDP 없는 장비도 찾는다. 대역을 알아야 하고 느리다 |
+| ARP · MAC 테이블 | 스위치·라우터 테이블에 보이는 주소를 후보로 | 서버·단말까지 보인다. 장비인지 따로 확인 |
+| 모르는 장비의 trap | 등록 안 된 주소에서 온 SNMP trap을 후보로 | 보조 수단 |
+
+자동 발견에도 SNMP 접속 정보가 필요하다. 미리 등록한 접속 정보 목록을 차례로 시도한다.
+
+### 중복 판별
+
+자동 발견한 장비가 이미 있는 노드인지 아래 순서로 비교한다. IP만 보면 IP가 바뀐 장비가 두 개로 잡힌다.
+
+1. 장비 고유값: LLDP `lldpLocChassisId`, ENTITY-MIB `entPhysicalSerialNum`
+2. `sysName`
+3. 관리 IP
