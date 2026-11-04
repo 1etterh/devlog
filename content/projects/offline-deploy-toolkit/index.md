@@ -34,3 +34,4 @@ offline-deploy/
 2. [[004_airgapped_deploy_troubleshooting|폐쇄망 배포 트러블슈팅]]
 3. [[005_airgapped_dev_environment_checklist|개발 환경 반입 체크리스트]]
 4. [[006_airgapped_onsite_retrospective|폐쇄망 장기 상주 회고]]
+5. [[projects/frontend-offline-deployment/index|Nuxt 프로젝트 폐쇄망 배포]] — 프론트엔드 배포 방식 시리즈

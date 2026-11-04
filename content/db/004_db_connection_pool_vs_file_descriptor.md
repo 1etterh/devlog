@@ -13,7 +13,7 @@ draft: false
 
 DB의 핵심 컴포넌트인 connection pool에 대응되는 파일 시스템 개념이 있다면, 둘이 같은 패턴이라는 뜻이고, 없다면 비유는 거기서 끝난다는 뜻이다.
 
-결론부터: **있다.** 연결(connection) 자체는 OS의 **파일 디스크립터(FD)**에, connection pool은 **"open file cache / file handle pool"**에 대응된다. 더 나아가 리눅스 관점에서는 TCP socket도 파일이라, DB connection은 진짜로 FD 하나를 점유하는 자원이다.
+결론부터: **있다.** 연결(connection) 자체는 OS의 **파일 디스크립터(FD)**([[001_file_descriptor|파일 디스크립터란]])에, connection pool은 **"open file cache / file handle pool"**에 대응된다. 더 나아가 리눅스 관점에서는 TCP socket도 파일이라, DB connection은 진짜로 FD 하나를 점유하는 자원이다.
 
 ## 매칭 표
 
