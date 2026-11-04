@@ -34,3 +34,26 @@ draft: false
 | [[projects/nms/extension|범위 밖 단위(Extension)]] | 경보, 인터페이스 계층, 구성품, 측정값, 네트워크 층 등 | RFC 8632, RFC 8343, RFC 8348 외 |
 
 출처 문서의 상태·링크와 `참고:` 문서는 [[projects/nms/standard#출처-문서|standard.md › 출처 문서]].
+
+## 데이터 관계
+
+실선 = **포함**(부모 하나에 속함, 트리), 점선 = **연결**(양 끝을 참조, 그래프).
+
+```mermaid
+flowchart TD
+  site["사이트(Site)"]
+  node["노드(Node)"]
+  iface["인터페이스(Interface)"]
+  iface2["인터페이스<br/>(다른 노드)"]
+  svc["서비스(Service)"]
+  svc2["서비스"]
+
+  site -->|"1 : N<br/>노드는 사이트 0..1"| node
+  node -->|"1 : N"| iface
+  node -->|"1 : N"| svc
+  iface -.-|"링크(Link)<br/>방향 없음"| iface2
+  svc -.->|"서비스 연결(Dependency)<br/>방향 있음"| svc2
+```
+
+- 링크·서비스 연결은 어디에도 속하지 않고 양 끝만 참조한다. 사이트 간 회선은 저장하지 않고 링크 → 인터페이스 → 노드 → 사이트로 올라가 계산한다.
+- 범위 밖: 사이트와 노드 사이에 로케이션(건물·층)·랙, 노드와 인터페이스 사이에 하드웨어 구성품이 들어갈 수 있다([[projects/nms/extension|범위 밖 단위]]).
