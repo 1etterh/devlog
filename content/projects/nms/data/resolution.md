@@ -3,9 +3,8 @@ title: "데이터 해상도(Resolution)"
 tags:
   - project
   - nms
-  - RFC2863
-  - RFC6933
-  - IEEE802-1AB
+  - RFC
+  - IEEE
   - 자체정의
 draft: false
 ---
@@ -17,10 +16,10 @@ draft: false
 | 수준 | 단위 | 링크 표현 | 현재 |
 |---|---|---|---|
 | 그룹 | [[projects/nms/data/site|사이트]] · 건물 · 층 | 묶어서(사이트 간 회선) | 사이트: 지도 표시 단위. 건물·층: 추후 |
-| 장비 | [[projects/nms/data/node|노드]] | 장비 쌍당 1개, 이중화 구분 불가 | — |
-| 인터페이스 | [[projects/nms/data/interface|인터페이스]] | 케이블당 1개, 이중화 구분 | **현재 구현** |
+| 장비 | [[projects/nms/data/topology/node|노드]] | 장비 쌍당 1개, 이중화 구분 불가 | — |
+| 인터페이스 | [[projects/nms/data/topology/interface|인터페이스]] | 케이블당 1개, 이중화 구분 | **현재 구현** |
 | LAG 멤버 | Port-channel + 멤버 | 논리 링크 1개 + 멤버 목록 | 미구현 |
-| 서비스 | [[projects/nms/data/service|서비스]] | 호출 방향 화살표 | 미구현 |
+| 서비스 | [[projects/nms/data/topology/service|서비스]] | 호출 방향 화살표 | 미구현 |
 
 **저장은 가장 잘게, 화면은 묶어서.** 잘게 저장한 것은 묶을 수 있지만 거칠게 저장한 것은 다시 쪼갤 수 없다.
 

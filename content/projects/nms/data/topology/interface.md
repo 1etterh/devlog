@@ -3,11 +3,7 @@ title: "인터페이스(Interface)"
 tags:
   - project
   - nms
-  - RFC8345
-  - RFC2863
-  - RFC4293
-  - RFC4363
-  - RFC4836
+  - RFC
 draft: false
 ---
 
@@ -44,13 +40,13 @@ draft: false
 
 ## 수집 방법
 
-| 항목 | 1순위 | 대안 | 비고 |
-|---|---|---|---|
-| 목록 · 인터페이스명 · 종류 | SNMP 폴링 IF-MIB `ifName`, `ifType` | NETCONF | `ifType`으로 물리 / 논리 구분 |
-| 관리 · 운용 상태 | SNMP 폴링 `ifAdminStatus`, `ifOperStatus` | SNMP trap linkUp / linkDown, gNMI | 폴링 + trap을 같이 쓰는 게 일반적 |
-| IP 주소 | SNMP 폴링 IP-MIB `ipAddressIfIndex` | SSH CLI | |
-| VLAN | SNMP 폴링 Q-BRIDGE-MIB `dot1qPvid` | SSH CLI | 장비마다 지원 편차 |
-| MAC 주소 · 속도 | SNMP 폴링 `ifPhysAddress`, `ifHighSpeed` | — | `ifSpeed`는 약 4.29Gbps 상한([[projects/nms/resolution|해상도]]) |
-| 매체 유형 | SNMP 폴링 MAU-MIB `ifMauType` | SSH CLI | 지원 장비 적음 |
+| 항목 | 방식 | 1순위 | 대안 | 비고 |
+|---|---|---|---|---|
+| 목록 · 인터페이스명 · 종류 | 자동 | SNMP 폴링 IF-MIB `ifName`, `ifType` | NETCONF | `ifType`으로 물리 / 논리 구분 |
+| 관리 · 운용 상태 | 자동 | SNMP 폴링 `ifAdminStatus`, `ifOperStatus` | SNMP trap linkUp / linkDown, gNMI | 폴링 + trap을 같이 쓰는 게 일반적 |
+| IP 주소 | 자동 | SNMP 폴링 IP-MIB `ipAddressIfIndex` | SSH CLI | |
+| VLAN | 자동 | SNMP 폴링 Q-BRIDGE-MIB `dot1qPvid` | SSH CLI | 장비마다 지원 편차 |
+| MAC 주소 · 속도 | 자동 | SNMP 폴링 `ifPhysAddress`, `ifHighSpeed` | — | `ifSpeed`는 약 4.29Gbps 상한([[projects/nms/data/resolution|해상도]]) |
+| 매체 유형 | 자동 | SNMP 폴링 MAU-MIB `ifMauType` | SSH CLI | 지원 장비 적음 |
 
 trap을 받으려면 장비에 수신 주소를 설정하고 수집 서버 UDP 162를 연다.

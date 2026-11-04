@@ -3,25 +3,9 @@ title: "범위 밖 단위(Extension)"
 tags:
   - project
   - nms
-  - RFC8345
-  - RFC2863
-  - RFC6933
-  - IEEE802-1AB
-  - RFC8632
-  - RFC3877
-  - RFC8343
-  - IEEE802-1AX
-  - RFC8348
-  - RFC4268
-  - RFC3433
-  - RFC8944
-  - RFC8346
-  - RFC8299
-  - RFC8466
-  - RFC9418
-  - 참고/RFC9417
-  - 참고/ITU-T-X733
-  - 참고/draft-ietf-ivy-network-inventory-yang
+  - RFC
+  - IEEE
+  - 참고
   - 자체정의
 draft: false
 ---
@@ -74,7 +58,7 @@ ENTITY-MIB의 부품 나무: 섀시 › 슬롯 › 모듈 › 포트(= 인터페
 
 ## 측정값(Metric)
 
-대상(인터페이스·구성품·노드) + 지표(바이트·오류·폐기·온도) + 시각 + 값. 링크 "트래픽"은 속성이 아니라 이 단위다. 카운터는 차이 ÷ 시간으로 속도를 구하고, 사용률 = 속도 ÷ `ifHighSpeed`. 주기·보관은 [[projects/nms/resolution|resolution.md]].
+대상(인터페이스·구성품·노드) + 지표(바이트·오류·폐기·온도) + 시각 + 값. 링크 "트래픽"은 속성이 아니라 이 단위다. 카운터는 차이 ÷ 시간으로 속도를 구하고, 사용률 = 속도 ÷ `ifHighSpeed`. 주기·보관은 [[projects/nms/data/resolution|resolution.md]].
 
 ## 네트워크(Network)
 
