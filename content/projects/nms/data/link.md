@@ -12,7 +12,7 @@ draft: false
 
 두 [[projects/nms/data/node|노드]]의 [[projects/nms/data/interface|인터페이스]]를 잇는 **물리 케이블** 한 가닥. 방향이 없고, 같은 장비 안에서는 생기지 않는다. 같은 장비 쌍이라도 인터페이스가 다르면 여러 개(이중화 회선)일 수 있다.
 
-> RFC 8345 링크는 단방향이라 케이블 하나를 2개로 표현한다. 여기서는 1개로 저장하고 방향을 없앴다([[projects/nms/data/standard|standard.md]]).
+> RFC 8345 링크는 단방향이라 케이블 하나를 2개로 표현한다. 여기서는 1개로 저장하고 방향을 없앴다([[projects/nms/standard|standard.md]]).
 
 ## 논리적 정보
 

@@ -28,9 +28,9 @@ draft: false
 | [[projects/nms/data/link|링크(Link)]] | 인터페이스 2개를 잇는 케이블 | RFC 8345, RFC 2863, IEEE 802.1AB |
 | [[projects/nms/data/service|서비스(Service)]] | 장비 위의 컨테이너·프로세스 | RFC 8345 (소속 관계만) |
 | [[projects/nms/data/dependency|서비스 연결(Dependency)]] | 서비스 → 서비스 호출 관계 | 없음 |
-| [[projects/nms/data/display|화면 정보(Display)]] | 좌표·숨김, 범례·상태 요약 | 없음 |
-| [[projects/nms/data/resolution|데이터 해상도(Resolution)]] | 얼마나 잘게·자주·정밀하게 다루는가 | RFC 2863, RFC 6933, IEEE 802.1AB |
-| [[projects/nms/data/standard|토폴로지 데이터 표준(Standard)]] | RFC 8345 구조, 출처 문서 목록, 용어 | RFC 8345 |
-| [[projects/nms/data/extension|범위 밖 단위(Extension)]] | 경보, 인터페이스 계층, 구성품, 측정값, 네트워크 층 등 | RFC 8632, RFC 8343, RFC 8348 외 |
+| [[projects/nms/display|화면 정보(Display)]] | 좌표·숨김, 범례·상태 요약 | 없음 |
+| [[projects/nms/resolution|데이터 해상도(Resolution)]] | 얼마나 잘게·자주·정밀하게 다루는가 | RFC 2863, RFC 6933, IEEE 802.1AB |
+| [[projects/nms/standard|토폴로지 데이터 표준(Standard)]] | RFC 8345 구조, 출처 문서 목록, 용어 | RFC 8345 |
+| [[projects/nms/extension|범위 밖 단위(Extension)]] | 경보, 인터페이스 계층, 구성품, 측정값, 네트워크 층 등 | RFC 8632, RFC 8343, RFC 8348 외 |
 
-출처 문서의 상태·링크와 `참고:` 문서는 [[projects/nms/data/standard#출처-문서|standard.md › 출처 문서]].
+출처 문서의 상태·링크와 `참고:` 문서는 [[projects/nms/standard#출처-문서|standard.md › 출처 문서]].
