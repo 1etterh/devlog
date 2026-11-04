@@ -1,5 +1,5 @@
 ---
-title: "03. 폐쇄망 pnpm 설치 비교"
+title: "폐쇄망 pnpm 설치 비교"
 type: implementation
 tags: [implementation, pnpm, install, windows, powershell, corepack, npm_pack, air_gapped]
 draft: false
@@ -219,6 +219,4 @@ where pnpm
 - **방법 4의 corepack은 Node.js 18~19에서 일부 환경 문제 보고가 있다.** Node.js 20 LTS 이상이 안전.
 - **여러 방법을 동시에 적용하면 충돌**할 수 있다. 한 PC에는 한 방법만 사용.
 
-설치 후 다음 챕터에서는 pnpm store를 압축 해제하고 4개 프로젝트를 오프라인으로 install·build하는 단계를 다룬다.
-
-→ [[004_offline_install_and_build|04. 오프라인 설치와 빌드]]
+← store 준비: [[004_online_preparation|pnpm store 온라인 준비]]

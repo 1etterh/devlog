@@ -1,5 +1,5 @@
 ---
-title: "02. 온라인 준비 단계"
+title: "pnpm store 온라인 준비"
 type: implementation
 tags: [implementation, pnpm, fetch, store, frozen_lockfile, tarball, offline_deployment]
 draft: false
@@ -96,7 +96,7 @@ rm -rf base-layer/node_modules \
 ```bash
 export STORE_DIR=~/pnpm/store
 
-# 1. base-layer (공유 layer, 반드시 먼저)
+# 1. base-layer
 cd base-layer
 pnpm fetch --store-dir $STORE_DIR
 
@@ -251,8 +251,7 @@ pnpm install --frozen-lockfile --offline
 
 - **fetch 순서는 의미가 없다.** install 순서는 중요하지만 fetch는 단순 다운로드이므로 어느 프로젝트부터든 OK.
 - **lockfile이 변경되면 store도 다시 굽는 게 안전하다.** lockfile-store 불일치는 폐쇄망에서 가장 흔한 실패 원인이다.
-- **store 디렉토리 자체를 압축하지 말고 그 안 내용물을 압축하라.** `-C` 옵션을 빼먹으면 폐쇄망에서 경로가 한 단계 깊어져 헤맨다.
 
-다음 챕터에서는 폐쇄망에 도착한 pnpm 실행 파일을 어떻게 설치하는지 — 4가지 방법을 비교한다.
+폐쇄망에 도착한 pnpm 실행 파일을 설치하는 방법은 다음 글에서 비교한다.
 
-→ [[003_pnpm_install_in_airgapped|03. 폐쇄망 pnpm 설치 비교]]
+→ [[005_pnpm_install_in_airgapped|폐쇄망 pnpm 설치 비교]]

@@ -5,6 +5,86 @@ tags: [log, airgapped, offline_deployment, dev_environment, checklist, docker, m
 draft: false
 ---
 
+## 반입 전 점검표
+
+반입 직전에 한 줄씩 지우며 점검한다. 항목별 이유와 명령어는 아래 본문에 있다.
+
+### 가장 먼저 (없으면 일이 멈춤)
+
+- [ ] 공식 문서 `git clone --depth 1` (프레임워크·라이브러리별)
+- [ ] Docker 기본 이미지 `docker save` (node, OpenJDK, mariadb, ubuntu)
+- [ ] 패키지 미러 (Verdaccio 또는 Nexus) + 패키지 캐시
+- [ ] 서버 OS용 git 설치 패키지 (deb/rpm 또는 정적 바이너리)
+
+### 설치 파일 (OS·CPU 아키텍처별)
+
+- [ ] 대상 PC·서버의 OS와 아키텍처 확인 (x64 / arm64)
+- [ ] Obsidian
+- [ ] IntelliJ IDEA / WebStorm / DataGrip
+- [ ] DataGrip JDBC 드라이버 jar
+- [ ] Git (개발 PC)
+- [ ] 7z
+- [ ] Node 24 LTS
+- [ ] pnpm standalone 바이너리
+- [ ] OpenJDK (프로젝트 메이저 버전)
+- [ ] Docker Desktop / 서버용 Docker Engine 패키지 (deb/rpm)
+- [ ] GitButler
+
+### 도구 설정과 플러그인
+
+#### Obsidian
+- [ ] `.obsidian/plugins/` 폴더 통째로
+- [ ] `community-plugins.json` (활성화 목록)
+- [ ] excalidraw 스크립트 폴더
+- [ ] terminal 플러그인용 Python 3 + 필요한 패키지 wheel
+
+#### VSCode
+- [ ] sftp / rsync / ssh 확장 `.vsix`
+- [ ] db / docker 확장 `.vsix`
+- [ ] 첫 실행 때 내려받는 확장은 인터넷 PC에서 한 번 실행 후 `~/.vscode/extensions/` 복사
+- [ ] `settings.json`
+- [ ] `keybindings.json`
+
+#### IntelliJ
+- [ ] Code Style 스킴 XML export
+- [ ] Maven `settings.xml` (내부 Nexus 주소로 수정)
+- [ ] Keymap / IDE 설정 export
+- [ ] MyBatis XML의 SQL language injection 설정
+- [ ] 플러그인 `.zip`
+
+### Docker
+
+- [ ] `latest` 대신 명시적인 버전 태그로 pull
+- [ ] `--platform linux/amd64` 등 서버 아키텍처 지정
+- [ ] 이미지에 Dockerfile을 함께 넣기 (`/build-info/Dockerfile`, `LABEL`)
+- [ ] `docker save | gzip`으로 압축 저장
+
+### 문서와 명령어 치트시트
+
+- [ ] Regex 검색 (`grep -rnE`, `rg`)
+- [ ] sftp (`put` / `get` / `-r`)
+- [ ] ssh (키 등록, `~/.ssh/config`, `-L` 포트 포워딩)
+- [ ] 압축 (`tar`, `split`, 7z 분할 압축)
+- [ ] bash (리다이렉트, heredoc, history expansion)
+- [ ] 환경변수 (`export`, `~/.bashrc`, Windows `setx`)
+- [ ] 안 쓰는 파일 찾기 (`find -atime`)
+- [ ] git merge 공백 무시 (`-X ignore-space-change`)
+
+### DB
+
+- [ ] 스키마 덤프 (`--no-data`, 프로시저·트리거·이벤트 포함)
+- [ ] 사용자 계정 덤프 (`--system=users`)
+- [ ] import 순서 메모 (사용자 → 스키마)
+- [ ] 원본·대상 MariaDB 버전 확인 (collation 차이)
+
+### 반입 직전
+
+- [ ] "처음 실행할 때 뭔가 내려받는" 도구는 인터넷 PC에서 한 번 실행해 봤는가
+- [ ] 반입 가능한 매체 종류 확인 (CD-R / DVD-R / RW)
+- [ ] 한 번 쓰기 매체라면 이 목록을 다시 한 번 훑고 굽기
+
+---
+
 ## 왜 이 목록이 필요한가
 
 폐쇄망에 들어가면 "그때 받아올걸" 하는 순간이 반드시 온다. 플러그인 하나, JDBC 드라이버 하나, 명령어 옵션 하나가 없어서 작업이 멈춘다. 인터넷이 안 되니 마켓플레이스·패키지 레지스트리·공식 문서 사이트 모두 쓸 수 없다.
@@ -17,6 +97,8 @@ draft: false
 | **Exe** (설치 파일) | IDE, Git, 런타임, Docker Desktop 등 | **대상 PC의 OS·CPU 아키텍처별로** 가져간다 |
 | **Docs** (문서) | 공식 문서 clone, 자주 쓰는 명령어 치트시트 | 검색이 안 되니 **로컬에서 열람 가능한 형태로** |
 | **DB 덤프** | 스키마·사용자 계정 export/import | 명령어를 **검증된 형태로** 들고 간다 |
+
+> 실제로 몇 달 상주해 보니, 이 중 **없으면 일이 멈추는** 것은 세 가지였다. **공식 문서**, **Docker 기본 이미지**, **패키지 미러**. 나머지는 없으면 불편한 정도다. 시간이 부족하면 이 셋부터 챙긴다.
 
 ```mermaid
 flowchart LR
@@ -97,6 +179,27 @@ flowchart LR
 | 패키지 미러 | **Verdaccio** — 폐쇄망 PC끼리 npm/pnpm 패키지를 공유하는 경량 레지스트리 |
 | 범용 저장소 | **Nexus** — Maven·npm·Docker 등 여러 포맷을 한 서버에서 호스팅 |
 
+**기본 이미지가 필요한 순간**
+
+- **새 이미지를 만들 때**: `FROM`에 쓸 베이스 이미지가 내부에 없으면 빌드 자체가 안 된다.
+- **반영 전 테스트할 때**: 운영에 올리기 전에 같은 구성을 로컬에서 띄워 봐야 한다.
+
+인터넷이 되면 `docker pull` 한 줄이면 되는 일이다. 폐쇄망에서는 `docker save`로 저장한 tar가 없으면 그 자리에서 막힌다. 버전 태그를 명시하고, 서버의 CPU 아키텍처(amd64 등)에 맞춰 받아간다. 방법은 아래 "이미지를 버전별로 저장·복원" 참고.
+
+**store 압축 반입 vs 패키지 미러**
+
+상주 전에는 pnpm store를 통째로 압축해 가져가는 방식을 택했다. 정해진 프로젝트를 설치하는 데는 충분했지만, 상주 중에 계속 개발하려니 한계가 분명했다.
+
+| | store 압축 반입 | 패키지 미러 (Verdaccio / Nexus) |
+|---|---|---|
+| 준비 | 프로젝트별로 store를 만들어 압축 | 미러 서버 + 패키지 캐시를 반입 |
+| 의존성 추가 | ❌ 새 패키지를 넣으려면 다시 반입해야 함 | ✅ 캐시에 있으면 바로 설치 |
+| 여러 PC 공유 | 매번 압축 파일을 복사 | 레지스트리 주소만 맞추면 됨 |
+| OS별 바이너리 | 준비할 때 대상 OS를 빠뜨리면 누락 | 같은 문제는 있지만 관리 지점이 한 곳 |
+| 적합한 경우 | 고정된 프로젝트 1회 설치 | 내부에서 계속 개발하는 경우 |
+
+store를 만든 OS와 대상 OS가 달라서 native 바이너리가 빠지거나, 빌드할 때 외부 폰트 서버로 요청을 보내는 문제는 **"한 번 담아서 가져가는"** 방식에서 특히 치명적이다. 내부에서 개발이 계속되는 상주라면 처음부터 미러를 구성해 가는 쪽이 맞다.
+
 **Verdaccio vs Nexus**
 
 | | Verdaccio | Nexus Repository |
@@ -157,7 +260,8 @@ docker load -i mariadb_11.4.tar.gz
 |---|---|
 | Obsidian | |
 | IntelliJ IDEA, WebStorm, DataGrip | 플러그인 `.zip` + **DataGrip JDBC 드라이버**도 따로. DataGrip은 처음 연결할 때 드라이버를 내려받으므로, 폐쇄망에서는 드라이버 jar를 직접 지정해야 한다 |
-| Git | |
+| Git (개발 PC) | |
+| Git (서버) | 서버 OS용 설치 패키지(deb/rpm) 또는 정적 바이너리. 반영 디렉토리에서 `git init` 후 반영할 때마다 커밋만 해도 롤백 지점이 생긴다. 안 가져갔다가 고생한 이야기는 [[010_airgapped_onsite_retrospective|상주 회고]] 참고 |
 | 7z | 대용량 분할 압축용 |
 | Node 24 | LTS 버전으로 |
 | pnpm | standalone 바이너리 권장. corepack으로 쓰려면 pnpm을 미리 캐시해 둬야 한다 |
@@ -171,7 +275,7 @@ docker load -i mariadb_11.4.tar.gz
 
 ### 공식 문서 clone
 
-대부분의 오픈소스 공식 문서는 GitHub 저장소에 **Markdown으로** 관리된다. 용량도 크지 않다. `git clone --depth 1`로 받아 Obsidian vault 안에 두면, omnisearch로 오프라인 검색까지 된다.
+대부분의 오픈소스 공식 문서는 GitHub 저장소에 **Markdown으로** 관리된다. 용량도 크지 않다. `git clone --depth 1`로 받아 Obsidian vault 안에 두면, omnisearch로 오프라인 검색까지 된다. 상주해 보니 **가장 가성비가 좋은 준비물**이었다.
 
 ### 명령어 치트시트
 
@@ -256,15 +360,13 @@ docker exec -i mariadb mariadb -uroot -p'<password>' < ./db.sql
 
 ---
 
-## 회고
+## 정리
 
-- 폐쇄망 준비의 본질은 **"인터넷이 하던 일을 파일로 대체하는 것"**이다. 플러그인 스토어 → 플러그인 폴더, 패키지 레지스트리 → Verdaccio/Nexus, 공식 문서 사이트 → git clone, 검색 엔진 → omnisearch.
+- 인터넷이 하던 일을 파일로 바꿔 가져간다: 플러그인 스토어 → 플러그인 폴더, 패키지 레지스트리 → Verdaccio/Nexus, 공식 문서 사이트 → git clone, 검색 엔진 → omnisearch.
 - 가장 자주 빠뜨리는 건 **"처음 실행할 때 뭔가를 내려받는 것"**들이다. DataGrip 드라이버, VSCode 확장의 언어 서버, terminal 플러그인의 Python 의존성. 인터넷 PC에서 **한 번 실행까지 해본 상태**로 가져가는 게 안전하다.
 - Docker 이미지는 버전 태그와 Dockerfile을 함께 남겨야 나중에 재현할 수 있다.
 - 남은 숙제: excalidraw 자동 정렬 스크립트, terminal 플러그인 python3 spawn 에러 원인 확정.
 
 ## 관련 글
 
-- [[003_airgapped_deploy_checklist|폐쇄망 배포 체크리스트]] — 서비스 배포 관점의 체크리스트
-- [[004_airgapped_deploy_troubleshooting|폐쇄망 배포 트러블슈팅]] — 서비스 배포 중 겪은 문제들
-- [[projects/frontend-offline-deployment/005_docker_image_options|05. Docker 이미지 옵션]]
+- [[002_airgapped_deploy_checklist|배포 준비물 체크리스트]] — 서비스 배포 관점의 체크리스트
