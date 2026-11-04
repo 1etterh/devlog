@@ -14,7 +14,9 @@ draft: false
 
 > RFC 8345 링크는 단방향이라 케이블 하나를 2개로 표현한다. 여기서는 1개로 저장하고 방향을 없앴다([[projects/nms/standard|standard.md]]).
 
-## 논리적 정보
+## 정보
+
+### 논리적 정보
 
 | 항목 | 필수 | 용도 | 출처 |
 |---|---|---|---|
@@ -22,7 +24,7 @@ draft: false
 | 상태(status) | O | 선 색, DOWN은 파선 | 자체 정의 (양 끝 IF-MIB `ifOperStatus`) |
 | 생성 방식(origin) | O | DISCOVERED / MANUAL. 수동은 점선, 삭제 가능 | 자체 정의 |
 
-## 물리적 정보
+### 물리적 정보
 
 | 항목 | 필수 | 용도 | 출처 |
 |---|---|---|---|

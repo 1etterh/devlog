@@ -11,7 +11,9 @@ draft: false
 
 장비 위에서 도는 docker 컨테이너·프로세스. 물리 맵이 아니라 서비스 맵에 그린다. 공식 표준이 없어 Docker Engine API를 참고한다.
 
-## 논리적 정보
+## 정보
+
+### 논리적 정보
 
 | 항목 | 필수 | 용도 | 출처 |
 |---|---|---|---|
@@ -21,7 +23,7 @@ draft: false
 | 상태(status) | O | UP / WARN / DOWN / UNKNOWN. 헬스체크 | 자체 정의 (참고: Docker `State.Status`, `State.Health.Status`) |
 | 서비스 포트(listenPorts) | - | TCP 5432 등. 장비 인터페이스와 다른 개념 | 참고: Docker `NetworkSettings.Ports` |
 
-## 물리적 정보
+### 물리적 정보
 
 | 항목 | 필수 | 용도 | 출처 |
 |---|---|---|---|

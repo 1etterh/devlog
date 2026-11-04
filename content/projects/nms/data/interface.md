@@ -15,7 +15,9 @@ draft: false
 
 > IF-MIB 인터페이스 테이블에는 Vlan10(SVI)·Port-channel1(LAG)·Loopback0 같은 논리 인터페이스도 섞여 나온다. 맵 링크에는 물리 포트만 쓰고 `ifType`으로 구분한다.
 
-## 식별 정보
+## 정보
+
+### 식별 정보
 
 | 항목 | 필수 | 용도 | 출처 |
 |---|---|---|---|
@@ -23,7 +25,7 @@ draft: false
 | 소속 장비(nodeId) | O | 어느 노드의 인터페이스인지 | RFC 8345 (termination-point ⊂ node) |
 | 인터페이스명(ifName) | O | Gi1/0/1 등. 링크 라벨, 포트 선택 | IF-MIB `ifName` |
 
-## 논리적 정보
+### 논리적 정보
 
 | 항목 | 필수 | 용도 | 출처 |
 |---|---|---|---|
@@ -32,7 +34,7 @@ draft: false
 | 관리 상태(adminStatus) | - | 관리자가 끈 포트 구분 | IF-MIB `ifAdminStatus` |
 | 운용 상태(operStatus) | - | 링크 상태 판정 근거 | IF-MIB `ifOperStatus` |
 
-## 물리적 정보
+### 물리적 정보
 
 | 항목 | 필수 | 용도 | 출처 |
 |---|---|---|---|

@@ -10,7 +10,9 @@ draft: false
 
 한 [[projects/nms/data/service|서비스]]가 다른 서비스를 호출하는 관계(mgr → api → db). **방향이 있고** 같은 장비 안에서도 생긴다. 물리 [[projects/nms/data/link|링크]]와 별개다. 공식 표준이 없어 자체 정의, 필드 이름은 OpenTelemetry 참고.
 
-## 논리적 정보
+## 정보
+
+### 논리적 정보
 
 | 항목 | 필수 | 용도 | 출처 |
 |---|---|---|---|
