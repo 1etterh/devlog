@@ -39,15 +39,7 @@ flowchart LR
 
 ## 수집 방식
 
-| 방식 | 방향 | 무엇을 | 특징 |
-|---|---|---|---|
-| 폴링(polling) | NMS → 장비 | 측정값(SNMP GET, ping) | 주기마다 묻는다. 주기 사이의 변화는 놓칠 수 있다 |
-| trap · inform | 장비 → NMS | 이벤트 | 일이 생기면 바로 보낸다. UDP라 잃어버릴 수 있어 폴링으로 보완한다(inform은 응답을 받는다) |
-| syslog | 장비 → NMS | 이벤트(로그 문장) | 형식이 제조사마다 달라 파싱 규칙이 필요하다 |
-| 스트리밍 텔레메트리 | 장비 → NMS | 측정값 | gNMI 등. 장비가 정해진 주기로 밀어준다. 최신 장비만 지원 |
-| 에이전트 | 서버 → NMS | 서버 측정값 | SNMP로 안 나오는 값(프로세스, 컨테이너). 서버에 프로그램을 깔아야 한다 |
-
-주기·보관 기간은 [[cs/network/nms/data/resolution|데이터 해상도]].
+측정값은 주로 **폴링**(NMS가 묻기: SNMP, ping)과 **텔레메트리**(장비가 보내기: gNMI)로, 이벤트는 **trap · syslog**(장비가 보내기)로 받는다. 서버는 에이전트를 쓰기도 한다. 방식 목록과 방향(pull / push) 비교는 [[cs/network/nms/collection/index|수집]], 주기 · 보관 기간은 [[cs/network/nms/data/resolution|데이터 해상도]].
 
 ## 출처 문서
 

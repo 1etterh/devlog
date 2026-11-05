@@ -8,7 +8,7 @@ tags:
 draft: false
 ---
 
-NMS와 장비가 주고받는 통신. [[cs/network/nms/data/topology/index|토폴로지]]와 [[cs/network/nms/data/monitoring/index|감시]]가 같은 경로를 쓰므로 한곳에 정리한다.
+NMS와 장비가 주고받는 통신. [[cs/network/nms/data/topology/index|토폴로지]]와 [[cs/network/nms/data/monitoring/index|감시]]가 같은 경로를 쓰므로 한곳에 정리한다. 수집 방법 자체는 [[cs/network/nms/collection/index|수집]].
 
 ## SNMP
 
