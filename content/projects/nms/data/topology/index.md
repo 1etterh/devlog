@@ -101,9 +101,7 @@ IETF 표준 트랙 RFC, IEEE 표준, ITU-T 권고만 둔다.
 | LAG | Link Aggregation Group | 여러 링크를 하나로 묶은 것 (Port-channel) |
 | VLAN | Virtual LAN (Local Area Network) | 스위치 안의 논리 네트워크 |
 | SVI | Switched Virtual Interface | VLAN에 IP를 주는 논리 인터페이스 |
-| L2 | Layer 2 (데이터 링크 계층) | MAC(Media Access Control) 주소로 전달 ([[cs/network/001_osi_layers|OSI 7계층과 TCP/IP 4계층]]) |
-| L3 | Layer 3 (네트워크 계층) | IP(Internet Protocol) 주소로 전달 |
-| L4 | Layer 4 (전송 계층) | TCP(Transmission Control Protocol)·UDP(User Datagram Protocol) 포트 |
+| L2 / L3 / L4 | Layer 2 / 3 / 4 (데이터 링크 / 네트워크 / 전송 계층) | MAC(Media Access Control) 주소 / IP(Internet Protocol) 주소 / TCP(Transmission Control Protocol)·UDP(User Datagram Protocol) 포트로 전달 ([[cs/network/001_osi_layers|OSI 7계층과 TCP/IP 4계층]]) |
 | `if` | interface | IF-MIB 항목 접두어 |
 | `ifHC` | interface High Capacity | IF-MIB 64비트 카운터 |
 | `ent` | entity | ENTITY-MIB 항목 접두어 |
