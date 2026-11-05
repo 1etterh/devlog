@@ -113,3 +113,21 @@ IETF 표준 트랙 RFC, IEEE 표준, ITU-T 권고만 둔다.
 | Admin             | Administrative                                                                   | 관리자가 정한 상태                                                                                                                      |
 | Oper              | Operational                                                                      | 실제 동작 상태                                                                                                                        |
 | Octets            | —                                                                                | 바이트                                                                                                                             |
+
+## 인터페이스 이름 읽는 법
+
+포트 이름은 **종류 + 위치 번호**다. IF-MIB `ifName`은 짧은 이름(`Gi1/0/1`), `ifDescr`는 긴 이름(`GigabitEthernet1/0/1`).
+
+Cisco `Gi1/0/1` = 1번 스위치(스택 멤버) / 모듈 0(본체) / 1번 포트의 기가비트 포트. 스택이 없는 장비는 `Gi0/1`처럼 두 칸이다.
+
+| 접두어 | 전체 이름 | 최대 속도 |
+|---|---|---|
+| `Fa` | FastEthernet | 100M |
+| `Gi` | GigabitEthernet | 1G |
+| `Te` | TenGigabitEthernet | 10G |
+| `Twe` | TwentyFiveGigE | 25G |
+| `Fo` | FortyGigabitEthernet | 40G |
+| `Hu` | HundredGigE | 100G |
+
+- 접두어는 포트의 **최대** 속도다. 실제 연결 속도는 `ifHighSpeed`로 본다.
+- 다른 장비: Juniper `ge-0/0/1`(라인카드 / 서브카드 / 포트), Linux `enp3s0`(en = 이더넷, PCI 버스 3, 슬롯 0)·`eth0`. 논리 인터페이스는 `Vlan10`, `Port-channel1`, `Loopback0`처럼 이름이 곧 종류다.
