@@ -1,0 +1,311 @@
+{
+	"nodes": [
+		{
+			"id": "g-legend",
+			"type": "group",
+			"label": "범례 — 포스트잇 색",
+			"x": 0,
+			"y": 0,
+			"width": 1960,
+			"height": 260
+		},
+		{
+			"id": "g-steps",
+			"type": "group",
+			"label": "진행 순서",
+			"x": 0,
+			"y": 320,
+			"width": 520,
+			"height": 700
+		},
+		{
+			"id": "g-flow",
+			"type": "group",
+			"label": "흐름 템플릿 — 왼쪽 → 오른쪽 = 시간",
+			"x": 560,
+			"y": 320,
+			"width": 1400,
+			"height": 700
+		},
+		{
+			"id": "g-board",
+			"type": "group",
+			"label": "보드 — 여기에 붙이기 (핵심 이벤트마다 구간을 나눈다)",
+			"x": 0,
+			"y": 1080,
+			"width": 1960,
+			"height": 520
+		},
+		{
+			"id": "lane-0",
+			"type": "group",
+			"label": "구간 1 — (핵심 이벤트 이름)",
+			"x": 20,
+			"y": 1120,
+			"width": 620,
+			"height": 460
+		},
+		{
+			"id": "lane-1",
+			"type": "group",
+			"label": "구간 2 — (핵심 이벤트 이름)",
+			"x": 670,
+			"y": 1120,
+			"width": 620,
+			"height": 460
+		},
+		{
+			"id": "lane-2",
+			"type": "group",
+			"label": "구간 3 — (핵심 이벤트 이름)",
+			"x": 1320,
+			"y": 1120,
+			"width": 620,
+			"height": 460
+		},
+		{
+			"id": "lg-event",
+			"type": "text",
+			"text": "**도메인 이벤트**\n일어난 사실. **과거형**\n예: 주문 생성됨",
+			"x": 20,
+			"y": 60,
+			"width": 220,
+			"height": 180,
+			"color": "#FFA94D"
+		},
+		{
+			"id": "lg-command",
+			"type": "text",
+			"text": "**커맨드**\n이벤트를 일으키는 요청·결정\n예: 주문하기",
+			"x": 260,
+			"y": 60,
+			"width": 220,
+			"height": 180,
+			"color": "#4DABF7"
+		},
+		{
+			"id": "lg-actor",
+			"type": "text",
+			"text": "**액터**\n커맨드를 내리는 사람·역할\n예: 고객",
+			"x": 500,
+			"y": 60,
+			"width": 220,
+			"height": 180,
+			"color": "#FFE066"
+		},
+		{
+			"id": "lg-aggregate",
+			"type": "text",
+			"text": "**애그리거트**\n커맨드를 받아 규칙을 지키고 이벤트를 내는 단위\n예: 주문",
+			"x": 740,
+			"y": 60,
+			"width": 220,
+			"height": 180,
+			"color": "#FFF3BF"
+		},
+		{
+			"id": "lg-policy",
+			"type": "text",
+			"text": "**정책**\n\"~하면 ~한다\" 자동 반응\n예: 결제 완료되면 배송 요청",
+			"x": 980,
+			"y": 60,
+			"width": 220,
+			"height": 180,
+			"color": "#B197FC"
+		},
+		{
+			"id": "lg-read",
+			"type": "text",
+			"text": "**읽기 모델**\n결정에 필요한 화면·조회 정보\n예: 장바구니 화면",
+			"x": 1220,
+			"y": 60,
+			"width": 220,
+			"height": 180,
+			"color": "#8CE99A"
+		},
+		{
+			"id": "lg-external",
+			"type": "text",
+			"text": "**외부 시스템**\n우리가 통제하지 않는 것\n예: 결제 대행사(PG), 메일",
+			"x": 1460,
+			"y": 60,
+			"width": 220,
+			"height": 180,
+			"color": "#F783AC"
+		},
+		{
+			"id": "lg-hotspot",
+			"type": "text",
+			"text": "**핫스팟**\n질문·충돌·모르는 것\n예: 재고가 없으면?",
+			"x": 1700,
+			"y": 60,
+			"width": 220,
+			"height": 180,
+			"color": "#FF6B6B"
+		},
+		{
+			"id": "steps",
+			"type": "text",
+			"text": "1. **이벤트 쏟아내기** — 도메인에서 일어나는 일을 주황 포스트잇에 과거형으로 전부 적는다\n2. **시간순 정렬** — 왼쪽 → 오른쪽으로 놓고, 중복은 합친다\n3. **핵심 이벤트로 구간 나누기** — 흐름이 바뀌는 이벤트에서 세로선을 긋는다\n4. **커맨드·액터 붙이기** — 이벤트마다 \"누가, 무엇을 해서\"를 앞에 둔다\n5. **정책 찾기** — \"이벤트가 나면 자동으로 다음 커맨드\"인 곳에 보라색\n6. **읽기 모델·외부 시스템** — 결정에 필요한 정보, 바깥 시스템을 붙인다\n7. **애그리거트 묶기** — 같은 규칙을 지키는 커맨드·이벤트를 노란 큰 포스트잇 아래로 모은다\n8. **핫스팟 표시** — 막히거나 의견이 갈리는 곳에 빨간색, 끝나고 따로 정리",
+			"x": 20,
+			"y": 360,
+			"width": 480,
+			"height": 640
+		},
+		{
+			"id": "f-read",
+			"type": "text",
+			"text": "**읽기 모델**\n(액터가 보고 판단하는 정보)",
+			"x": 580,
+			"y": 380,
+			"width": 220,
+			"height": 120,
+			"color": "#8CE99A"
+		},
+		{
+			"id": "f-actor",
+			"type": "text",
+			"text": "**액터**\n(누가)",
+			"x": 580,
+			"y": 560,
+			"width": 160,
+			"height": 90,
+			"color": "#FFE066"
+		},
+		{
+			"id": "f-cmd",
+			"type": "text",
+			"text": "**커맨드**\n(무엇을 요청하나)",
+			"x": 840,
+			"y": 540,
+			"width": 220,
+			"height": 120,
+			"color": "#4DABF7"
+		},
+		{
+			"id": "f-agg",
+			"type": "text",
+			"text": "**애그리거트**\n(누가 규칙을 지키나)",
+			"x": 1100,
+			"y": 520,
+			"width": 240,
+			"height": 160,
+			"color": "#FFF3BF"
+		},
+		{
+			"id": "f-ext",
+			"type": "text",
+			"text": "**외부 시스템**\n(바깥에서 들어오는 것)",
+			"x": 1100,
+			"y": 740,
+			"width": 240,
+			"height": 120,
+			"color": "#F783AC"
+		},
+		{
+			"id": "f-evt",
+			"type": "text",
+			"text": "**도메인 이벤트**\n(무슨 일이 일어났나 — 과거형)",
+			"x": 1380,
+			"y": 540,
+			"width": 220,
+			"height": 120,
+			"color": "#FFA94D"
+		},
+		{
+			"id": "f-pol",
+			"type": "text",
+			"text": "**정책**\n(이벤트가 나면 자동으로)",
+			"x": 1640,
+			"y": 540,
+			"width": 220,
+			"height": 120,
+			"color": "#B197FC"
+		},
+		{
+			"id": "f-cmd2",
+			"type": "text",
+			"text": "**다음 커맨드**",
+			"x": 1640,
+			"y": 740,
+			"width": 220,
+			"height": 100,
+			"color": "#4DABF7"
+		},
+		{
+			"id": "f-hot",
+			"type": "text",
+			"text": "**핫스팟**\n(여기서 막힌 것)",
+			"x": 1380,
+			"y": 360,
+			"width": 220,
+			"height": 110,
+			"color": "#FF6B6B"
+		}
+	],
+	"edges": [
+		{
+			"id": "e1",
+			"fromNode": "f-read",
+			"fromSide": "bottom",
+			"toNode": "f-actor",
+			"toSide": "top",
+			"label": "보고 판단"
+		},
+		{
+			"id": "e2",
+			"fromNode": "f-actor",
+			"fromSide": "right",
+			"toNode": "f-cmd",
+			"toSide": "left",
+			"label": "내린다"
+		},
+		{
+			"id": "e3",
+			"fromNode": "f-cmd",
+			"fromSide": "right",
+			"toNode": "f-agg",
+			"toSide": "left",
+			"label": "받는다"
+		},
+		{
+			"id": "e4",
+			"fromNode": "f-agg",
+			"fromSide": "right",
+			"toNode": "f-evt",
+			"toSide": "left",
+			"label": "낸다"
+		},
+		{
+			"id": "e5",
+			"fromNode": "f-ext",
+			"fromSide": "right",
+			"toNode": "f-evt",
+			"toSide": "bottom",
+			"label": "일으킨다"
+		},
+		{
+			"id": "e6",
+			"fromNode": "f-evt",
+			"fromSide": "right",
+			"toNode": "f-pol",
+			"toSide": "left",
+			"label": "반응"
+		},
+		{
+			"id": "e7",
+			"fromNode": "f-pol",
+			"fromSide": "bottom",
+			"toNode": "f-cmd2",
+			"toSide": "top",
+			"label": "실행"
+		},
+		{
+			"id": "e8",
+			"fromNode": "f-hot",
+			"fromSide": "bottom",
+			"toNode": "f-evt",
+			"toSide": "top"
+		}
+	]
+}
