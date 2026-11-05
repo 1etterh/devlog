@@ -76,15 +76,40 @@ IETF 표준 트랙 RFC, IEEE 표준, ITU-T 권고만 둔다.
 
 | 용어 | 풀이 | 뜻 |
 |---|---|---|
-| RFC / IETF | Request for Comments / Internet Engineering Task Force | 인터넷 표준 문서 / 그 문서를 만드는 표준화 기구 |
-| IEEE / ITU-T | Institute of Electrical and Electronics Engineers / International Telecommunication Union – Telecommunication Standardization Sector | 이더넷·LLDP 표준 기구 / 국제전기통신연합 통신표준화 부문 |
-| SNMP / MIB / trap | Simple Network Management Protocol / Management Information Base / — | 장비 정보를 읽는 프로토콜 / 읽을 수 있는 항목 정의 / 장비가 먼저 보내는 알림 |
-| LLDP (CDP) | Link Layer Discovery Protocol (Cisco Discovery Protocol) | 장비끼리 "내 몇 번 포트에 누가 붙어 있다"를 주고받는 표준 (시스코 전용판) |
-| YANG / gNMI | Yet Another Next Generation / gRPC Network Management Interface | 네트워크 데이터 모델 언어 / 장비가 데이터를 계속 보내는 스트리밍 방식 |
+| RFC | Request for Comments | 인터넷 표준 문서 |
+| IETF | Internet Engineering Task Force | RFC를 만드는 표준화 기구 |
+| IEEE | Institute of Electrical and Electronics Engineers | 이더넷·LLDP 표준 기구 |
+| ITU-T | International Telecommunication Union – Telecommunication Standardization Sector | 국제전기통신연합 통신표준화 부문 |
+| SNMP | Simple Network Management Protocol | 장비 정보를 읽는 프로토콜 |
+| MIB | Management Information Base | SNMP로 읽을 수 있는 항목 정의 |
+| trap | — | 장비가 먼저 보내는 SNMP 알림 |
+| SNMPv2-MIB | SNMP version 2 MIB | 장비 기본 정보(`sysName`, `sysLocation`, `sysObjectID`). RFC 3418 |
+| IF-MIB | Interfaces MIB | 포트 목록·상태·속도·트래픽 카운터. RFC 2863 |
+| IP-MIB | Internet Protocol MIB | 인터페이스 IP 주소, ARP 테이블. RFC 4293 |
+| ENTITY-MIB | Entity MIB | 물리 구성품(섀시·모듈·포트)과 모델·제조사·일련번호. RFC 6933 |
+| ENTITY-STATE-MIB | Entity State MIB | 구성품의 운용·경보 상태. RFC 4268 |
+| ENTITY-SENSOR-MIB | Entity Sensor MIB | 온도·전압 등 센서 값. RFC 3433 |
+| LLDP-MIB | Link Layer Discovery Protocol MIB | 내 장비·이웃 장비 정보(링크 양 끝). IEEE 802.1AB |
+| BRIDGE-MIB | Bridge MIB | 스위치 MAC 주소 테이블(어느 포트에 어떤 MAC). RFC 4188 |
+| Q-BRIDGE-MIB | IEEE 802.1Q (VLAN) Bridge MIB | VLAN 정보, VLAN별 MAC 테이블. RFC 4363 |
+| MAU-MIB | Medium Attachment Unit MIB | 포트 매체 유형(구리·광). RFC 4836 |
+| LLDP | Link Layer Discovery Protocol | 장비끼리 "내 몇 번 포트에 누가 붙어 있다"를 주고받는 표준 |
+| CDP | Cisco Discovery Protocol | LLDP의 시스코 전용판 |
+| YANG | Yet Another Next Generation | 네트워크 데이터 모델 언어 |
+| gNMI | gRPC Network Management Interface | 장비가 데이터를 계속 보내는 스트리밍 방식 |
 | SDN | Software-Defined Networking | 컨트롤러가 망 설정을 중앙에서 프로그램으로 제어하는 방식 |
 | LAG | Link Aggregation Group | 여러 링크를 하나로 묶은 것 (Port-channel) |
-| VLAN / SVI | Virtual LAN (Local Area Network) / Switched Virtual Interface | 스위치 안의 논리 네트워크 / VLAN에 IP를 주는 논리 인터페이스 |
-| L2 / L3 / L4 | Layer 2 / 3 / 4 (MAC = Media Access Control, IP = Internet Protocol, TCP · UDP = Transmission Control · User Datagram Protocol) | MAC / IP / TCP·UDP 포트 계층 ([[cs/network/001_osi_layers|OSI 7계층과 TCP/IP 4계층]]) |
-| `if` · `ifHC` · `ent` · `lldpLoc`·`lldpRem` · `tp` | interface · interface High Capacity · entity · LLDP local · LLDP remote · termination point | IF-MIB · 64비트 카운터 · ENTITY-MIB · LLDP 내 장비·상대 장비 · RFC 8345 termination point |
-| Admin / Oper | Administrative / Operational | 관리자가 정한 상태 / 실제 동작 상태 |
+| VLAN | Virtual LAN (Local Area Network) | 스위치 안의 논리 네트워크 |
+| SVI | Switched Virtual Interface | VLAN에 IP를 주는 논리 인터페이스 |
+| L2 | Layer 2 (데이터 링크 계층) | MAC(Media Access Control) 주소로 전달 ([[cs/network/001_osi_layers|OSI 7계층과 TCP/IP 4계층]]) |
+| L3 | Layer 3 (네트워크 계층) | IP(Internet Protocol) 주소로 전달 |
+| L4 | Layer 4 (전송 계층) | TCP(Transmission Control Protocol)·UDP(User Datagram Protocol) 포트 |
+| `if` | interface | IF-MIB 항목 접두어 |
+| `ifHC` | interface High Capacity | IF-MIB 64비트 카운터 |
+| `ent` | entity | ENTITY-MIB 항목 접두어 |
+| `lldpLoc` | LLDP local | LLDP-MIB의 내 장비 정보 |
+| `lldpRem` | LLDP remote | LLDP-MIB의 상대 장비 정보 |
+| `tp` | termination point | RFC 8345의 연결 끝점(= 인터페이스) |
+| Admin | Administrative | 관리자가 정한 상태 |
+| Oper | Operational | 실제 동작 상태 |
 | Octets | — | 바이트 |
