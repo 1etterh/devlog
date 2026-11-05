@@ -1,7 +1,7 @@
 ---
 title: 패킷은 NIC에서 프로세스까지 어떻게 가나?
 type: question
-tags: [question, network, nic, kernel, packet]
+tags: [question, network, nic, kernel, packet, serialization]
 draft: false
 ---
 
@@ -40,5 +40,23 @@ Docker 컨테이너라면 물리 포트(`eth0`) → 논리 포트(`docker0` → 
 - RSS(Receive Side Scaling): IP·포트로 해시를 만들어 패킷을 여러 CPU 큐로 나눈다.
 - 체크섬 오프로드: TCP/UDP 체크섬을 NIC가 대신 계산한다.
 - SmartNIC / DPU: 방화벽·로드밸런싱까지 카드에서 처리한다(예외적인 경우).
+
+## 보낼 때: 객체 → 바이트 → 비트
+
+보내는 쪽은 수신 과정을 거꾸로 밟는다. 그 전에 앱이 한 단계를 더 거친다.
+
+```
+객체 ──직렬화(앱)──> 바이트(octet) ──TCP/IP(커널)──> 패킷 ──NIC──> 케이블 위 비트(bps)
+```
+
+| 경계 | 바뀌는 것 | 담당 |
+|---|---|---|
+| 프로세스 메모리 ↔ 밖 | 객체 ↔ 바이트 | 직렬화 (Java `Serializable`, JSON, Protobuf) |
+| 컴퓨터 ↔ 케이블 | 바이트 ↔ 비트 | NIC |
+
+- 메모리의 객체는 필드끼리 **메모리 주소(참조)**로 이어져 있다. 이 주소는 그 프로세스 안에서만 의미가 있으므로, 밖으로 보내려면 참조를 따라가 값을 꺼내 바이트 한 줄로 편다. 이게 **직렬화**다.
+- 그래서 경계는 "컴퓨터"가 아니라 **프로세스**다. 같은 컴퓨터라도 파일 저장, 다른 프로세스로 전달하려면 직렬화가 필요하다. 같은 JVM 안에서는 참조만 넘기므로 필요 없다.
+- 바이트 단위인 이유: 메모리 주소가 가리키는 최소 단위가 1바이트이고, 파일·소켓 같은 OS 입출력 API(`write(fd, buf, len)`)가 모두 바이트 배열을 주고받는다.
+- Java `Serializable`은 메서드가 없는 표시용 인터페이스(marker interface)로, "기본 방식으로 직렬화해도 된다"는 허락만 뜻한다. 보안 문제(역직렬화 취약점)와 Java 전용 형식이라는 점 때문에 요즘은 JSON·Protobuf를 더 많이 쓴다.
 
 계층 번호는 [[cs/network/001_osi_layers|OSI 7계층과 TCP/IP 4계층]] 참고.
