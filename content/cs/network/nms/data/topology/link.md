@@ -48,7 +48,7 @@ draft: false
 |---|---|---|
 | 대역폭 | 양 끝 속도 중 작은 값(Mbps) | IF-MIB `ifHighSpeed` |
 
-사용률·트래픽은 링크의 속성이 아니라 시간별 **측정값**이다([[cs/network/nms/extension#측정값metric|범위 밖 단위 › 측정값]]).
+사용률·트래픽은 링크의 속성이 아니라 시간별 **측정값**이다([[cs/network/nms/data/monitoring/metric|감시 › 측정값]]).
 
 ## 수집 방법
 

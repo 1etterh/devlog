@@ -21,7 +21,8 @@ draft: false
 | [[cs/network/nms/data/topology/dependency|서비스 연결(Dependency)]] | 서비스 → 서비스 호출 관계                  | 없음                                               |
 | [[cs/network/nms/data/resolution|데이터 해상도(Resolution)]]     | 얼마나 잘게·자주·정밀하게 다루는가              | RFC 2863, RFC 6933, IEEE 802.1AB                 |
 | [[cs/network/nms/data/topology/index|토폴로지 데이터 표준(Standard)]]     | RFC 8345 구조, 출처 문서 목록, 용어        | RFC 8345                                         |
-| [[cs/network/nms/extension|범위 밖 단위(Extension)]]       | 경보, 인터페이스 계층, 구성품, 측정값, 네트워크 층 등 | RFC 8632, RFC 8343, RFC 8348 외                   |
+| [[cs/network/nms/data/monitoring/index|감시(Monitoring)]] | 노드·인터페이스가 지금 어떤 상태인가: 측정값, 이벤트, 경보 | RFC 2790, RFC 2863, RFC 5424, RFC 8632 |
+| [[cs/network/nms/extension|범위 밖 단위(Extension)]]       | 인터페이스 계층, 구성품, 네트워크 층 등 | RFC 8632, RFC 8343, RFC 8348 외                   |
 
 출처 문서의 상태·링크와 `참고:` 문서는 [[cs/network/nms/data/topology/index#출처-문서|토폴로지 데이터 표준 › 출처 문서]].
 

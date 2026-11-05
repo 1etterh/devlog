@@ -27,7 +27,7 @@ draft: false
 |---|---|---|
 | 유형 | 망 안에서 맡는 계층·역할([아래](#유형)) | 참고: Cisco 3계층 |
 | 장비 종류 | 스위치·라우터·방화벽·무선 AP·서버 등 | SNMPv2-MIB `sysObjectID`, LLDP-MIB `lldpLocSysCapEnabled` |
-| 상태 | 장비가 살아 있는지. 표준 값이 없어 제품마다 정한다(ping·SNMP 응답, 경보로 판단) | 표준 없음 |
+| 상태 | 장비가 살아 있는지. 표준 값이 없어 제품마다 정한다(ping·SNMP 응답, 경보로 판단 → [[cs/network/nms/data/monitoring/index|감시]]) | 표준 없음 |
 | 관리 IP | 수집할 때 접속하는 주소 | 등록 값 / 이웃 장비의 LLDP-MIB `lldpRemManAddr` (장비 자신은 `lldpLocManAddr`) |
 
 #### 유형
