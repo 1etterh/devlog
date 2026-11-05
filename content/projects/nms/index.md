@@ -22,10 +22,10 @@ draft: false
 | [[projects/nms/data/topology/dependency|서비스 연결(Dependency)]] | 서비스 → 서비스 호출 관계                  | 없음                                               |
 | [[projects/nms/data/display|화면 정보(Display)]]             | 좌표·숨김, 범례·상태 요약                  | 없음                                               |
 | [[projects/nms/data/resolution|데이터 해상도(Resolution)]]     | 얼마나 잘게·자주·정밀하게 다루는가              | RFC 2863, RFC 6933, IEEE 802.1AB                 |
-| [[projects/nms/data/standard|토폴로지 데이터 표준(Standard)]]     | RFC 8345 구조, 출처 문서 목록, 용어        | RFC 8345                                         |
+| [[projects/nms/data/topology/index|토폴로지 데이터 표준(Standard)]]     | RFC 8345 구조, 출처 문서 목록, 용어        | RFC 8345                                         |
 | [[projects/nms/extension|범위 밖 단위(Extension)]]       | 경보, 인터페이스 계층, 구성품, 측정값, 네트워크 층 등 | RFC 8632, RFC 8343, RFC 8348 외                   |
 
-출처 문서의 상태·링크와 `참고:` 문서는 [[projects/nms/data/standard#출처-문서|standard.md › 출처 문서]].
+출처 문서의 상태·링크와 `참고:` 문서는 [[projects/nms/data/topology/index#출처-문서|토폴로지 데이터 표준 › 출처 문서]].
 
 ## 데이터 관계
 
