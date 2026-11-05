@@ -14,29 +14,34 @@ draft: false
 
 ## 정보
 
-### 논리적 정보
+### 식별 정보
 
 | 항목 | 뜻 | 출처 |
 |---|---|---|
 | 식별자 | 링크 키 | RFC 8345 `link-id` |
+| 끝점 ×2 | 양 끝 장비 · 포트. 링크는 양 끝으로 정체가 정해진다 | LLDP-MIB `lldpLocPortId` ↔ `lldpRemPortId`, `lldpRemSysName`. 구조는 RFC 8345 `source` / `destination` |
+
+### 논리적 정보
+
+| 항목 | 뜻 | 출처 |
+|---|---|---|
 | 상태 | 양 끝 포트의 운용 상태로 판단. 판정 기준은 제품마다 | IF-MIB `ifOperStatus` |
 
 ### 물리적 정보
 
 | 항목 | 뜻 | 출처 |
 |---|---|---|
-| 끝점 ×2 | 양 끝 장비 · 포트 | LLDP-MIB `lldpLocPortId` ↔ `lldpRemPortId`, `lldpRemSysName`. 구조는 RFC 8345 `source` / `destination` |
 | 대역폭 | 양 끝 속도 중 작은 값(Mbps) | IF-MIB `ifHighSpeed` |
-| 사용률 · 트래픽 | 카운터 증가량 | IF-MIB `ifHCInOctets` · `ifHCOutOctets` |
+
+사용률·트래픽은 링크의 속성이 아니라 시간별 **측정값**이다([[cs/network/nms/extension#측정값metric|범위 밖 단위 › 측정값]]).
 
 ## 수집 방법
 
 | 항목 | 방식 | 1순위 | 대안 | 비고 |
 |---|---|---|---|---|
-| 끝점 ×2 | 둘 다 | LLDP 이웃 테이블(SNMP로 LLDP-MIB 조회) | 시스코 CDP → MAC · ARP 테이블 추정 → 수동 | 결과가 다르면 앞쪽을 믿는다. 장비에서 LLDP를 켜야 한다 |
+| 끝점 ×2 | 둘 다 | LLDP 이웃 테이블(SNMP로 LLDP-MIB 조회) | 시스코 CDP → MAC · ARP 테이블 추정 → 수동 | 결과가 다르면 앞쪽을 믿는다. 장비에서 LLDP를 켜야 한다. `lldpRemPortId`는 이웃이 포트를 무엇으로 알려줄지 고르므로(`lldpRemPortIdSubtype`: 인터페이스 이름 / MAC / 로컬 번호) `ifName`과 바로 맞지 않을 수 있다 |
 | 상태 | 자동 | 양 끝 인터페이스 `ifOperStatus` | linkUp / linkDown trap | |
 | 대역폭 | 자동 | 양 끝 `ifHighSpeed` 중 작은 값 | — | |
-| 사용률 · 트래픽 | 자동 | `ifHCInOctets` / `ifHCOutOctets` 두 번 읽은 차이 | gNMI | 64비트 카운터 |
 
 - **MAC · ARP 추정**: 스위치 MAC 주소 테이블(BRIDGE-MIB RFC 4188, Q-BRIDGE-MIB `dot1qTpFdbTable`)과 ARP 테이블(IP-MIB `ipNetToPhysicalTable`)을 맞춰 "어느 포트에 누가 붙었나"를 추정한다. LLDP가 없는 서버·비관리 스위치 구간용이고 틀릴 수 있다.
 - **사이트 간 회선**은 사업자 망을 건너 LLDP로 잘 안 잡힌다 → 수동 링크가 많다.

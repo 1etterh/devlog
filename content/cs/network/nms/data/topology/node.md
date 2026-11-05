@@ -13,15 +13,22 @@ draft: false
 
 ## 정보
 
-### 논리적 정보
+### 식별 정보
 
 | 항목 | 뜻 | 출처 |
 |---|---|---|
 | 식별자 | 인터페이스·서비스가 참조하는 키 | RFC 8345 `node-id` |
-| 이름 | 장비 호스트명 | SNMPv2-MIB `sysName` |
+| 이름 | 장비 호스트명. 장비에서 바꾸면 따라 바뀐다 | SNMPv2-MIB `sysName` |
+| 장비 고유값 | 같은 장비인지 가리는 값. IP·이름은 바뀔 수 있다([중복 판별](#중복-판별)) | LLDP-MIB `lldpLocChassisId`, ENTITY-MIB `entPhysicalSerialNum` |
+
+### 논리적 정보
+
+| 항목 | 뜻 | 출처 |
+|---|---|---|
 | 유형 | 망 안에서 맡는 계층·역할([아래](#유형)) | 참고: Cisco 3계층 |
+| 장비 종류 | 스위치·라우터·방화벽·무선 AP·서버 등 | SNMPv2-MIB `sysObjectID`, LLDP-MIB `lldpLocSysCapEnabled` |
 | 상태 | 장비가 살아 있는지. 표준 값이 없어 제품마다 정한다(ping·SNMP 응답, 경보로 판단) | 표준 없음 |
-| 관리 IP | 수집할 때 접속하는 주소 | LLDP-MIB `lldpLocManAddr` |
+| 관리 IP | 수집할 때 접속하는 주소 | 등록 값 / 이웃 장비의 LLDP-MIB `lldpRemManAddr` (장비 자신은 `lldpLocManAddr`) |
 
 #### 유형
 
@@ -34,7 +41,7 @@ draft: false
 | 액세스(Access) | 단말·서버가 직접 꽂히는 맨 아래 스위치 | 층·랙 단위 L2 스위치 |
 | 서버(호스트) | 망을 구성하지 않고 망에 붙는 호스트. [[cs/network/nms/data/topology/service|서비스]](컨테이너·프로세스)가 이 위에서 돈다 | 애플리케이션 서버, DB 서버 |
 
-- 계층(역할)과 **장비 종류**(방화벽·로드밸런서·무선 AP·라우터)는 다른 축이다. 장비 종류는 장비가 알려주지만(`sysObjectID`, LLDP `lldpRemSysCapEnabled`) 계층은 알려주지 않는다.
+- 계층(역할)과 **장비 종류**(방화벽·로드밸런서·무선 AP·라우터)는 다른 축이다. 장비 종류는 장비가 알려주지만(`sysObjectID`, LLDP `lldpLocSysCapEnabled` — 이웃 쪽에서 보면 `lldpRemSysCapEnabled`) 계층은 알려주지 않는다.
 - 수집기(장비를 발견·조회하는 서버)는 별도 단위가 아니다. 수집기가 깔린 장비도 서버 노드이고, 수집기는 그 노드가 맡은 **역할**이다.
 
 ### 물리적 정보
@@ -47,14 +54,16 @@ draft: false
 
 ## 수집 방법
 
-| 항목 | 방식 | 1순위 | 대안 | 비고 |
-|---|---|---|---|---|
-| 이름 | 둘 다 | SNMP 폴링 `sysName` | 수동 입력 | |
-| 유형 | 둘 다 | 수동 지정 | `sysObjectID` · `sysDescr`로 장비 종류 추정 | 망에서의 역할(코어·분배·액세스)은 장비가 알려주지 않는다 |
-| 상태 | 자동 | ping + SNMP 응답 여부 | 경보(trap) | |
-| 관리 IP | 둘 다 | 등록 값(수집 대상 주소) | 자동 발견: 이웃 장비의 LLDP `lldpRemManAddr`, 대역 스캔 | 수집하려면 이 주소를 먼저 알아야 한다 |
-| 모델 · 제조사 · 일련번호 | 자동 | SNMP 폴링 ENTITY-MIB | SSH CLI `show version` | |
-| 소속 사이트 · 사이트 안 위치 | 수동 | 수동 지정 | `sysLocation` 참고 | [[cs/network/nms/data/site#수집-방법|사이트 › 수집 방법]] |
+| 항목                | 방식  | 1순위                | 대안                                         | 비고                               |
+| ----------------- | --- | ------------------ | ------------------------------------------ | -------------------------------- |
+| 이름                | 둘 다 | SNMP 폴링 `sysName`  | 수동 입력                                      |                                  |
+| 유형 | 수동 | 수동 지정 | — | 망에서의 역할(코어·분배·액세스)은 장비가 알려주지 않는다 |
+| 장비 종류 | 둘 다 | `sysObjectID` · LLDP `lldpLocSysCapEnabled`로 추정 | 수동 지정 | `sysDescr`도 참고 |
+| 장비 고유값 | 자동 | SNMP 폴링 LLDP-MIB `lldpLocChassisId` | ENTITY-MIB `entPhysicalSerialNum` | 중복 판별에 쓴다 |
+| 상태                | 자동  | ping + SNMP 응답 여부  | 경보(trap)                                   |                                  |
+| 관리 IP             | 둘 다 | 등록 값(수집 대상 주소)     | 자동 발견: 이웃 장비의 LLDP `lldpRemManAddr`, 대역 스캔 | 수집하려면 이 주소를 먼저 알아야 한다            |
+| 모델 · 제조사 · 일련번호   | 자동  | SNMP 폴링 ENTITY-MIB | SSH CLI `show version`                     |                                  |
+| 소속 사이트 · 사이트 안 위치 | 수동  | 수동 지정              | `sysLocation` 참고                           | [[cs/network/nms/data/site#수집-방법|사이트 › 수집 방법]]  |
 
 필요한 것: 장비 SNMP 활성화와 접속 정보(v2c 커뮤니티 또는 v3 계정 — v3 권장), 수집 서버 → 장비 UDP 161 · ICMP 허용.
 
