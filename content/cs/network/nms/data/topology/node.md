@@ -9,7 +9,11 @@ tags:
 draft: false
 ---
 
-토폴로지 맵의 점 하나 = **장비** 한 대(스위치·라우터·서버). [[cs/network/nms/data/topology/interface|인터페이스]]와 [[cs/network/nms/data/topology/service|서비스]]가 노드에 속한다. RFC 8345 `node`.
+토폴로지 맵의 점 하나 = **자기 OS와 관리 주소를 가진 장비** 한 대(스위치·라우터·방화벽·서버, VM 포함). [[cs/network/nms/data/topology/interface|인터페이스]]와 [[cs/network/nms/data/topology/service|서비스]]가 노드에 속한다. RFC 8345 `node`.
+
+- **관리 주소**: NMS가 접속해 정보를 읽는 주소. 관리 주소가 없는 장비(비관리 스위치)는 노드가 되지 못하고, 이웃 정보에 남은 흔적으로만 짐작한다.
+- **자기 OS**: 네트워크 장비도 전용 OS를 가진다(Cisco IOS · NX-OS, Juniper Junos, Arista EOS 등. 요즘은 대부분 Linux 기반). VM은 자기 커널을 가지므로 노드다. 컨테이너는 호스트 커널을 함께 쓰므로 노드가 아니라 그 위의 [[cs/network/nms/data/topology/service|서비스]]다.
+- RFC 8345의 `node`는 층(network)마다 뜻이 달라지는 추상 개념이다. 이 기준은 물리 · 장비 층의 노드다.
 
 ## 정보
 
