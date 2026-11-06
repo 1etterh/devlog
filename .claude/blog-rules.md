@@ -105,7 +105,7 @@ Every response must be summarized and appended to a centralized daily history fi
 
 | 질문 성격 | type | 자동 작성? | 길이 |
 |---|---|:---:|---|
-| 직접 개발·경험과 무관한 단순 질문 (why 포함) | `archive` | ✅ (archive에) | 5~20줄 |
+| 직접 개발·경험과 무관한 단순 질문 (why 포함) | `archive` | ✅ (archive에) | 답변 전문 그대로 |
 | (개발 중 의문) “왜(why) X는 Y인가?” 원인·이유 질문 | `question` | ✅ | **짧게** (단순 개념 정리) |
 | (개발 중 의문) 그 외 개념 의문 (“정말 X인가?”, “X vs Y”, “X는 무엇?”) | `question` | ❓ (확인 후) | **짧게** (단순 개념 정리) |
 | 에러 메시지 해결 | `error` | ✅ | 보통 |
@@ -157,6 +157,9 @@ Every response must be summarized and appended to a centralized daily history fi
    - **project** (task 완료 종합 글): `projects/{project-slug}/` 폴더에 저장
    - **log** (회고·기록): 특정 프로젝트에 속하면 `projects/{project-slug}/`, 아니면 주제에 맞는 기술 폴더에 저장
    - Java 관련 하위 기술은 `java/` 하위 폴더 사용 (java/spring, java/jpa, java/mybatis, java/msa, java/servlet 등)
+   - **기본 CS 개념**(네트워크·OS·알고리즘 개념 등)은 `cs/{주제}/` (예: `cs/network/`, `cs/os/`, `cs/algorithms/`). 알고리즘 **문제풀이**는 루트 `algorithms/`
+   - **특정 분야에 속하지 않는 범용 표준**(OID·ASN.1처럼 ITU-T·ISO가 정한 식별·인코딩 표준 등)은 `standards/`. 어떤 분야 문서에서 쓰인다고 그 분야 폴더에 넣지 않는다 (예: OID는 SNMP·NMS에서 쓰지만 `cs/network/nms/`가 아니라 `standards/`)
+   - **다른 분야 개념을 한 문서 안에서 길게 설명하게 되면 별도 문서로 분리**하고, 원래 문서에는 짧은 언급과 링크만 남긴다. 필드 출처 수준의 짧은 언급은 그대로 둔다
    - 기존 폴더가 있으면 재사용, 없으면 새로 생성
    - **폴더명은 항상 소문자** (Quartz 5는 URL을 소문자로 만들기 때문에 원본 폴더도 소문자로 통일. 예: `dev/`, `java/spring/`)
 3. 파일명: `{NNN}_{영문 제목}.md` (해당 폴더 내 기존 번호 이어서, 없으면 001부터)
@@ -232,10 +235,12 @@ draft: true  # 모든 type 기본값, 공개 전환은 사용자 검토 후
 ### 저장 형식
 
 - **경로**: `/Users/gimseohyeon/Desktop/dev/devlog/archive/` (없으면 생성)
-- **파일명**: `{NNN}_{영문 제목}.md` — 폴더 내 기존 번호 이어서, 없으면 001부터. 영문 제목도 회사·서비스명 포함 금지
+- **하위 폴더**: 주제별 하위 폴더(`archive/network/`, `archive/db/`, `archive/ai/` 등)에 둔다
+- **파일명**: `{NNN}_{영문 제목}.md` — 번호는 **archive 전체(모든 하위 폴더 포함)에서 가장 큰 번호 다음**으로 이어 쓴다(하위 폴더끼리 번호가 겹치지 않게). 영문 제목도 회사·서비스명 포함 금지
 - **frontmatter**: 아래 형식 사용
 - **언어**: 한국어
-- **길이**: 5~20줄 (Q 한 줄 + 짧은 A 몇 줄, 부가 표·리스트는 생략)
+- **본문**: **채팅에서 답변한 내용을 그대로 전부 옮긴다.** 요약·축약·재구성하지 않는다 (표·Mermaid·리스트 모두 포함). 일반화 규칙만 적용한다.
+- **content로 옮길 때**: 나중에 archive 글을 블로그(content)로 작성하게 되면, 그때 해당 type의 작성 가이드(예: Question Article Style)에 맞게 **다듬어서** 작성한다.
 
 ```markdown
 ---
@@ -245,12 +250,7 @@ tags: [archive, snake_case_topic_tags]
 draft: true
 ---
 
-**Q**: {의문 한 줄}
-
-**A**:
-- {핵심 답 3~5 bullet}
-
-{필요 시 한두 줄 부연}
+{채팅 답변 전문 그대로}
 ```
 
 ### 일반화 규칙
@@ -382,6 +382,10 @@ grep -rln "\[\[FILENAME" content/ 2>/dev/null
 3. target이 full path / basename / sibling 어느 쪽으로도 resolve 안 되면 broken
 4. 단, **mermaid 코드 블록 안의 `[[...]]` (sub-routine syntax)은 false positive로 제외**
 
+### 표 안 위키링크
+
+표(`|`로 시작하는 행) 안의 별칭 위키링크는 **`[[경로\|표시 이름]]`처럼 `|`를 이스케이프**한다. 이스케이프하지 않으면 Quartz가 `|`를 칸 구분자로 읽어 표 전체가 깨진다(행이 사라지고 `[[`가 그대로 보임). 글을 추가·변환한 뒤에는 빌드 결과에서 표 행 수와 남은 `[[`를 확인한다.
+
 ### 검증 결과 처리
 
 - 다른 글로 대체 가능 → 대체
@@ -402,7 +406,7 @@ grep -rln "\[\[FILENAME" content/ 2>/dev/null
 **Why**: "Concept Question Archive" 섹션의 저장 대상 #2(본인의 의문이 출발점이 아닌 순수 개념 정리·정의 나열)에 해당. 의문에서 출발하지 않은 정의·나열성 콘텐츠는 블로그 본문 가치가 낮다.
 
 **How to apply** (출발점 기준과 함께 적용):
-- 직접 개발·경험과 무관한 단순 질문 → why 질문 포함 **묻지 말고 archive 직행**, 본문 5~20줄
+- 직접 개발·경험과 무관한 단순 질문 → why 질문 포함 **묻지 말고 archive 직행**, 본문은 채팅 답변 전문 그대로
 - (개발 중 의문) **"왜 X는 Y인가?"** → 즉시 블로그 자동 작성 (`content/...`, `draft: true`)
 - (개발 중 의문) **"정말 X인가?", "X vs Y 차이는?"** 같은 비교/검증 → "블로그로 작성할까?" 물어보기
-- **"X 설명", "X 종류", "X는 무엇", "X 정리"** 같은 위키성 정의·나열 → **묻지 말고 archive 직행**, 본문 5~20줄
+- **"X 설명", "X 종류", "X는 무엇", "X 정리"** 같은 위키성 정의·나열 → **묻지 말고 archive 직행**, 본문은 채팅 답변 전문 그대로
