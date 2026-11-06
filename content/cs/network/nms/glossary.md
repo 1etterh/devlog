@@ -16,7 +16,7 @@ NMS 문서에 나오는 약어·용어를 한곳에 모은다. 주제별로 나�
 |---|---|
 | [표준 기구](#표준-기구) | RFC, IETF, IEEE, ITU-T |
 | [OID](#oid) | OID, arc, ASN.1, BER, PEN, IANA |
-| [SNMP](#snmp) | 매니저·에이전트, PDU, trap, community, v3 보안 |
+| [SNMP](#snmp) | 매니저·에이전트, PDU, trap, community, v3 보안, noSuchObject 등 응답 값 |
 | [MIB](#mib) | SNMPv2-MIB, IF-MIB, ENTITY-MIB, LLDP-MIB 등 |
 | [MIB 항목 이름](#mib-항목-이름) | `if`, `ifHC`, `lldpRem`, Admin / Oper 등 접두어·약어 |
 | [측정값](#측정값) | 카운터, 게이지, 임계값, RTT, 손실률, 지터 |
@@ -53,13 +53,20 @@ NMS 문서에 나오는 약어·용어를 한곳에 모은다. 주제별로 나�
 
 | 용어           | 풀이                                  | 뜻                                                               |
 | ------------ | ----------------------------------- | --------------------------------------------------------------- |
+| AGENT-CAPABILITIES | — | 제조사가 자기 에이전트가 MIB를 어디까지 구현했는지 밝히는 문법. RFC 2580 |
 | community    | —                                   | SNMPv1/v2c의 비밀번호 역할 문자열. 평문으로 오간다. 기본값 public(읽기)·private(쓰기)   |
+| endOfMibView | — | WALK 중 더 이상 다음 OID가 없다는 응답 값(v2c+). RFC 3416 |
 | GetBulk      | GetBulkRequest                      | 다음 OID N개를 한 번에 읽는 요청(v2c+). 테이블 읽기에 쓴다                         |
 | inform       | InformRequest                       | 응답(확인)을 받는 trap. 잃어버리면 다시 보낸다(v2c+)                             |
+| MAX-ACCESS | — | MIB 항목의 최대 접근 권한(read-only, read-write, not-accessible, accessible-for-notify 등). RFC 2578 |
 | MIB          | Management Information Base         | SNMP로 읽을 수 있는 항목 정의(스키마). 목록은 [MIB](#mib)                       |
+| MODULE-COMPLIANCE | — | MIB 모듈에서 구현이 필수인 그룹과 선택인 그룹을 정하는 문법. RFC 2580 |
+| noSuchInstance | — | 객체는 있는데 그 인스턴스(행)가 없다는 응답 값(v2c+). RFC 3416 |
+| noSuchObject | — | 객체를 구현하지 않았거나 볼 권한이 없다는 응답 값(v2c+). v1은 `noSuchName`. RFC 3416 |
 | PDU          | Protocol Data Unit                  | SNMP 메시지 종류(Get, GetNext, GetBulk, Set, Response, Trap, Inform) |
 | SMI          | Structure of Management Information | MIB를 쓰는 문법과 값 타입(Counter, Gauge 등). SMIv2 = RFC 2578            |
 | SNMP         | Simple Network Management Protocol  | 장비 정보를 읽고(GET) 바꾸고(SET) 알림을 받는(TRAP) 관리 프로토콜. UDP 161 / 162     |
+| `sysObjectID` | — | 장비 종류를 나타내는 OID(`1.3.6.1.4.1.{PEN}.…`). 제조사 · 모델 판별과 수집 템플릿 선택에 쓴다. RFC 3418 |
 | trap         | —                                   | 장비가 NMS로 먼저 보내는 SNMP 알림. 응답을 받지 않는다(유실 가능)                      |
 | USM          | User-based Security Model           | SNMPv3의 사용자 인증·암호화. RFC 3414                                    |
 | VACM         | View-based Access Control Model     | SNMP로 읽을 수 있는 MIB 범위를 제한. RFC 3415                              |
