@@ -68,3 +68,5 @@ SNMP 관리 정보는 모두 `1.3.6.1`(iso.identified-organization.dod.internet)
 - OID 트리는 0·1·2 세 가지로 시작한다. 1부터 시작하는 게 아니다.
 - SNMP는 그중 1(iso) 가지의 `1.3.6.1` 아래만 쓰기 때문에 늘 `1.`로 보인다.
 - 0은 첫 번째 arc(ITU-T)로도, SNMP 스칼라 인스턴스 번호(`.0`)로도 쓰인다.
+
+자세한 정리(위임 구조·표기·인코딩)는 [[standards/001_oid|OID(Object Identifier)]].

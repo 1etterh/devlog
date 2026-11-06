@@ -15,7 +15,8 @@ NMS 문서에 나오는 약어·용어를 한곳에 모은다. 주제별로 나�
 | 분류 | 담는 것 |
 |---|---|
 | [표준 기구](#표준-기구) | RFC, IETF, IEEE, ITU-T |
-| [SNMP](#snmp) | 매니저·에이전트, OID, PDU, trap, community, v3 보안 |
+| [OID](#oid) | OID, arc, ASN.1, BER, PEN, IANA |
+| [SNMP](#snmp) | 매니저·에이전트, PDU, trap, community, v3 보안 |
 | [MIB](#mib) | SNMPv2-MIB, IF-MIB, ENTITY-MIB, LLDP-MIB 등 |
 | [MIB 항목 이름](#mib-항목-이름) | `if`, `ifHC`, `lldpRem`, Admin / Oper 등 접두어·약어 |
 | [측정값](#측정값) | 카운터, 게이지, 임계값, RTT, 손실률, 지터 |
@@ -33,6 +34,19 @@ NMS 문서에 나오는 약어·용어를 한곳에 모은다. 주제별로 나�
 | ITU-T | International Telecommunication Union – Telecommunication Standardization Sector | 국제전기통신연합 통신표준화 부문 |
 | RFC | Request for Comments | 인터넷 표준 문서 |
 
+## OID
+
+자세한 내용은 [[standards/001_oid|OID]].
+
+| 용어 | 풀이 | 뜻 |
+|---|---|---|
+| arc | — | OID 트리의 한 단계 번호(0 이상의 정수). 루트 바로 아래 arc는 0(itu-t) · 1(iso) · 2(joint-iso-itu-t)뿐 |
+| ASN.1 | Abstract Syntax Notation One | 데이터 구조를 정의하는 표기법. OID는 `OBJECT IDENTIFIER` 타입. ITU-T X.680 |
+| BER | Basic Encoding Rules | ASN.1 값을 바이트로 바꾸는 규칙. OID의 첫 두 arc를 `40 × 첫째 + 둘째`로 합친다. ITU-T X.690 |
+| IANA | Internet Assigned Numbers Authority | 인터넷 번호(포트·프로토콜 번호·`1.3.6.1` 아래 OID·PEN)를 관리하는 기관 |
+| OID | Object Identifier | 범용 등록 트리(OID 트리)에서 노드 하나를 가리키는 경로. 루트부터 번호를 점으로 이어 쓴다(예: `1.3.6.1.2.1.1.5.0` = `sysName`). SNMP 전용이 아니다(X.509·LDAP도 사용). ITU-T X.660 |
+| PEN | Private Enterprise Number | IANA가 기업에 주는 번호. `1.3.6.1.4.1.{PEN}` 아래가 그 기업의 OID 가지(예: Cisco 9) |
+
 ## SNMP
 
 자세한 동작은 [[cs/network/nms/collection/snmp|SNMP]].
@@ -43,7 +57,6 @@ NMS 문서에 나오는 약어·용어를 한곳에 모은다. 주제별로 나�
 | GetBulk      | GetBulkRequest                      | 다음 OID N개를 한 번에 읽는 요청(v2c+). 테이블 읽기에 쓴다                         |
 | inform       | InformRequest                       | 응답(확인)을 받는 trap. 잃어버리면 다시 보낸다(v2c+)                             |
 | MIB          | Management Information Base         | SNMP로 읽을 수 있는 항목 정의(스키마). 목록은 [MIB](#mib)                       |
-| OID          | Object Identifier                   | OID 트리에서 MIB 항목(노드) 하나를 가리키는 경로. 루트부터 번호를 점으로 이어 쓴다(예: `1.3.6.1.2.1.1.5.0` = `sysName`). 트리는 ITU-T X.660 등록 트리 |
 | PDU          | Protocol Data Unit                  | SNMP 메시지 종류(Get, GetNext, GetBulk, Set, Response, Trap, Inform) |
 | SMI          | Structure of Management Information | MIB를 쓰는 문법과 값 타입(Counter, Gauge 등). SMIv2 = RFC 2578            |
 | SNMP         | Simple Network Management Protocol  | 장비 정보를 읽고(GET) 바꾸고(SET) 알림을 받는(TRAP) 관리 프로토콜. UDP 161 / 162     |
