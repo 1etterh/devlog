@@ -43,7 +43,7 @@ NMS 문서에 나오는 약어·용어를 한곳에 모은다. 주제별로 나�
 | GetBulk      | GetBulkRequest                      | 다음 OID N개를 한 번에 읽는 요청(v2c+). 테이블 읽기에 쓴다                         |
 | inform       | InformRequest                       | 응답(확인)을 받는 trap. 잃어버리면 다시 보낸다(v2c+)                             |
 | MIB          | Management Information Base         | SNMP로 읽을 수 있는 항목 정의(스키마). 목록은 [MIB](#mib)                       |
-| OID          | Object Identifier                   | MIB 항목 하나의 주소. 숫자 트리 경로(예: `1.3.6.1.2.1.1.5.0` = `sysName`)     |
+| OID          | Object Identifier                   | OID 트리에서 MIB 항목(노드) 하나를 가리키는 경로. 루트부터 번호를 점으로 이어 쓴다(예: `1.3.6.1.2.1.1.5.0` = `sysName`). 트리는 ITU-T X.660 등록 트리 |
 | PDU          | Protocol Data Unit                  | SNMP 메시지 종류(Get, GetNext, GetBulk, Set, Response, Trap, Inform) |
 | SMI          | Structure of Management Information | MIB를 쓰는 문법과 값 타입(Counter, Gauge 등). SMIv2 = RFC 2578            |
 | SNMP         | Simple Network Management Protocol  | 장비 정보를 읽고(GET) 바꾸고(SET) 알림을 받는(TRAP) 관리 프로토콜. UDP 161 / 162     |

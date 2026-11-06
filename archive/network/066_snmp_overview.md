@@ -16,7 +16,7 @@ draft: true
 | **매니저(Manager)** | 물어보고 알림을 받는 쪽 | NMS, Zabbix 서버, `snmpwalk` |
 | **에이전트(Agent)** | 장비 안에서 질문에 답하는 프로세스 | 스위치 펌웨어 내장, Linux `snmpd` |
 | **MIB** | "무엇을 물을 수 있나"를 정의한 스키마(사전) | IF-MIB, SNMPv2-MIB, ENTITY-MIB |
-| **OID** | MIB 안 항목 하나의 주소(숫자 트리 경로) | `1.3.6.1.2.1.1.5.0` = sysName |
+| **OID** | OID 트리에서 항목 하나를 가리키는 경로 | `1.3.6.1.2.1.1.5.0` = sysName |
 
 ```mermaid
 flowchart LR
@@ -30,7 +30,7 @@ flowchart LR
 
 ## OID와 MIB
 
-OID는 전 세계 공통 숫자 트리다. 표준 관리 정보는 대부분 `1.3.6.1.2.1` (mib-2) 아래, 제조사 전용은 `1.3.6.1.4.1.{기업번호}` (enterprises) 아래에 있다.
+OID는 전 세계가 함께 쓰는 숫자 트리(OID 트리)에서 노드 하나를 가리키는 **경로**다. 루트부터 각 단계의 번호(arc)를 점으로 이어 쓴다(`1.3.6.1` = iso.org.dod.internet). 트리 자체는 SNMP 전용이 아니라 ITU-T X.660 · ISO/IEC 9834가 정한 등록 트리라서 X.509 인증서·LDAP도 같은 트리를 쓴다. 표준 관리 정보는 대부분 `1.3.6.1.2.1` (mib-2) 아래, 제조사 전용은 `1.3.6.1.4.1.{기업번호}` (enterprises) 아래에 있다.
 
 ```mermaid
 flowchart TD
