@@ -12,9 +12,9 @@ NMS는 망의 모든 장비에 접속할 권한과 망 전체의 지도를 가�
 
 | 문서 | 다루는 것 |
 |---|---|
-| [[cs/network/nms/security/collection|수집 경로]] | NMS ↔ 장비 통신: SNMP, trap, syslog, SSH, 인증 정보 보관, 발견(스캔) |
-| [[cs/network/nms/security/topology|토폴로지 데이터]] | 맵·인벤토리 자체: 내부 지도 노출, 접근 권한, LLDP 위조 |
-| [[cs/network/nms/security/monitoring|감시 데이터]] | 측정값·이벤트·경보: 로그 속 민감정보, 경보 폭주, 보관 기간 |
+| [[cs/network/nms/security/collection\|수집 경로]] | NMS ↔ 장비 통신: SNMP, trap, syslog, SSH, 인증 정보 보관, 발견(스캔) |
+| [[cs/network/nms/security/topology\|토폴로지 데이터]] | 맵·인벤토리 자체: 내부 지도 노출, 접근 권한, LLDP 위조 |
+| [[cs/network/nms/security/monitoring\|감시 데이터]] | 측정값·이벤트·경보: 로그 속 민감정보, 경보 폭주, 보관 기간 |
 
 ## 관리 평면
 
@@ -41,13 +41,13 @@ NMS는 망의 모든 장비에 접속할 권한과 망 전체의 지도를 가�
 
 | 위협 | 대상 | 문서 |
 |---|---|---|
-| 평문 community·비밀번호 도청 | 수집 경로 | [[cs/network/nms/security/collection#snmp|수집 경로]] |
-| trap·syslog 위조 | 수집 경로 | [[cs/network/nms/security/collection#trap--syslog|수집 경로]] |
-| 인증 정보 유출 | NMS 저장소 | [[cs/network/nms/security/collection#인증-정보-보관|수집 경로]] |
-| 내부 지도 노출(정찰) | 토폴로지 데이터 | [[cs/network/nms/security/topology#내부-지도-노출|토폴로지 데이터]] |
-| LLDP 위조로 가짜 링크 | 토폴로지 데이터 | [[cs/network/nms/security/topology#lldp-위조|토폴로지 데이터]] |
-| 로그 속 개인정보 | 감시 데이터 | [[cs/network/nms/security/monitoring#로그-속-민감정보|감시 데이터]] |
-| trap 폭주로 NMS 마비 | 감시 데이터 | [[cs/network/nms/security/monitoring#경보-폭주|감시 데이터]] |
+| 평문 community·비밀번호 도청 | 수집 경로 | [[cs/network/nms/security/collection#snmp\|수집 경로]] |
+| trap·syslog 위조 | 수집 경로 | [[cs/network/nms/security/collection#trap--syslog\|수집 경로]] |
+| 인증 정보 유출 | NMS 저장소 | [[cs/network/nms/security/collection#인증-정보-보관\|수집 경로]] |
+| 내부 지도 노출(정찰) | 토폴로지 데이터 | [[cs/network/nms/security/topology#내부-지도-노출\|토폴로지 데이터]] |
+| LLDP 위조로 가짜 링크 | 토폴로지 데이터 | [[cs/network/nms/security/topology#lldp-위조\|토폴로지 데이터]] |
+| 로그 속 개인정보 | 감시 데이터 | [[cs/network/nms/security/monitoring#로그-속-민감정보\|감시 데이터]] |
+| trap 폭주로 NMS 마비 | 감시 데이터 | [[cs/network/nms/security/monitoring#경보-폭주\|감시 데이터]] |
 
 ## 출처 문서
 

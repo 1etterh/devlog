@@ -13,10 +13,10 @@ draft: false
 
 | 단위 | 붙는 자리 | 출처 | 필요할 때 |
 |---|---|---|---|
-| [[cs/network/nms/data/monitoring/event#경보alarm|경보]] | 노드·인터페이스·링크·구성품·서비스 | RFC 8632, RFC 3877 | 상태를 장애 이력과 함께 보여야 할 때 |
+| [[cs/network/nms/data/monitoring/event#경보alarm\|경보]] | 노드·인터페이스·링크·구성품·서비스 | RFC 8632, RFC 3877 | 상태를 장애 이력과 함께 보여야 할 때 |
 | [인터페이스 계층](#인터페이스-계층) | 인터페이스 → 상위 인터페이스 | IF-MIB `ifStackTable`, RFC 8343, IEEE 802.1AX | LAG·VLAN을 맵에 보일 때 |
 | [하드웨어 구성품](#하드웨어-구성품component) | 노드 › 구성품 › 인터페이스 | ENTITY-MIB, RFC 8348, RFC 4268, RFC 3433 | 전원·팬·모듈 고장을 따로 볼 때 |
-| [[cs/network/nms/data/monitoring/metric|측정값]] | 대상 + 시각 + 값 | IF-MIB 카운터, ENTITY-SENSOR-MIB | 트래픽 그래프를 붙일 때 |
+| [[cs/network/nms/data/monitoring/metric\|측정값]] | 대상 + 시각 + 값 | IF-MIB 카운터, ENTITY-SENSOR-MIB | 트래픽 그래프를 붙일 때 |
 | [네트워크(층)](#네트워크network) | 노드·링크가 속하는 층 | RFC 8345 `network`, RFC 8944, RFC 8346 | 망이 여럿이거나 IP가 겹칠 때 |
 | [관리 접속 정보](#관리-접속-정보access) | 노드 1:1 | 제품마다 다름 | 장비를 직접 수집할 때 |
 | [네트워크 서비스](#네트워크-서비스network-service) | 여러 노드·링크를 지나는 고객 회선 | RFC 8299, RFC 8466, RFC 9418 | 회선 단위 관리가 필요할 때 |

@@ -12,7 +12,7 @@ draft: false
 
 | | 토폴로지 | 감시 |
 |---|---|---|
-| 데이터 모양 | 객체 + 속성 | 대상 + 시각 + 값([[cs/network/nms/data/monitoring/metric|측정값]]), 대상 + 시각 + 내용([[cs/network/nms/data/monitoring/event|이벤트]]) |
+| 데이터 모양 | 객체 + 속성 | 대상 + 시각 + 값([[cs/network/nms/data/monitoring/metric\|측정값]]), 대상 + 시각 + 내용([[cs/network/nms/data/monitoring/event\|이벤트]]) |
 | 바뀌는 빈도 | 가끔(장비 추가, 케이블 변경) | 계속(수십 초~수 분마다) |
 | 토폴로지에 남는 것 | — | **결과**만: 노드 상태, 인터페이스 `ifOperStatus`, 마지막 수집 시각 |
 
@@ -20,11 +20,11 @@ draft: false
 
 | 영역 | 묻는 것 | 예 | 문서 |
 |---|---|---|---|
-| 가용성 | 살아 있나 | ping 응답·지연·손실, SNMP 응답, 재부팅 | [[cs/network/nms/data/monitoring/metric#가용성|측정값]] |
-| 성능 | 얼마나 바쁜가 | CPU, 메모리, 디스크, 인터페이스 트래픽·오류 | [[cs/network/nms/data/monitoring/metric#성능|측정값]] |
-| 하드웨어 | 부품은 괜찮나 | 온도, 팬, 전원 공급장치, 광 모듈 수신 세기 | [[cs/network/nms/data/monitoring/metric#하드웨어|측정값]] |
-| 이벤트 | 무슨 일이 있었나 | 포트 up/down, 재시작, 로그인 실패 | [[cs/network/nms/data/monitoring/event|이벤트]] |
-| 변경 | 무엇이 바뀌었나 | 설정 변경, 모듈 교체, 이웃 변경 | [[cs/network/nms/data/monitoring/event#변경-감지|이벤트]] |
+| 가용성 | 살아 있나 | ping 응답·지연·손실, SNMP 응답, 재부팅 | [[cs/network/nms/data/monitoring/metric#가용성\|측정값]] |
+| 성능 | 얼마나 바쁜가 | CPU, 메모리, 디스크, 인터페이스 트래픽·오류 | [[cs/network/nms/data/monitoring/metric#성능\|측정값]] |
+| 하드웨어 | 부품은 괜찮나 | 온도, 팬, 전원 공급장치, 광 모듈 수신 세기 | [[cs/network/nms/data/monitoring/metric#하드웨어\|측정값]] |
+| 이벤트 | 무슨 일이 있었나 | 포트 up/down, 재시작, 로그인 실패 | [[cs/network/nms/data/monitoring/event\|이벤트]] |
+| 변경 | 무엇이 바뀌었나 | 설정 변경, 모듈 교체, 이웃 변경 | [[cs/network/nms/data/monitoring/event#변경-감지\|이벤트]] |
 
 측정값·이벤트가 기준(임계값·규칙)을 넘으면 **경보**가 되고, 경보가 노드 상태를 정한다([[cs/network/nms/data/monitoring/event#경보alarm|경보]]).
 

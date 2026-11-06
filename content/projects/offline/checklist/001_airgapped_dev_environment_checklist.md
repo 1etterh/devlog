@@ -261,7 +261,7 @@ docker load -i mariadb_11.4.tar.gz
 | Obsidian | |
 | IntelliJ IDEA, WebStorm, DataGrip | 플러그인 `.zip` + **DataGrip JDBC 드라이버**도 따로. DataGrip은 처음 연결할 때 드라이버를 내려받으므로, 폐쇄망에서는 드라이버 jar를 직접 지정해야 한다 |
 | Git (개발 PC) | |
-| Git (서버) | 서버 OS용 설치 패키지(deb/rpm) 또는 정적 바이너리. 반영 디렉토리에서 `git init` 후 반영할 때마다 커밋만 해도 롤백 지점이 생긴다. 안 가져갔다가 고생한 이야기는 [[010_airgapped_onsite_retrospective|상주 회고]] 참고 |
+| Git (서버) | 서버 OS용 설치 패키지(deb/rpm) 또는 정적 바이너리. 반영 디렉토리에서 `git init` 후 반영할 때마다 커밋만 해도 롤백 지점이 생긴다. 안 가져갔다가 고생한 이야기는 [[010_airgapped_onsite_retrospective\|상주 회고]] 참고 |
 | 7z | 대용량 분할 압축용 |
 | Node 24 | LTS 버전으로 |
 | pnpm | standalone 바이너리 권장. corepack으로 쓰려면 pnpm을 미리 캐시해 둬야 한다 |

@@ -62,7 +62,7 @@ draft: false
 | 재부팅 | 가동 시간(`sysUpTime`)이 줄어듦 |
 | 설정 변경 | 설정 백업(SSH CLI) 비교, syslog 메시지, 제조사 MIB의 마지막 변경 시각 |
 | 구성품 변경 | ENTITY-MIB 재수집 시 모델 · 일련번호 · 모듈이 다름 |
-| 이웃 변경 | LLDP 이웃이 바뀜 → [[cs/network/nms/data/topology/link|링크]] 추가 · 사라짐 |
+| 이웃 변경 | LLDP 이웃이 바뀜 → [[cs/network/nms/data/topology/link\|링크]] 추가 · 사라짐 |
 | 인터페이스 변경 | IF-MIB 재수집 시 인터페이스가 생기거나 없어짐 |
 
 ## 경보(Alarm)

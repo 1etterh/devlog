@@ -15,9 +15,9 @@ draft: false
 | 객체 | 표준 필드 | 뜻 |
 |---|---|---|
 | network | `network-id`, `network-types`, `supporting-network` | 망 하나 또는 층 하나(물리 망, 서비스 망 등) |
-| node | `node-id`, `supporting-node` | [[cs/network/nms/data/topology/node|노드]] — 장비. 서비스는 `supporting-node`로 자기가 도는 장비를 가리킨다 |
-| termination-point | `tp-id`, `supporting-termination-point` | [[cs/network/nms/data/topology/interface|인터페이스]] — 장비의 포트 |
-| link | `link-id`, `source`(`source-node`, `source-tp`), `destination`(`dest-node`, `dest-tp`), `supporting-link` | [[cs/network/nms/data/topology/link|링크]] — **단방향**. 케이블 하나는 링크 2개(왕복)로 표현한다 |
+| node | `node-id`, `supporting-node` | [[cs/network/nms/data/topology/node\|노드]] — 장비. 서비스는 `supporting-node`로 자기가 도는 장비를 가리킨다 |
+| termination-point | `tp-id`, `supporting-termination-point` | [[cs/network/nms/data/topology/interface\|인터페이스]] — 장비의 포트 |
+| link | `link-id`, `source`(`source-node`, `source-tp`), `destination`(`dest-node`, `dest-tp`), `supporting-link` | [[cs/network/nms/data/topology/link\|링크]] — **단방향**. 케이블 하나는 링크 2개(왕복)로 표현한다 |
 
 - **층 구조**: `supporting-*`로 위층 → 아래층을 잇는다(서비스 맵의 DB 서비스 → 물리 맵의 DB 서버). 장애 영향을 위아래로 따라가는 근거.
 - **정하지 않는 것**: 상태, 유형, 위치, 화면 좌표. 각 제품이 수집 표준이나 자체 기준으로 채운다.

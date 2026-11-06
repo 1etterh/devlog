@@ -29,7 +29,7 @@ NMS와 장비가 주고받는 통신. [[cs/network/nms/data/topology/index|토�
 |---|---|---|
 | v1 / v2c trap | UDP라 보낸 주소를 위조할 수 있다. 가짜 `linkDown`으로 거짓 경보를 만든다 | SNMPv3 trap(인증), 등록된 장비 주소만 받기, 폴링으로 교차 확인 |
 | syslog (UDP 514) | 인증·암호화 없음. 위조·도청·유실 | syslog over TLS(RFC 5425, TCP 6514), 관리망 안에서만 |
-| 받는 쪽 | 아무 주소에서나 받으면 폭주에 약하다 | 방화벽으로 장비 대역만 허용, 초당 수신 제한([[cs/network/nms/security/monitoring#경보-폭주|경보 폭주]]) |
+| 받는 쪽 | 아무 주소에서나 받으면 폭주에 약하다 | 방화벽으로 장비 대역만 허용, 초당 수신 제한([[cs/network/nms/security/monitoring#경보-폭주\|경보 폭주]]) |
 
 trap·syslog로 받은 내용은 **증거가 아니라 신호**로 다룬다. 중요한 상태는 폴링으로 다시 확인한다.
 

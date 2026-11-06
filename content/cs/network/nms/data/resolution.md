@@ -14,11 +14,11 @@ draft: false
 
 | 수준 | 단위 | 링크 표현 |
 |---|---|---|
-| 그룹 | [[cs/network/nms/data/site|사이트]] · 건물 · 층 | 묶어서(사이트 간 회선) |
-| 장비 | [[cs/network/nms/data/topology/node|노드]] | 장비 쌍당 1개, 이중화 구분 불가 |
-| 인터페이스 | [[cs/network/nms/data/topology/interface|인터페이스]] | 케이블당 1개, 이중화 구분 |
+| 그룹 | [[cs/network/nms/data/site\|사이트]] · 건물 · 층 | 묶어서(사이트 간 회선) |
+| 장비 | [[cs/network/nms/data/topology/node\|노드]] | 장비 쌍당 1개, 이중화 구분 불가 |
+| 인터페이스 | [[cs/network/nms/data/topology/interface\|인터페이스]] | 케이블당 1개, 이중화 구분 |
 | LAG 멤버 | Port-channel + 멤버 | 논리 링크 1개 + 멤버 목록 |
-| 서비스 | [[cs/network/nms/data/topology/service|서비스]] | 호출 방향 화살표 |
+| 서비스 | [[cs/network/nms/data/topology/service\|서비스]] | 호출 방향 화살표 |
 
 **저장은 가장 잘게, 화면은 묶어서.** 잘게 저장한 것은 묶을 수 있지만 거칠게 저장한 것은 다시 쪼갤 수 없다.
 

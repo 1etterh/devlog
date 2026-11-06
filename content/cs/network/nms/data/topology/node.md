@@ -31,7 +31,7 @@ draft: false
 |---|---|---|
 | 유형 | 망 안에서 맡는 계층·역할([아래](#유형)) | 참고: Cisco 3계층 |
 | 장비 종류 | 스위치·라우터·방화벽·무선 AP·서버 등 | SNMPv2-MIB `sysObjectID`, LLDP-MIB `lldpLocSysCapEnabled` |
-| 상태 | 장비가 살아 있는지. 표준 값이 없어 제품마다 정한다(ping·SNMP 응답, 경보로 판단 → [[cs/network/nms/data/monitoring/index|감시]]) | 표준 없음 |
+| 상태 | 장비가 살아 있는지. 표준 값이 없어 제품마다 정한다(ping·SNMP 응답, 경보로 판단 → [[cs/network/nms/data/monitoring/index\|감시]]) | 표준 없음 |
 | 관리 IP | 수집할 때 접속하는 주소 | 등록 값 / 이웃 장비의 LLDP-MIB `lldpRemManAddr` (장비 자신은 `lldpLocManAddr`) |
 
 #### 유형
@@ -43,7 +43,7 @@ draft: false
 | 코어(Core) | 망의 중심. 분배 스위치들을 묶고 다른 사이트·인터넷으로 나간다. 빠른 전달이 목적이라 보통 2대로 이중화 | 코어 L3 스위치, 백본 라우터 |
 | 분배(Distribution) | 액세스 스위치들을 모아 코어로 올린다. VLAN 간 라우팅·정책을 여기서 건다 | 층·건물 단위 L3 스위치 |
 | 액세스(Access) | 단말·서버가 직접 꽂히는 맨 아래 스위치 | 층·랙 단위 L2 스위치 |
-| 서버(호스트) | 망을 구성하지 않고 망에 붙는 호스트. [[cs/network/nms/data/topology/service|서비스]](컨테이너·프로세스)가 이 위에서 돈다 | 애플리케이션 서버, DB 서버 |
+| 서버(호스트) | 망을 구성하지 않고 망에 붙는 호스트. [[cs/network/nms/data/topology/service\|서비스]](컨테이너·프로세스)가 이 위에서 돈다 | 애플리케이션 서버, DB 서버 |
 
 - 계층(역할)과 **장비 종류**(방화벽·로드밸런서·무선 AP·라우터)는 다른 축이다. 장비 종류는 장비가 알려주지만(`sysObjectID`, LLDP `lldpLocSysCapEnabled` — 이웃 쪽에서 보면 `lldpRemSysCapEnabled`) 계층은 알려주지 않는다.
 - 수집기(장비를 발견·조회하는 서버)는 별도 단위가 아니다. 수집기가 깔린 장비도 서버 노드이고, 수집기는 그 노드가 맡은 **역할**이다.
@@ -53,7 +53,7 @@ draft: false
 | 항목 | 뜻 | 출처 |
 |---|---|---|
 | 모델 · 제조사 · 일련번호 | 자산 관리 | ENTITY-MIB `entPhysicalModelName` · `entPhysicalMfgName` · `entPhysicalSerialNum` |
-| 소속 사이트 | 장비가 놓인 장소([[cs/network/nms/data/site|사이트]]) | ITU-T M.3100 `locationName` |
+| 소속 사이트 | 장비가 놓인 장소([[cs/network/nms/data/site\|사이트]]) | ITU-T M.3100 `locationName` |
 | 사이트 안 위치 | 건물·층·랙 | 참고값: SNMPv2-MIB `sysLocation` |
 
 ## 수집 방법
@@ -67,7 +67,7 @@ draft: false
 | 상태                | 자동  | ping + SNMP 응답 여부  | 경보(trap)                                   |                                  |
 | 관리 IP             | 둘 다 | 등록 값(수집 대상 주소)     | 자동 발견: 이웃 장비의 LLDP `lldpRemManAddr`, 대역 스캔 | 수집하려면 이 주소를 먼저 알아야 한다            |
 | 모델 · 제조사 · 일련번호   | 자동  | SNMP 폴링 ENTITY-MIB | SSH CLI `show version`                     |                                  |
-| 소속 사이트 · 사이트 안 위치 | 수동  | 수동 지정              | `sysLocation` 참고                           | [[cs/network/nms/data/site#수집-방법|사이트 › 수집 방법]]  |
+| 소속 사이트 · 사이트 안 위치 | 수동  | 수동 지정              | `sysLocation` 참고                           | [[cs/network/nms/data/site#수집-방법\|사이트 › 수집 방법]]  |
 
 필요한 것: 장비 SNMP 활성화와 접속 정보(v2c 커뮤니티 또는 v3 계정 — v3 권장), 수집 서버 → 장비 UDP 161 · ICMP 허용.
 
