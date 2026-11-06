@@ -60,17 +60,4 @@ flowchart LR
 
 ## 용어
 
-| 용어 | 풀이 | 뜻 |
-|---|---|---|
-| ICMP | Internet Control Message Protocol | ping(echo request / reply)이 쓰는 프로토콜. L3 |
-| RTT | Round-Trip Time | 요청을 보내고 응답이 올 때까지 걸린 시간. ping 지연 |
-| trap | — | 장비가 NMS로 먼저 보내는 SNMP 알림. 응답을 받지 않는다 |
-| inform | — | 응답(확인)을 받는 trap. 잃어버리면 다시 보낸다 |
-| syslog | system log | 장비·서버가 로그 문장을 보내는 표준 형식. 보통 UDP 514 |
-| 카운터(Counter) | — | 계속 늘어나기만 하는 누적값(예: 받은 바이트 수). 두 번 읽은 **차이 ÷ 시간**으로 속도를 구한다 |
-| 게이지(Gauge) | — | 지금 이 순간의 값(예: CPU %, 온도). 읽은 값 그대로 쓴다 |
-| 임계값(Threshold) | — | 넘으면 경보를 내는 기준 값(예: CPU 90%가 5분 지속) |
-| PSU | Power Supply Unit | 전원 공급장치 |
-| DOM | Digital Optical Monitoring | 광 모듈(SFP)이 알려주는 수신·송신 세기, 온도. SFF-8472 |
-| SFP | Small Form-factor Pluggable | 포트에 꽂는 광·구리 모듈 |
-| gNMI | gRPC Network Management Interface | 스트리밍 텔레메트리에 쓰는 관리 프로토콜 |
+약어·용어는 [[cs/network/nms/glossary|용어]] 한곳에 모았다.
