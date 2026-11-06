@@ -9,7 +9,7 @@ tags:
 draft: false
 ---
 
-[[cs/network/nms/data/topology/index|토폴로지]]·[[cs/network/nms/data/monitoring/index|감시]] 데이터를 장비·서버에서 **어떻게 가져오는가**. 같은 SNMP 폴링으로 노드·인터페이스도 채우고 트래픽·CPU도 채우므로 데이터와 따로 정리한다. 수집 경로의 보안은 [[cs/network/nms/security/collection|보안 › 수집 경로]].
+[[cs/network/nms/data/topology/index|토폴로지]]·[[cs/network/nms/data/monitoring/index|감시]] 데이터를 장비·서버에서 **어떻게 가져오는가**. 같은 SNMP 폴링으로 노드·인터페이스도 채우고 트래픽·CPU도 채우므로 데이터와 따로 정리한다. 수집 경로의 보안은 [[cs/network/nms/security/collection|보안 › 수집 경로]]. SNMP 자체(구성 요소·OID·PDU·버전·카운터)는 [[cs/network/nms/collection/snmp|SNMP]].
 
 ## 두 축: 에이전트 유무 × 방향
 
