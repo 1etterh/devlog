@@ -89,4 +89,4 @@ v2c 이상은 항목별로 "없음"을 알려 주고 나머지는 정상으로 �
 - 패킷에는 숫자 OID만 실리므로, 매니저는 MIB 파일 없이도 질문할 수 있다. MIB 파일은 사람이 읽고 해석하는 데 쓴다.
 - "MIB에 있다"는 "물어볼 수 있다"일 뿐이다. 실제로 받을 수 있는지는 그 장비에 WALK를 돌려 확인해야 안다.
 
-자세한 정리는 [[cs/network/nms/collection/snmp#mib-정의와-실제-값|SNMP › MIB 정의와 실제 값]], OID 자체는 [[standards/001_oid|OID(Object Identifier)]].
+자세한 정리는 [[cs/network/nms/2.collection/1.snmp#mib-정의와-실제-값|SNMP › MIB 정의와 실제 값]], OID 자체는 [[standards/001_oid|OID(Object Identifier)]].
