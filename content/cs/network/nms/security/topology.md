@@ -9,7 +9,7 @@ tags:
 draft: false
 ---
 
-[[cs/network/nms/1.data/2.topology/index|토폴로지]] 데이터(사이트·노드·인터페이스·링크·서비스)는 그 자체로 민감하다.
+[[cs/network/nms/data/topology/index|토폴로지]] 데이터(사이트·노드·인터페이스·링크·서비스)는 그 자체로 민감하다.
 
 ## 내부 지도 노출
 
@@ -43,8 +43,8 @@ LLDP에는 **인증이 없다.** 아무 장비나 LLDP 프레임을 보내 "나�
 대응:
 
 - 사용자 단말이 꽂히는 포트(액세스 포트)와 외부 연결 포트에서는 LLDP·CDP 송신을 끈다. 장비끼리 연결된 포트에서만 켠다.
-- LLDP로 찾은 링크는 **한쪽 근거만이면 의심**한다(양쪽 확인 여부를 따로 기록: [[cs/network/nms/1.data/2.topology/3.link#방향|링크]]).
-- 이웃 정보로 찾은 새 장비는 승인 전까지 인증 정보를 보내지 않는다([[cs/network/nms/3.security/1.collection#발견스캔|수집 경로 › 발견]]).
+- LLDP로 찾은 링크는 **한쪽 근거만이면 의심**한다(양쪽 확인 여부를 따로 기록: [[cs/network/nms/data/topology/link#방향|링크]]).
+- 이웃 정보로 찾은 새 장비는 승인 전까지 인증 정보를 보내지 않는다([[cs/network/nms/security/collection#발견스캔|수집 경로 › 발견]]).
 
 ## 수정 권한과 이력
 

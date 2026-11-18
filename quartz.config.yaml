@@ -135,23 +135,6 @@ plugins:
     enabled: true
   - source: "@quartz-community/explorer"
     enabled: true
-    options:
-      # 파일·폴더 이름이 숫자로 시작하면(001_, 1. 등) 번호순으로 맨 앞에, 나머지는 폴더 먼저·제목순
-      sortFn: |-
-        (a, b) => {
-          const num = (n) => { const m = /^(\d+)[._]/.exec(n.slugSegment || ""); return m ? parseInt(m[1], 10) : null; };
-          const na = num(a), nb = num(b);
-          if (na !== null && nb !== null) return na - nb;
-          if (na !== null) return -1;
-          if (nb !== null) return 1;
-          if (a.isFolder !== b.isFolder) return a.isFolder ? -1 : 1;
-          return (a.displayName || "").localeCompare(b.displayName || "", undefined, { numeric: true, sensitivity: "base" });
-        }
-      # index.md 없는 폴더는 폴더 이름이 그대로 보이므로 앞 번호(1. 등)를 떼서 표시
-      mapFn: |-
-        (node) => {
-          if (node.isFolder) node.displayName = node.displayName.replace(/^\d+[._]/, "");
-        }
     layout:
       position: left
       priority: 50

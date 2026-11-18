@@ -9,7 +9,7 @@ tags:
 draft: false
 ---
 
-**대상 + 시각 + 내용** 하나. "무슨 일이 있었나"를 장비가 먼저 알려주거나(trap · syslog), NMS가 바뀐 것을 알아챈 기록이다. [[cs/network/nms/1.data/4.monitoring/1.metric|측정값]]이 숫자를 쌓는다면 이벤트는 일을 쌓는다.
+**대상 + 시각 + 내용** 하나. "무슨 일이 있었나"를 장비가 먼저 알려주거나(trap · syslog), NMS가 바뀐 것을 알아챈 기록이다. [[cs/network/nms/data/monitoring/metric|측정값]]이 숫자를 쌓는다면 이벤트는 일을 쌓는다.
 
 ## 정보
 
@@ -62,7 +62,7 @@ draft: false
 | 재부팅 | 가동 시간(`sysUpTime`)이 줄어듦 |
 | 설정 변경 | 설정 백업(SSH CLI) 비교, syslog 메시지, 제조사 MIB의 마지막 변경 시각 |
 | 구성품 변경 | ENTITY-MIB 재수집 시 모델 · 일련번호 · 모듈이 다름 |
-| 이웃 변경 | LLDP 이웃이 바뀜 → [[cs/network/nms/1.data/2.topology/3.link\|링크]] 추가 · 사라짐 |
+| 이웃 변경 | LLDP 이웃이 바뀜 → [[cs/network/nms/data/topology/link\|링크]] 추가 · 사라짐 |
 | 인터페이스 변경 | IF-MIB 재수집 시 인터페이스가 생기거나 없어짐 |
 
 ## 경보(Alarm)

@@ -9,7 +9,7 @@ tags:
 draft: false
 ---
 
-[[cs/network/nms/1.data/2.topology/index|토폴로지]]·[[cs/network/nms/1.data/4.monitoring/index|감시]] 데이터를 장비·서버에서 **어떻게 가져오는가**. 같은 SNMP 폴링으로 노드·인터페이스도 채우고 트래픽·CPU도 채우므로 데이터와 따로 정리한다. 수집 경로의 보안은 [[cs/network/nms/3.security/1.collection|보안 › 수집 경로]]. SNMP 자체(구성 요소·OID·PDU·버전·카운터)는 [[cs/network/nms/2.collection/1.snmp|SNMP]], ping 자체(ICMP·RTT·손실·한계)는 [[cs/network/nms/2.collection/2.ping|ping]], MIB 항목 이름 체계는 [[standards/001_oid|OID]].
+[[cs/network/nms/data/topology/index|토폴로지]]·[[cs/network/nms/data/monitoring/index|감시]] 데이터를 장비·서버에서 **어떻게 가져오는가**. 같은 SNMP 폴링으로 노드·인터페이스도 채우고 트래픽·CPU도 채우므로 데이터와 따로 정리한다. 수집 경로의 보안은 [[cs/network/nms/security/collection|보안 › 수집 경로]]. SNMP 자체(구성 요소·OID·PDU·버전·카운터)는 [[cs/network/nms/collection/snmp|SNMP]], ping 자체(ICMP·RTT·손실·한계)는 [[cs/network/nms/collection/ping|ping]], MIB 항목 이름 체계는 [[standards/001_oid|OID]].
 
 ## 두 축: 에이전트 유무 × 방향
 
@@ -45,13 +45,13 @@ draft: false
 | 8 | NETCONF · RESTCONF | pull | YANG 모델 데이터를 요청 | SNMP와 같은 정보(장비가 지원하면) | RFC 6241, RFC 8040 | 최신 장비, NETCONF 활성화 |
 | 9 | 스트리밍 텔레메트리 | push | 구독해 두면 장비가 주기마다 보내줌 | 상태 · 트래픽을 초 단위로 | 참고: gNMI / OpenConfig(업계 명세) | 최신 장비, gNMI 지원 |
 | 10 | SSH CLI | pull | SSH로 `show …`를 실행하고 결과를 파싱 | 다른 방법으로 안 나오는 정보, 설정 백업 | 표준 없음(제조사별 출력) | SSH 계정. 제조사 · 버전마다 파서 필요 → 최후 수단 |
-| 11 | Docker Engine API | pull | Docker 소켓 · API로 컨테이너 조회 | [[cs/network/nms/1.data/2.topology/4.service\|서비스]](컨테이너, 상태, 이미지, 포트) | 참고: Docker Engine API | 소켓 접근 = root 권한과 같다 → 읽기 전용 프록시나 에이전트 권장 |
+| 11 | Docker Engine API | pull | Docker 소켓 · API로 컨테이너 조회 | [[cs/network/nms/data/topology/service\|서비스]](컨테이너, 상태, 이미지, 포트) | 참고: Docker Engine API | 소켓 접근 = root 권한과 같다 → 읽기 전용 프록시나 에이전트 권장 |
 | 12 | 서버 에이전트 | push / pull | 서버에 수집 프로그램 설치 | 서버 측정값, 프로세스 · 컨테이너, TCP 연결(`ss` / conntrack) | 표준 없음 | 서버마다 설치 · 배포 |
-| 13 | 애플리케이션 트레이스 | push | 서비스가 호출 기록을 보냄 | [[cs/network/nms/1.data/2.topology/5.dependency\|서비스 연결]](누가 누구를 호출하나) | 참고: OpenTelemetry | 애플리케이션 코드 수정 |
+| 13 | 애플리케이션 트레이스 | push | 서비스가 호출 기록을 보냄 | [[cs/network/nms/data/topology/dependency\|서비스 연결]](누가 누구를 호출하나) | 참고: OpenTelemetry | 애플리케이션 코드 수정 |
 | 14 | 가져오기(import) | — | CSV 일괄 등록, CMDB · NetBox 등 외부 시스템 연동 | 사이트, 장비 목록, 수동 링크 | 제품마다 다름 | — |
 | 15 | 수동 입력 | — | 관리 화면에서 사람이 입력 | 사이트, 역할, 수동 링크, 맵 좌표 | — | — |
 
-- 트래픽 흐름("누가 누구와 얼마나")은 NetFlow / IPFIX(RFC 7011) · sFlow로 장비가 보낸다. 지금 범위 밖([[cs/network/nms/1.data/4.monitoring/1.metric#범위-밖|감시 › 측정값]]).
+- 트래픽 흐름("누가 누구와 얼마나")은 NetFlow / IPFIX(RFC 7011) · sFlow로 장비가 보낸다. 지금 범위 밖([[cs/network/nms/data/monitoring/metric#범위-밖|감시 › 측정값]]).
 
 ## 방법별 비교
 
@@ -77,18 +77,18 @@ draft: false
 
 | 데이터 | 문서 |
 |---|---|
-| 사이트 | [[cs/network/nms/1.data/1.site#수집-방법\|사이트 › 수집 방법]] |
-| 노드 (발견 · 등록 경로 · 중복 판별 포함) | [[cs/network/nms/1.data/2.topology/1.node#수집-방법\|노드 › 수집 방법]] |
-| 인터페이스 | [[cs/network/nms/1.data/2.topology/2.interface#수집-방법\|인터페이스 › 수집 방법]] |
-| 링크 | [[cs/network/nms/1.data/2.topology/3.link#수집-방법\|링크 › 수집 방법]] |
-| 서비스 · 서비스 연결 | [[cs/network/nms/1.data/2.topology/4.service#수집-방법\|서비스]] · [[cs/network/nms/1.data/2.topology/5.dependency#수집-방법\|서비스 연결]] |
-| 측정값 · 이벤트 | [[cs/network/nms/1.data/4.monitoring/1.metric#수집-방법\|측정값]] · [[cs/network/nms/1.data/4.monitoring/2.event#수집-방법\|이벤트]] |
+| 사이트 | [[cs/network/nms/data/site#수집-방법\|사이트 › 수집 방법]] |
+| 노드 (발견 · 등록 경로 · 중복 판별 포함) | [[cs/network/nms/data/topology/node#수집-방법\|노드 › 수집 방법]] |
+| 인터페이스 | [[cs/network/nms/data/topology/interface#수집-방법\|인터페이스 › 수집 방법]] |
+| 링크 | [[cs/network/nms/data/topology/link#수집-방법\|링크 › 수집 방법]] |
+| 서비스 · 서비스 연결 | [[cs/network/nms/data/topology/service#수집-방법\|서비스]] · [[cs/network/nms/data/topology/dependency#수집-방법\|서비스 연결]] |
+| 측정값 · 이벤트 | [[cs/network/nms/data/monitoring/metric#수집-방법\|측정값]] · [[cs/network/nms/data/monitoring/event#수집-방법\|이벤트]] |
 
 ## 수집기(Collector)
 
 NMS가 큰 망을 볼 때는 실제로 장비에 묻는 **수집기**(poller / proxy)를 따로 둔다.
 
-- 수집기는 별도 데이터 단위가 아니다. 수집기가 깔린 장비도 서버 [[cs/network/nms/1.data/2.topology/1.node|노드]]이고, 수집기는 그 노드가 맡은 **역할**이다.
+- 수집기는 별도 데이터 단위가 아니다. 수집기가 깔린 장비도 서버 [[cs/network/nms/data/topology/node|노드]]이고, 수집기는 그 노드가 맡은 **역할**이다.
 - 망 분리 · 방화벽 때문에 중앙 서버가 모든 장비에 닿기 어렵다 → 사이트(구역) 안의 수집기가 장비에 묻고 중앙에는 결과만 올린다.
 - 사이트당 수집기 수는 표준으로 정해져 있지 않다. 용량(장비 수 × 지표 수 ÷ 주기), 망 도달(구역이 갈리면 구역마다), 이중화(2대)로 정한다. 한 대가 작은 사이트 여러 개를 맡기도 한다.
 - **장비 1대는 수집기 1대가 맡는다.** 둘이 같이 폴링하면 장비 CPU 부하와 데이터 중복이 생긴다. 이중화는 담당을 넘기는 방식.
@@ -116,6 +116,6 @@ NMS가 큰 망을 볼 때는 실제로 장비에 묻는 **수집기**(poller / p
 - 수집기 자체는 시드가 아니다. 수집기가 시드를 **가지고** 발견한다. 다만 수집기가 있는 망의 게이트웨이 · 코어가 가장 흔한 시드다.
 - 발견한 노드의 **담당 수집기**는 보통 찾은 수집기로 정한다(사람이 바꿀 수 있음). 이후 주기 수집도 그 수집기가 한다.
 - 시드는 **pull 발견**에만 쓴다. 에이전트가 push로 자기 등록하는 서버는 시드가 필요 없다.
-- 발견 흐름(시드 → 이웃 따라가기 → 승인)은 [[cs/network/nms/1.data/2.topology/1.node#등록-경로|노드 › 등록 경로]].
+- 발견 흐름(시드 → 이웃 따라가기 → 승인)은 [[cs/network/nms/data/topology/node#등록-경로|노드 › 등록 경로]].
 
-주기 · 보관 기간은 [[cs/network/nms/1.data/3.resolution|데이터 해상도]].
+주기 · 보관 기간은 [[cs/network/nms/data/resolution|데이터 해상도]].
