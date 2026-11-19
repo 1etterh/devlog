@@ -2,7 +2,7 @@
 title: 클라이언트 타임아웃 후 재시도했더니 DB duplicate key 에러가 난 이유
 type: debug
 tags: [debug, timeout, retry, race_condition, duplicate_key, idempotency, json_rpc]
-draft: true
+draft: false
 ---
 
 ## 증상

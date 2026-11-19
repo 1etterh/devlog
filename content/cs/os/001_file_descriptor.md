@@ -2,7 +2,7 @@
 title: 파일 디스크립터(File Descriptor)란 무엇인가
 type: question
 tags: [question, file_descriptor, operating_system, linux, system_call, socket]
-draft: true
+draft: false
 ---
 
 ## 의문의 출발

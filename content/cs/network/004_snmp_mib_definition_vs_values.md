@@ -2,7 +2,7 @@
 title: SNMP로 MIB에 정의된 항목을 다 받을 수 있는가?
 type: question
 tags: [question, network, snmp, mib, network_monitoring]
-draft: true
+draft: false
 ---
 
 ## 의문
