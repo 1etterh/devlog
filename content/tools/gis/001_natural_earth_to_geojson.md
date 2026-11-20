@@ -118,3 +118,5 @@ npx mapshaper ne_110m_admin_0_countries.shp \
 | 추천 | 처음 한 번, 단순화 비율을 정할 때 | 정한 비율로 반복 생성할 때 |
 
 결론: **웹에서 단순화 비율을 정하고, 그 값을 CLI 명령에 옮겨 적어 두면** 다음부터는 한 줄로 다시 만들 수 있다.
+
+다음 글: [[002_korea_admin_boundary_geojson|대한민국 행정구역 GeoJSON 만들기]]
