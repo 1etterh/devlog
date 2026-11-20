@@ -59,6 +59,16 @@ flowchart LR
 
 → **`KR/0.index.json`**으로 정했다. 폴더는 **나라 단위까지만** 만든다. 시·도 아래(`KR/11.json`)는 `KR/` 안에 평평하게 둔다. 행정코드는 단계가 달라도 겹치지 않으니 더 깊게 나눌 필요가 없다.
 
+코드에서도 이 구조가 단순하다. 세계 지도(최상위)도 "폴더 + `0.index`" 규칙에 그대로 들어가서, 시작점 파일 경로를 구할 때 최상위만 따로 처리할 필요가 없다. `KR.json` 방식이었다면 최상위 파일에만 `countries.json` 같은 별도 이름을 정하고 분기해야 한다.
+
+```ts
+const INDEX_FILE = '0.index';
+const indexFile = (dir = '') => [dir, INDEX_FILE].filter(Boolean).join('/') + '.json';
+
+indexFile();     // '0.index.json'     세계 → 국가
+indexFile('KR'); // 'KR/0.index.json'  한국 → 시·도
+```
+
 ## 원본 자료
 
 | 자료 | 단위 | 형식 | 특징 |
