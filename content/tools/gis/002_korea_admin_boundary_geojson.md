@@ -12,22 +12,52 @@ draft: true
 
 ```
 geoJson/
-├── countries.json     세계 → 국가
-├── KR.json            한국 → 시·도 17개
+├── 0.index.json       세계 → 국가
 └── KR/
+    ├── 0.index.json   한국 → 시·도 17개
     ├── 11.json        서울 → 구 25개
     ├── 26.json        부산 → 구·군
     └── …              (시·도 코드마다 하나, 17개)
 ```
 
-- 화면은 처음에 `KR.json`만 받는다. 사용자가 시·도를 누를 때 그 시·도의 `KR/{code}.json`을 받는다.
+- 화면은 처음에 `KR/0.index.json`만 받는다. 사용자가 시·도를 누를 때 그 시·도의 `KR/{code}.json`을 받는다.
 - 시·도 코드는 2자리, 시·군·구 코드는 5자리다. 시·군·구 코드의 **앞 2자리가 그 시·도 코드**라서 이 규칙으로 파일을 나눌 수 있다.
 
 ```mermaid
 flowchart LR
-    A[시·도 전체<br/>provinces] -->|그대로 + hasChildren| B[KR.json]
+    A[시·도 전체<br/>provinces] -->|그대로 + hasChildren| B[KR/0.index.json]
     C[시·군·구 전체<br/>municipalities] -->|"code 앞 2자리로 split"| D["KR/11.json<br/>KR/26.json<br/>…"]
 ```
+
+## 파일 이름 정하기
+
+처음에는 `countries.json`(세계), `KR.json`(한국), `KR/11.json`(서울)처럼 이름을 붙였다. 개발하면서 지도의 시작점이 되는 파일을 자주 열게 되는데, 이 파일이 폴더 중간에 섞여 있어 찾기가 불편했다. 그래서 두 가지를 정했다.
+
+### 1. 시작점 파일 이름: `_index.json` vs `0.index.json`
+
+"그 지역의 바로 아래 구역들"을 담는 시작점 파일이 **폴더 맨 위**에 오게 하고 싶었다. 후보는 두 개였고, 같은 파일들을 만들어 정렬해 봤다.
+
+| 정렬 방식 | 쓰는 곳 | 결과 |
+|---|---|---|
+| 사람 기준 정렬 (`Intl.Collator`, 숫자 인식) | VS Code 탐색기, Finder | `_index` → `0.index` → `11` → `39` → `countries` → `KR` |
+| 바이트 순 정렬 | 터미널 `ls`, git, GitHub 웹 | `0.index` → `11` → `39` → `KR` → **`_index`** → `countries` |
+
+- `_index.json`은 VS Code에서는 맨 위지만, 바이트 순 정렬에서는 숫자와 대문자 뒤로 밀린다. `_`(0x5F)가 숫자(0x30~)와 대문자(0x41~)보다 코드값이 크기 때문이다.
+- `0.index.json`은 두 방식 모두에서 맨 위다. 나중에 `004`처럼 0으로 시작하는 코드가 생겨도 `.`(0x2E)이 숫자보다 앞이라 계속 맨 위에 온다.
+- `_index`가 나은 점도 있다. 지역 코드 이름 파일(`11.json`) 사이에서 `0.index`는 "코드 0번 지역"처럼 보일 수 있지만, `_index`는 그런 오해가 없고 Hugo 등에서 익숙한 관례다.
+
+→ "어디서 열어도 맨 위"라는 목적에 맞는 **`0.index.json`**으로 정했다.
+
+### 2. 나라 시작점 위치: `KR.json` vs `KR/0.index.json`
+
+| | `KR.json` (폴더 옆) | `KR/0.index.json` (폴더 안) |
+|---|---|---|
+| 자료 교체 | 폴더와 파일을 따로 바꿔야 한다. 하나를 빠뜨리면 시·도와 시·군·구 자료의 기준 연도가 어긋날 수 있다 | `KR/` 폴더만 통째로 바꾸면 된다 |
+| 나라가 늘면 | `KR.json`, `KR/`, `JP.json`, `JP/` … 나라마다 두 개씩 섞인다 | `0.index.json`과 나라 폴더만 남는다 |
+| 규칙 | 최상위와 나라의 규칙이 다르다 | "`0.index.json` = 그 폴더 지역의 바로 아래" 하나로 설명된다 |
+| 장점 | 이미 있는 파일을 옮기지 않아도 된다 | |
+
+→ **`KR/0.index.json`**으로 정했다. 폴더는 **나라 단위까지만** 만든다. 시·도 아래(`KR/11.json`)는 `KR/` 안에 평평하게 둔다. 행정코드는 단계가 달라도 겹치지 않으니 더 깊게 나눌 필요가 없다.
 
 ## 원본 자료
 
@@ -50,12 +80,12 @@ southkorea-maps의 파일:
 
 웹 지도에는 `_simple` 파일로 충분하다. feature 속성은 `{"code":"11250","name":"강동구","name_eng":"Gangdong-gu","base_year":"2013"}` 형태다.
 
-## 1. 시·도 파일 (KR.json)
+## 1. 시·도 파일 (KR/0.index.json)
 
 ```bash
 npx mapshaper skorea_provinces_geo_simple.json \
   -each 'hasChildren = true' \
-  -o format=geojson KR.json
+  -o format=geojson KR/0.index.json
 ```
 
 - `hasChildren`은 "하위 파일(`KR/{code}.json`)이 있다"는 표시다. 브라우저는 서버 폴더의 파일 목록을 읽을 수 없어서, 누를 수 있는 지역인지를 데이터에 직접 적어 둔다.
@@ -107,7 +137,7 @@ npx mapshaper -i bnd_sido.shp encoding=cp949 \
   -proj wgs84 \
   -rename-fields code=원본코드필드,name=원본이름필드 \
   -simplify 5% \
-  -o format=geojson precision=0.0001 KR.json
+  -o format=geojson precision=0.0001 KR/0.index.json
 ```
 
 - 좌표계를 바꾸지 않으면 좌표가 `953000, 1950000` 같은 미터 값으로 남아서 지도에 아무것도 안 보인다.

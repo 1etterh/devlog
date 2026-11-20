@@ -17,7 +17,7 @@ flowchart LR
     B -->|CLI| D[npx mapshaper]
     C --> E[속성 정리 · 단순화]
     D --> E
-    E --> F[countries.json<br/>GeoJSON]
+    E --> F[0.index.json<br/>GeoJSON]
 ```
 
 ## 원본 받기
@@ -68,7 +68,7 @@ flowchart LR
    -filter 'code !== "AQ"'
    ```
    (마지막 줄은 남극을 뺀다. 필요 없으면 생략)
-4. **Export** → **GeoJSON** 선택 → 내려받기 → 파일 이름을 `countries.json`으로 바꾼다
+4. **Export** → **GeoJSON** 선택 → 내려받기 → 파일 이름을 `0.index.json`으로 바꾼다 (이름을 이렇게 정한 이유는 [[002_korea_admin_boundary_geojson#파일 이름 정하기|다음 글]]에 있다)
 
 ## 방법 2. CLI (npx mapshaper)
 
@@ -80,7 +80,7 @@ npx mapshaper ne_110m_admin_0_countries.shp \
   -rename-fields code=ISO_A2_EH,name=NAME,name_ko=NAME_KO \
   -filter 'code !== "AQ"' \
   -simplify 50% \
-  -o format=geojson precision=0.0001 countries.json
+  -o format=geojson precision=0.0001 0.index.json
 ```
 
 | 옵션 | 하는 일 |
@@ -96,7 +96,7 @@ npx mapshaper ne_110m_admin_0_countries.shp \
   ```
   [filter] Retained 176 of 177 features
   [simplify] Repaired 2 intersections
-  [o] Wrote countries.json
+  [o] Wrote 0.index.json
   ```
   feature 하나는 `{"code":"KR","name":"South Korea","name_ko":"대한민국"}`처럼 세 속성만 남는다.
 
@@ -105,7 +105,7 @@ npx mapshaper ne_110m_admin_0_countries.shp \
 | 그대로 변환 | 약 970KB | 168 |
 | 위 명령 | 약 125KB | 3 |
 
-- 대안: GDAL의 `ogr2ogr -f GeoJSON -select ISO_A2_EH,NAME,NAME_KO countries.json ne_110m_admin_0_countries.shp`.
+- 대안: GDAL의 `ogr2ogr -f GeoJSON -select ISO_A2_EH,NAME,NAME_KO 0.index.json ne_110m_admin_0_countries.shp`.
   GDAL을 따로 설치해야 하고 단순화 옵션도 약하다. 그래서 Node 프로젝트에서는 mapshaper가 편하다.
 
 ## 두 방법 비교
