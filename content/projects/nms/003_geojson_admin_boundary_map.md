@@ -75,14 +75,12 @@ export type IBoundaryCollection = FeatureCollection<Polygon | MultiPolygon, IGeo
 ```
 public/geo/
 ├── KR.json            국가의 하위 (시·도 17개, 약 200KB)
-├── KR/{code}.json     그 지역의 하위 (시·도별 시·군·구, 17개 합계 약 550KB)
-└── KR.children.json   KR/{code}.json 이 있는 지역 코드 목록
+└── KR/{code}.json     그 지역의 하위 (시·도별 시·군·구, 17개 합계 약 550KB)
 ```
 
 - 필요할 때만 받는다. 전국 화면은 `KR.json` 하나만.
 - 행정코드는 단계가 달라도 겹치지 않아서(2자리, 5자리) 어느 단계든 `KR/{code}.json` 규칙 하나로 된다.
 - 번들에 넣지 않고 `public/`에서 런타임에 받는다. 자료를 바꿔 끼워도 다시 빌드할 필요가 없다.
-- 브라우저는 서버 폴더 목록을 읽을 수 없어서, 하위 파일이 있는 지역 목록(`KR.children.json`)을 따로 둔다. 하위가 없는 지역을 누를 수 없게 하는 데 쓴다. 목록을 받지 못해도 지도는 그려야 하므로, 실패하면 경고만 남기고 모든 지역을 누를 수 있게 둔다.
 
 ### 단계는 이름 대신 depth로
 
@@ -255,4 +253,4 @@ function viewOf(code: string) {
 ## 다음에 할 것
 
 - [ ] 지도 위에 사이트 위치를 scatter series(`coordinateSystem: 'geo'`)로 올리기
-- [ ] 경계 자료를 최신으로 바꾸고 `KR.children.json`을 자동으로 만드는 스크립트
+- [ ] 경계 자료를 최신으로 바꾸는 스크립트
