@@ -19,20 +19,20 @@ draft: true
 | 파일 | 이름이 주는 느낌 | 실제 내용 |
 |---|---|---|
 | `KR.json` | KR의 파일 → KR 자신의 모양 | KR **아래** 시·도들 |
-| `KR/0.index.json` | KR 폴더 안의 목차 → KR의 안쪽 | KR **아래** 시·도들 |
+| `KR/index.json` | KR 폴더 안의 목차 → KR의 안쪽 | KR **아래** 시·도들 |
 
 `KR.json`은 파일 이름과 내용이 한 단계 어긋나 있다. 폴더 구조로 바꾸니 **폴더 = 그 지역의 안쪽**이 되어 이름과 내용이 맞는다.
 
 ```
-0.index.json              국가들      ← 한국의 모양은 여기
-KR/0.index.json           시·도들     ← 서울의 모양은 여기
-KR/11/0.index.json        서울의 구들 ← 종로구의 모양은 여기
+index.json                국가들      ← 한국의 모양은 여기
+KR/index.json             시·도들     ← 서울의 모양은 여기
+KR/11/index.json          서울의 구들 ← 종로구의 모양은 여기
 ```
 
 | 지역 | 자기 모양이 든 파일 | 하위 모양이 든 파일 |
 |---|---|---|
-| 한국 `KR` | `0.index.json` | `KR/0.index.json` |
-| 서울 `KR.11` | `KR/0.index.json` | `KR/11/0.index.json` |
+| 한국 `KR` | `index.json` | `KR/index.json` |
+| 서울 `KR.11` | `KR/index.json` | `KR/11/index.json` |
 
 ## path: 지역을 찾는 키
 
@@ -42,7 +42,7 @@ path 하나에 세 가지가 들어 있다.
 
 | 필요한 것 | path로 구하기 |
 |---|---|
-| 하위 파일 위치 | `[...path.split('.'), '0.index'].join('/')` |
+| 하위 파일 위치 | `[...path.split('.'), 'index'].join('/')` |
 | 부모 | 마지막 마디를 뗀다 (`'KR.11'` → `'KR'`) |
 | 브레드크럼 | `split('.')` |
 
@@ -101,6 +101,6 @@ const loadRegion = (path: string) => loadChildren(parentOf(path));
 
 | 결정 | 이유 |
 |---|---|
-| 모든 단계를 폴더로 (`KR/11/0.index.json`) | 이름과 내용이 맞고, 규칙 하나로 단계가 늘어도 그대로 |
+| 모든 단계를 폴더로 (`KR/11/index.json`) | 이름과 내용이 맞고, 규칙 하나로 단계가 늘어도 그대로 |
 | 지역 키는 path | 위치 · 부모 · 파일 위치가 한 값에 들어 있어 추측 장치가 필요 없다 |
 | `hasChildren` 대신 받아 보고 기억 | 자료를 바꿀 때 맞춰 줄 표시가 없어진다 |

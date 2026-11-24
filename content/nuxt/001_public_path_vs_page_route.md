@@ -54,5 +54,5 @@ runtimeConfig: {
 
 // 사용하는 곳
 const { geoJson } = useRuntimeConfig().public;
-await $fetch(`${geoJson.path}/0.index.json`);
+await $fetch(`${geoJson.path}/index.json`);
 ```

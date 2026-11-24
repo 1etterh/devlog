@@ -12,81 +12,78 @@ draft: true
 
 ```
 geoJson/
-├── 0.index.json           세계 → 국가
+├── index.json             세계 → 국가
 └── KR/
-    ├── 0.index.json       한국 → 시·도 17개
+    ├── index.json         한국 → 시·도 17개
     ├── 11/
-    │   └── 0.index.json   서울 → 구 25개
+    │   └── index.json     서울 → 구 25개
     ├── 26/
-    │   └── 0.index.json   부산 → 구·군
+    │   └── index.json     부산 → 구·군
     └── …                  (시·도 코드마다 하나, 17개)
 ```
 
-- **폴더 = 그 지역의 안쪽, `0.index.json` = 안쪽을 나눈 지도**다. 서울 자신의 모양은 부모의 `KR/0.index.json`에 있고, `KR/11/0.index.json`에는 서울의 구들이 있다.
-- 화면은 처음에 `KR/0.index.json`만 받는다. 사용자가 시·도를 누를 때 그 시·도의 `KR/{code}/0.index.json`을 받는다.
+- **폴더 = 그 지역의 안쪽, `index.json` = 안쪽을 나눈 지도**다. 서울 자신의 모양은 부모의 `KR/index.json`에 있고, `KR/11/index.json`에는 서울의 구들이 있다.
+- 화면은 처음에 `KR/index.json`만 받는다. 사용자가 시·도를 누를 때 그 시·도의 `KR/{code}/index.json`을 받는다.
 - 시·도 코드는 2자리, 시·군·구 코드는 5자리다. 시·군·구 코드의 **앞 2자리가 그 시·도 코드**라서 이 규칙으로 파일을 나눌 수 있다.
 
 ```mermaid
 flowchart LR
-    A[시·도 전체<br/>provinces] -->|속성 정리| B[KR/0.index.json]
-    C[시·군·구 전체<br/>municipalities] -->|"code 앞 2자리로 split"| D["KR/11/0.index.json<br/>KR/26/0.index.json<br/>…"]
+    A[시·도 전체<br/>provinces] -->|속성 정리| B[KR/index.json]
+    C[시·군·구 전체<br/>municipalities] -->|"code 앞 2자리로 split"| D["KR/11/index.json<br/>KR/26/index.json<br/>…"]
 ```
 
 ## 파일 이름 정하기
 
 처음에는 `countries.json`(세계), `KR.json`(한국), `KR/11.json`(서울)처럼 이름을 붙였다. 개발하면서 지도의 시작점이 되는 파일을 자주 열게 되는데, 이 파일이 폴더 중간에 섞여 있어 찾기가 불편했다. 그래서 세 가지를 정했다.
 
-### 1. 시작점 파일 이름: `_index.json` vs `0.index.json`
+### 1. 시작점 파일 이름: `0.index.json` vs `index.json`
 
-"그 지역의 바로 아래 구역들"을 담는 시작점 파일이 **폴더 맨 위**에 오게 하고 싶었다. 후보는 두 개였고, 같은 파일들을 만들어 정렬해 봤다.
+처음에는 시작점 파일이 **폴더 맨 위**에 오도록 `0.index.json`으로 정했다. `_index.json`도 후보였지만, 터미널 `ls`나 git처럼 바이트 순으로 정렬하는 곳에서는 `_`(0x5F)가 숫자와 대문자보다 뒤라서 맨 위에 오지 않았다. `0.`은 VS Code와 `ls` 양쪽에서 맨 위였다.
 
-| 정렬 방식 | 쓰는 곳 | 결과 |
-|---|---|---|
-| 사람 기준 정렬 (`Intl.Collator`, 숫자 인식) | VS Code 탐색기, Finder | `_index` → `0.index` → `11` → `39` → `countries` → `KR` |
-| 바이트 순 정렬 | 터미널 `ls`, git, GitHub 웹 | `0.index` → `11` → `39` → `KR` → **`_index`** → `countries` |
+그런데 3번까지 정하고 나니 폴더마다 파일은 시작점 하나뿐이고, 나머지는 전부 하위 지역 폴더(`11/`, `26/` …)였다.
 
-- `_index.json`은 VS Code에서는 맨 위지만, 바이트 순 정렬에서는 숫자와 대문자 뒤로 밀린다. `_`(0x5F)가 숫자(0x30~)와 대문자(0x41~)보다 코드값이 크기 때문이다.
-- `0.index.json`은 두 방식 모두에서 맨 위다. 나중에 `004`처럼 0으로 시작하는 코드가 생겨도 `.`(0x2E)이 숫자보다 앞이라 계속 맨 위에 온다.
-- `_index`가 나은 점도 있다. 지역 코드 이름 폴더(`11/`) 사이에서 `0.index`는 "코드 0번 지역"처럼 보일 수 있지만, `_index`는 그런 오해가 없고 Hugo 등에서 익숙한 관례다.
+- 같은 폴더에 다른 파일이 없으니 시작점을 다른 파일과 헷갈릴 일이 없다.
+- VS Code 탐색기는 폴더를 먼저 보여 주므로 `0.`을 붙여도 파일은 폴더들 아래에 온다.
+- `0.index`는 지역 코드 폴더 사이에서 "코드 0번 지역"처럼 보일 수도 있다.
 
-→ "어디서 열어도 맨 위"라는 목적에 맞는 **`0.index.json`**으로 정했다.
+→ 정렬용 접두사를 빼고 **`index.json`**으로 바꿨다. 같은 폴더에 파일이 여러 개 생겨 순서가 중요해지면 그때 다시 정한다.
 
-### 2. 나라 시작점 위치: `KR.json` vs `KR/0.index.json`
+### 2. 나라 시작점 위치: `KR.json` vs `KR/index.json`
 
-| | `KR.json` (폴더 옆) | `KR/0.index.json` (폴더 안) |
+| | `KR.json` (폴더 옆) | `KR/index.json` (폴더 안) |
 |---|---|---|
 | 자료 교체 | 폴더와 파일을 따로 바꿔야 한다. 하나를 빠뜨리면 시·도와 시·군·구 자료의 기준 연도가 어긋날 수 있다 | `KR/` 폴더만 통째로 바꾸면 된다 |
-| 나라가 늘면 | `KR.json`, `KR/`, `JP.json`, `JP/` … 나라마다 두 개씩 섞인다 | `0.index.json`과 나라 폴더만 남는다 |
-| 규칙 | 최상위와 나라의 규칙이 다르다 | "`0.index.json` = 그 폴더 지역의 바로 아래" 하나로 설명된다 |
+| 나라가 늘면 | `KR.json`, `KR/`, `JP.json`, `JP/` … 나라마다 두 개씩 섞인다 | `index.json`과 나라 폴더만 남는다 |
+| 규칙 | 최상위와 나라의 규칙이 다르다 | "`index.json` = 그 폴더 지역의 바로 아래" 하나로 설명된다 |
 | 장점 | 이미 있는 파일을 옮기지 않아도 된다 | |
 
-→ **`KR/0.index.json`**으로 정했다.
+→ **`KR/index.json`**으로 정했다.
 
-### 3. 나라 아래도 폴더로: `KR/11.json` vs `KR/11/0.index.json`
+### 3. 나라 아래도 폴더로: `KR/11.json` vs `KR/11/index.json`
 
 처음에는 폴더를 나라 단위까지만 만들고, 시·도 아래는 `KR/11.json`처럼 `KR/` 안에 평평하게 두려 했다. 행정코드는 단계가 달라도 겹치지 않아서(2자리, 5자리) 평평해도 파일 이름이 부딪히지 않는다.
 
-그런데 나중에 서울을 더 잘게 나누면 `KR/11.json`이 `KR/11/0.index.json` + 그 아래 파일로 바뀌어야 한다. 이때 지역마다 형식이 섞이면, 브라우저는 폴더 목록을 읽을 수 없으니 어느 형식인지 알려면 두 번 요청해 보거나 목록 파일을 따로 둬야 한다. 결국 형식을 바꿀 때마다 파일을 전부 옮겨야 한다.
+그런데 나중에 서울을 더 잘게 나누면 `KR/11.json`이 `KR/11/index.json` + 그 아래 파일로 바뀌어야 한다. 이때 지역마다 형식이 섞이면, 브라우저는 폴더 목록을 읽을 수 없으니 어느 형식인지 알려면 두 번 요청해 보거나 목록 파일을 따로 둬야 한다. 결국 형식을 바꿀 때마다 파일을 전부 옮겨야 한다.
 
-| | 나라까지만 폴더 (`KR/11.json`) | 모든 단계 폴더 (`KR/11/0.index.json`) |
+| | 나라까지만 폴더 (`KR/11.json`) | 모든 단계 폴더 (`KR/11/index.json`) |
 |---|---|---|
-| 규칙 | 나라까지는 `0.index`, 그 아래는 `{code}.json` | `0.index` 하나 |
+| 규칙 | 나라까지는 `index`, 그 아래는 `{code}.json` | `index` 하나 |
 | 단계가 늘면 | 형식이 바뀔 수 있다 | 폴더가 하나 더 생길 뿐이다 |
 | code 중복 | 나라 안에서 겹치면 안 된다 | 상관없다 |
 | 단점 | | 폴더가 많아진다 |
 
-→ **모든 단계를 폴더로** 정했다. "`0.index.json` = 그 폴더 지역의 바로 아래" 규칙 하나로 세계부터 읍·면·동까지 설명된다.
+→ **모든 단계를 폴더로** 정했다. "`index.json` = 그 폴더 지역의 바로 아래" 규칙 하나로 세계부터 읍·면·동까지 설명된다.
 
-코드도 단순해진다. 지역 경로(`'KR.11'`처럼 code를 `.`으로 이은 것)를 그대로 폴더로 바꾸고 `0.index`만 붙이면 된다. 세계 지도(최상위, 경로 `''`)도 같은 규칙에 들어가서 분기가 없다.
+코드도 단순해진다. 지역 경로(`'KR.11'`처럼 code를 `.`으로 이은 것)를 그대로 폴더로 바꾸고 `index`만 붙이면 된다. 세계 지도(최상위, 경로 `''`)도 같은 규칙에 들어가서 분기가 없다.
 
 ```ts
-const INDEX_FILE = '0.index';
+const INDEX_FILE = 'index';
 const fileOf = (path: string) =>
   [...(path ? path.split('.') : []), INDEX_FILE].join('/') + '.json';
 
-fileOf('');       // '0.index.json'        세계 → 국가
-fileOf('KR');     // 'KR/0.index.json'     한국 → 시·도
-fileOf('KR.11');  // 'KR/11/0.index.json'  서울 → 구
+fileOf('');       // 'index.json'        세계 → 국가
+fileOf('KR');     // 'KR/index.json'     한국 → 시·도
+fileOf('KR.11');  // 'KR/11/index.json'  서울 → 구
 ```
 
 ## 원본 자료
@@ -110,13 +107,13 @@ southkorea-maps의 파일:
 
 웹 지도에는 `_simple` 파일로 충분하다. feature 속성은 `{"code":"11250","name":"강동구","name_eng":"Gangdong-gu","base_year":"2013"}` 형태다.
 
-## 1. 시·도 파일 (KR/0.index.json)
+## 1. 시·도 파일 (KR/index.json)
 
 ```bash
 npx mapshaper skorea_provinces_geo_simple.json \
   -rename-fields name_ko=name,name=name_eng \
   -filter-fields code,name,name_ko \
-  -o KR/0.index.json format=geojson
+  -o KR/index.json   format=geojson
 ```
 
 - 속성을 화면에서 쓰는 이름(`code`, `name`, `name_ko`)으로 맞춘다. `-rename-fields`는 여러 필드를 한꺼번에 바꿔서 `name` ↔ `name_eng`처럼 맞물려도 꼬이지 않는다. `-filter-fields`에 적은 것만 남으니 `base_year`는 저절로 빠진다.
@@ -124,7 +121,7 @@ npx mapshaper skorea_provinces_geo_simple.json \
 - **하위 파일이 있는지는 데이터에 적지 않는다.** 처음에는 `hasChildren` 속성을 적으려 했지만, 자료를 바꿔 끼울 때마다 같이 맞춰야 한다. 대신 화면에서 하위 파일을 받아 보고, 없으면 그 지역을 기억해 두고 다시 요청하지 않는다.
   - SPA로 배포하면 없는 파일도 404가 아니라 **200 + index.html**로 온다(SPA fallback). 그래서 요청 실패가 아니라 **응답 내용**(`type === 'FeatureCollection'`인지)으로 판단해야 한다.
 
-## 2. 시·군·구 파일 나누기 (KR/{code}/0.index.json)
+## 2. 시·군·구 파일 나누기 (KR/{code}/index.json)
 
 ```bash
 mkdir -p KR
@@ -135,11 +132,11 @@ npx mapshaper skorea_municipalities_geo_simple.json \
   -filter-fields code,name,name_ko target='*' \
   -o KR/ format=geojson
 
-# KR/11.json → KR/11/0.index.json
+# KR/11.json → KR/11/index.json
 for f in KR/*.json; do
   c=$(basename "$f" .json)
-  [ "$c" = 0.index ] && continue
-  mkdir -p "KR/$c" && mv "$f" "KR/$c/0.index.json"
+  [ "$c" = index ] && continue
+  mkdir -p "KR/$c" && mv "$f" "KR/$c/index.json"
 done
 ```
 
@@ -149,12 +146,12 @@ done
 | `-split parent` | `parent` 값이 같은 것끼리 레이어를 나눈다. 레이어 이름이 값(`11`, `26`…)이 된다 |
 | `-filter-fields … target='*'` | 나눈 **모든** 레이어에서 남길 속성만 남긴다. 임시 속성 `parent`도 여기서 빠진다 |
 | `-o KR/ format=geojson` | 폴더를 주면 레이어마다 `레이어이름.json`으로 쓴다. 폴더를 옵션보다 **먼저** 써야 한다 (`-o format=geojson KR/`는 `Unknown output option` 에러) |
-| `for` 반복 | mapshaper는 파일 이름만 정할 수 있어서, `KR/11.json`을 `KR/11/0.index.json`으로 옮긴다 |
+| `for` 반복 | mapshaper는 파일 이름만 정할 수 있어서, `KR/11.json`을 `KR/11/index.json`으로 옮긴다 |
 
-시·도 코드별로 17개 파일이 생기고, 합쳐서 약 400KB다. 예를 들어 `KR/11/0.index.json`에는 서울 구 25개가 들어 있다.
+시·도 코드별로 17개 파일이 생기고, 합쳐서 약 400KB다. 예를 들어 `KR/11/index.json`에는 서울 구 25개가 들어 있다.
 
-- 세종(`29`)은 아래에 시·군·구가 없어서, `KR/29/0.index.json`에는 세종시 하나만 들어 있다.
-- 더 내려가는 단계(시·군·구 → 읍·면·동)도 같은 방식이다. 읍·면·동 코드의 앞 5자리로 split하고, `KR/{시·도}/{시·군·구}/0.index.json`으로 옮긴다.
+- 세종(`29`)은 아래에 시·군·구가 없어서, `KR/29/index.json`에는 세종시 하나만 들어 있다.
+- 더 내려가는 단계(시·군·구 → 읍·면·동)도 같은 방식이다. 읍·면·동 코드의 앞 5자리로 split하고, `KR/{시·도}/{시·군·구}/index.json`으로 옮긴다.
 
 ## SGIS 자료로 바꿀 때 다른 점
 
@@ -171,7 +168,7 @@ npx mapshaper -i bnd_sido.shp encoding=cp949 \
   -proj wgs84 \
   -rename-fields code=원본코드필드,name=원본이름필드 \
   -simplify 5% \
-  -o format=geojson precision=0.0001 KR/0.index.json
+  -o format=geojson precision=0.0001 KR/index.json
 ```
 
 - 좌표계를 바꾸지 않으면 좌표가 `953000, 1950000` 같은 미터 값으로 남아서 지도에 아무것도 안 보인다.

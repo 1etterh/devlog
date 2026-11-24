@@ -76,17 +76,17 @@ export type IBoundaryCollection = FeatureCollection<Polygon | MultiPolygon, IGeo
 
 ## 2. 경계 파일 구조
 
-**"폴더 하나 = 지역 하나, 그 안의 `0.index.json` = 바로 아래 구역들"** 규칙으로 나눴다.
+**"폴더 하나 = 지역 하나, 그 안의 `index.json` = 바로 아래 구역들"** 규칙으로 나눴다.
 
 ```
 .data/geoJson/
-├── 0.index.json              국가들 (176개, 약 400KB)
-├── KR/0.index.json           한국의 시·도 (17개, 약 200KB)
-└── KR/{시·도}/0.index.json   시·도별 시·군·구 (17개 합계 약 550KB)
+├── index.json                국가들 (176개, 약 400KB)
+├── KR/index.json             한국의 시·도 (17개, 약 200KB)
+└── KR/{시·도}/index.json     시·도별 시·군·구 (17개 합계 약 550KB)
 ```
 
-- 필요할 때만 받는다. 한국 화면은 `KR/0.index.json` 하나만.
-- 지역마다 path(`'KR.11'`)를 붙인다. 하위 파일 위치는 path의 `.`을 `/`로 바꾸고 `0.index.json`을 붙이면 돼서, 단계가 늘어도 규칙 하나로 된다.
+- 필요할 때만 받는다. 한국 화면은 `KR/index.json` 하나만.
+- 지역마다 path(`'KR.11'`)를 붙인다. 하위 파일 위치는 path의 `.`을 `/`로 바꾸고 `index.json`을 붙이면 돼서, 단계가 늘어도 규칙 하나로 된다.
 - 번들에 넣지 않고 `public/`에서 런타임에 받는다. 자료를 바꿔 끼워도 다시 빌드할 필요가 없다. 폴더 위치는 runtimeConfig(`geoJson.path`)로 둔다.
 - 하위가 있는지는 경계 데이터에 적지 않고, 받아 보고 안다. 이유는 [[projects/nms/004_geojson_path_key|path 글]]에 있다.
 
@@ -96,15 +96,15 @@ export type IBoundaryCollection = FeatureCollection<Polygon | MultiPolygon, IGeo
 
 | depth | 한국 | 이 단계 지역들이 든 파일 |
 |---|---|---|
-| 1 | 국가 | `0.index.json` |
-| 2 | 시·도 | `KR/0.index.json` |
-| 3 | 시·군·구 | `KR/{시·도}/0.index.json` |
-| 4 | 읍·면·동 | `KR/{시·도}/{시·군·구}/0.index.json` (아직 없음) |
+| 1 | 국가 | `index.json` |
+| 2 | 시·도 | `KR/index.json` |
+| 3 | 시·군·구 | `KR/{시·도}/index.json` |
+| 4 | 읍·면·동 | `KR/{시·도}/{시·군·구}/index.json` (아직 없음) |
 
 로딩 함수도 `loadChildren(parentPath)` 하나가 됐다. 받을 때 각 지역에 path와 이름을 채워 두면, 부모는 path의 마지막 마디를 떼면 되고 이름은 Map에서 바로 꺼낸다. 나라별 코드 규칙(앞 2자리가 시·도 등)을 몰라도 된다.
 
 ```ts
-const INDEX_FILE = '0.index';
+const INDEX_FILE = 'index';
 
 const loading = new Map<string, Promise<IBoundaryCollection | null>>(); // 부모 path → 하위들
 const noChildrenSet = new Set<string>();                                // 하위가 없는 path
@@ -289,7 +289,7 @@ function viewOf(code: string) {
 
 | 결정 | 이유 |
 |---|---|
-| 폴더 = 지역, `0.index.json` = 바로 아래 구역 | 필요한 것만 받고, 단계가 늘어도 규칙이 같다 |
+| 폴더 = 지역, `index.json` = 바로 아래 구역 | 필요한 것만 받고, 단계가 늘어도 규칙이 같다 |
 | `public/`에서 런타임 fetch | 자료 교체에 재빌드가 필요 없다 |
 | 단계 이름 대신 depth | 나라마다 단계 이름이 다르다 |
 | 위치를 행정구역 path로 저장 | 이름은 겹치고 바뀐다. 좌표 판정이 필요 없고, 부모가 path 안에 있다 |
