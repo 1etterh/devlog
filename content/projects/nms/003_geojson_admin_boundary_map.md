@@ -12,6 +12,7 @@ draft: true
 
 > 2026-11-10. 직접 이해하면서 다시 구현한 기록 중 행정구역 지도 부분.
 > 같은 날 기록: [[projects/nms/002_typescript_types_location_and_base_fields|TypeScript 타입 정리]]
+> 2026-11-24. 파일 구조 · 로딩 코드를 지금 코드 기준으로 고쳤다. 바뀐 과정은 [[projects/nms/004_geojson_path_key|code 대신 path로 찾기]]에 있다.
 
 ## 무엇을 만들었나
 
@@ -33,7 +34,7 @@ GeoJSON(RFC 7946)은 지리 도형을 JSON으로 표현하는 표준이다. 행�
   "features": [
     {
       "type": "Feature",
-      "properties": { "code": "39", "name": "제주특별자치도", "name_eng": "Jeju-do", "base_year": "2013" },
+      "properties": { "code": "39", "name": "Jeju-do", "name_ko": "제주특별자치도" },
       "geometry": { "type": "MultiPolygon", "coordinates": [[[[126.957, 33.522], "..."]]] }
     }
   ]
@@ -62,50 +63,78 @@ Polygon의 **`ring[0]`은 바깥 경계, 나머지는 구멍**이다. 그래서 
 ```ts
 import type { FeatureCollection, MultiPolygon, Polygon } from 'geojson';
 
-export interface IGeoProperties { code: string; name: string } // 파일의 키 중 쓰는 것만
-export type IBoundaryCollection = FeatureCollection<Polygon | MultiPolygon, IGeoProperties>;
+export interface IGeoJsonProps {
+  code: string;
+  name: string;
+  name_ko?: string;
+  path: string; // root부터 자기 code까지 '.'으로 이은 경로 (예: 'KR.11'). 파일엔 없고 받을 때 채운다
+}
+export type IBoundaryCollection = FeatureCollection<Polygon | MultiPolygon, IGeoJsonProps>;
 ```
 
 ---
 
 ## 2. 경계 파일 구조
 
-**"파일 하나 = 한 지역의 바로 아래 구역들"** 규칙으로 나눴다.
+**"폴더 하나 = 지역 하나, 그 안의 `0.index.json` = 바로 아래 구역들"** 규칙으로 나눴다.
 
 ```
-public/geo/
-├── KR.json            국가의 하위 (시·도 17개, 약 200KB)
-└── KR/{code}.json     그 지역의 하위 (시·도별 시·군·구, 17개 합계 약 550KB)
+.data/geoJson/
+├── 0.index.json              국가들 (176개, 약 400KB)
+├── KR/0.index.json           한국의 시·도 (17개, 약 200KB)
+└── KR/{시·도}/0.index.json   시·도별 시·군·구 (17개 합계 약 550KB)
 ```
 
-- 필요할 때만 받는다. 전국 화면은 `KR.json` 하나만.
-- 행정코드는 단계가 달라도 겹치지 않아서(2자리, 5자리) 어느 단계든 `KR/{code}.json` 규칙 하나로 된다.
-- 번들에 넣지 않고 `public/`에서 런타임에 받는다. 자료를 바꿔 끼워도 다시 빌드할 필요가 없다.
+- 필요할 때만 받는다. 한국 화면은 `KR/0.index.json` 하나만.
+- 지역마다 path(`'KR.11'`)를 붙인다. 하위 파일 위치는 path의 `.`을 `/`로 바꾸고 `0.index.json`을 붙이면 돼서, 단계가 늘어도 규칙 하나로 된다.
+- 번들에 넣지 않고 `public/`에서 런타임에 받는다. 자료를 바꿔 끼워도 다시 빌드할 필요가 없다. 폴더 위치는 runtimeConfig(`geoJson.path`)로 둔다.
+- 하위가 있는지는 경계 데이터에 적지 않고, 받아 보고 안다. 이유는 [[projects/nms/004_geojson_path_key|path 글]]에 있다.
 
 ### 단계는 이름 대신 depth로
 
 처음에는 `loadProvinces`(시·도), `loadMunicipalities`(시·군·구)처럼 단계 이름으로 함수를 나눴다. 그런데 단계 이름은 나라마다 다르다. 그래서 depth로 바꿨다.
 
-| depth | 한국 | 경계 파일 |
+| depth | 한국 | 이 단계 지역들이 든 파일 |
 |---|---|---|
-| 1 | 국가 | (파일에 없음, 직접 정의) |
-| 2 | 시·도 | `KR.json` |
-| 3 | 시·군·구 | `KR/{시·도}.json` |
-| 4 | 읍·면·동 | `KR/{시·군·구}.json` |
+| 1 | 국가 | `0.index.json` |
+| 2 | 시·도 | `KR/0.index.json` |
+| 3 | 시·군·구 | `KR/{시·도}/0.index.json` |
+| 4 | 읍·면·동 | `KR/{시·도}/{시·군·구}/0.index.json` (아직 없음) |
 
-로딩 함수도 `loadChildren(parentCode?)` 하나가 됐다. 파일을 받을 때 각 지역의 상위 코드를 기록해 두면, 나라별 코드 규칙(앞 2자리가 시·도 등)을 몰라도 상위 지역을 찾을 수 있다.
+로딩 함수도 `loadChildren(parentPath)` 하나가 됐다. 받을 때 각 지역에 path와 이름을 채워 두면, 부모는 path의 마지막 마디를 떼면 되고 이름은 Map에서 바로 꺼낸다. 나라별 코드 규칙(앞 2자리가 시·도 등)을 몰라도 된다.
 
 ```ts
-const loading = new Map<string, Promise<IBoundaryCollection>>();
-const parentOf = new Map<string, string | undefined>();
+const INDEX_FILE = '0.index';
 
-function loadChildren(parentCode?: string) {
-  const path = parentCode ? `KR/${parentCode}` : 'KR';
-  let p = loading.get(path);
-  if (!p) {
-    p = $fetch<IBoundaryCollection>(`/geo/${path}.json`).then(
+const loading = new Map<string, Promise<IBoundaryCollection | null>>(); // 부모 path → 하위들
+const noChildrenSet = new Set<string>();                                // 하위가 없는 path
+const labels = new Map<string, string>();                               // path → 이름
+
+export const useGeoJson = () => {
+  const geoJsonPath = useRuntimeConfig().public.geoJson.path;
+
+  const fileOf = (path: string) =>
+    [geoJsonPath, ...(path ? path.split('.') : []), INDEX_FILE].join('/') + '.json';
+
+  const labelOf = (path: string) => labels.get(path) ?? path;
+
+  const loadChildren = (path: string = '') => {
+    if (noChildrenSet.has(path)) return Promise.resolve(null);
+
+    let p = loading.get(path);
+    if (p) return p; // 동시에 여러 번 불려도 요청은 한 번
+
+    p = $fetch<IBoundaryCollection>(fileOf(path)).then(
       data => {
-        for (const f of data.features) parentOf.set(f.properties.code, parentCode);
+        if (data?.type !== 'FeatureCollection') { // SPA 는 없는 파일도 200 + index.html
+          noChildrenSet.add(path);
+          return null;
+        }
+        for (const f of data.features) {
+          const p = path ? `${path}.${f.properties.code}` : f.properties.code;
+          f.properties.path = p;
+          labels.set(p, f.properties.name_ko);
+        }
         return data;
       },
       err => {
@@ -113,11 +142,14 @@ function loadChildren(parentCode?: string) {
         throw err;
       }
     );
-    loading.set(path, p); // 동시에 여러 번 불려도 요청은 한 번
-  }
-  return p;
-}
+    loading.set(path, p);
+    return p;
+  };
+  return { loadChildren, labelOf };
+};
 ```
+
+처음에는 이름을 찾을 때 부모의 FeatureCollection을 꺼내 `find`로 훑었다. 그런데 라벨 `formatter`는 지역마다, 다시 그릴 때마다 불린다. path를 채우는 루프에서 이름도 `labels` Map에 넣어 두니 조회가 한 번에 끝나고, 부모 파일을 따로 들고 있을 필요도 없어졌다.
 
 ### 캐시 헤더: `stale-while-revalidate`
 
@@ -125,7 +157,7 @@ function loadChildren(parentCode?: string) {
 
 ```ts
 routeRules: {
-  '/geo/**': {
+  '/.data/geoJson/**': {
     headers: { 'cache-control': 'public, max-age=86400, stale-while-revalidate=604800' },
   },
 },
@@ -136,16 +168,18 @@ routeRules: {
 | `max-age=86400` | 하루 동안은 서버에 묻지 않고 캐시를 그대로 쓴다 |
 | `stale-while-revalidate=604800` | 그 뒤 일주일 동안은 캐시로 먼저 보여 주고, 뒤에서 새로 받아 둔다 |
 
-파일을 바꾸면 늦어도 하루 뒤에 반영된다. 이 설정은 Nitro 서버로 배포할 때만 적용되고, nginx나 CDN으로 정적 배포한다면 그쪽에 같은 헤더를 설정해야 한다.
+파일을 바꾸면 늦어도 하루 뒤에 반영된다. (아직 `nuxt.config`에는 넣지 않았다.) 이 설정은 Nitro 서버로 배포할 때만 적용되고, nginx나 CDN으로 정적 배포한다면 그쪽에 같은 헤더를 설정해야 한다.
 
 ---
 
-## 3. 위치는 좌표가 아니라 행정코드로
+## 3. 위치는 좌표가 아니라 행정구역 path로
 
 처음에는 사이트 위경도로 어느 지역에 속하는지 판정(point-in-polygon)하고, 이름으로 지역을 찾는 함수도 있었다. 둘 다 지웠다.
 
 - **이름은 키가 될 수 없다.** "중구"는 여러 시·도에 있고, 개편으로 이름이 바뀌기도 한다. 경계 데이터가 2013년 기준이라 그 뒤 바뀐 이름을 맞추는 정규화 코드까지 필요했다.
-- **좌표 판정은 필요 없었다.** 사이트를 등록할 때 행정구역을 고르게 하면 위치가 처음부터 코드로 저장된다. 경계선 근처의 애매한 판정도 사라진다.
+- **좌표 판정은 필요 없었다.** 사이트를 등록할 때 행정구역을 고르게 하면 위치가 처음부터 path(`'KR.11'`)로 저장된다. 경계선 근처의 애매한 판정도 사라진다.
+
+처음에는 행정코드(`'11'`)로 저장하려 했지만, code만으로는 부모를 몰라서 path로 바꿨다.
 
 ---
 
@@ -154,22 +188,34 @@ routeRules: {
 ### 지도 등록과 nameProperty
 
 ```ts
-registerMap('kr-nation', await loadChildren()); // GeoJSON 을 이름 붙여 등록
+const show = async (path: string) => {
+  const data = await loadChildren(path);
+  if (!data) return false; // 하위가 없는 지역
 
-const option = {
-  geo: {
-    map: 'kr-nation',
-    nameProperty: 'code', // 지역 이름 자리에 코드를 쓴다 → 클릭하면 e.name 에 코드
-    label: { show: true, formatter: p => regionName(p.name) }, // 보여 줄 때만 이름으로
-    roam: true,
-    selectedMode: 'single',
-  },
+  const name = `geo:${path}`;
+  if (!registered.has(name)) { // GeoJSON 을 이름 붙여 한 번만 등록
+    registerMap(name, data);
+    registered.add(name);
+  }
+  currentPath.value = path;
+  return true;
 };
+
+const option = computed(() => ({
+  geo: {
+    map: `geo:${currentPath.value}`,
+    nameProperty: 'path', // 지역 이름 자리에 path 를 쓴다 → 이벤트의 p.name 에 path
+    roam: true,
+    label: { show: true, formatter: p => labelOf(p.name) }, // 보여 줄 때만 이름으로
+  },
+}));
 ```
 
-ECharts geo는 지역을 **이름 하나로만** 구분한다. 기본은 `properties.name`인데 이름은 겹치므로, `nameProperty: 'code'`로 코드를 이름 자리에 썼다.
+ECharts geo는 지역을 **이름 하나로만** 구분한다. 기본은 `properties.name`인데 이름은 겹치므로("중구"), `nameProperty: 'path'`로 path를 이름 자리에 썼다. path는 root부터 이어 붙여서 겹치지 않고, 눌린 지역의 하위 파일 위치와 부모도 바로 나온다.
 
 ### 드릴다운: 고른 지역만 쪼갠 지도를 합성
+
+> 이 절과 "확대 배율 계산"은 11-10에 code 기준으로 만든 예전 구현이다. 지금 `useGeoGraph`는 누른 지역의 하위 파일로 지도를 바꾸기만 하고, 합성 · 확대는 아직 옮기지 않았다.
 
 시·도를 눌렀을 때 그 시·도의 시·군·구 파일만 지도로 바꾸면 주변이 사라져서 어디를 보는지 알기 어렵다. 그래서 **고른 지역만 하위로 쪼개고 나머지는 그대로 둔 FeatureCollection을 합성**해서 새 지도로 등록했다.
 
@@ -243,14 +289,17 @@ function viewOf(code: string) {
 
 | 결정 | 이유 |
 |---|---|
-| 경계 파일 = 한 지역의 바로 아래 구역 | 필요한 것만 받고, 단계가 늘어도 규칙이 같다 |
-| `public/`에서 런타임 fetch + `stale-while-revalidate` | 자료 교체에 재빌드가 필요 없고, 늦어도 하루 뒤 반영 |
+| 폴더 = 지역, `0.index.json` = 바로 아래 구역 | 필요한 것만 받고, 단계가 늘어도 규칙이 같다 |
+| `public/`에서 런타임 fetch | 자료 교체에 재빌드가 필요 없다 |
 | 단계 이름 대신 depth | 나라마다 단계 이름이 다르다 |
-| 위치를 행정코드로 저장 | 이름은 겹치고 바뀐다. 좌표 판정이 필요 없어진다 |
-| `nameProperty: 'code'` | ECharts geo는 지역을 이름 하나로만 구분한다 |
+| 위치를 행정구역 path로 저장 | 이름은 겹치고 바뀐다. 좌표 판정이 필요 없고, 부모가 path 안에 있다 |
+| 이름은 받을 때 `labels` Map에 | 라벨을 그릴 때마다 부모 파일을 훑지 않는다 |
+| `nameProperty: 'path'` | ECharts geo는 지역을 이름 하나로만 구분한다 |
 | 고른 지역만 쪼갠 지도 합성 | 주변 맥락을 유지하고, 외곽이 같아 화면이 튀지 않는다 |
 
 ## 다음에 할 것
 
 - [ ] 지도 위에 사이트 위치를 scatter series(`coordinateSystem: 'geo'`)로 올리기
+- [ ] 드릴다운 합성 · 확대 배율을 path 기준으로 `useGeoGraph`에 옮기기
+- [ ] `stale-while-revalidate` 캐시 헤더 넣기
 - [ ] 경계 자료를 최신으로 바꾸는 스크립트
