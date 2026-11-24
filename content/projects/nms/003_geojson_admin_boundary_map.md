@@ -79,7 +79,7 @@ export type IBoundaryCollection = FeatureCollection<Polygon | MultiPolygon, IGeo
 **"폴더 하나 = 지역 하나, 그 안의 `index.json` = 바로 아래 구역들"** 규칙으로 나눴다.
 
 ```
-.data/geoJson/
+public/data/geoJson/
 ├── index.json                국가들 (176개, 약 400KB)
 ├── KR/index.json             한국의 시·도 (17개, 약 200KB)
 └── KR/{시·도}/index.json     시·도별 시·군·구 (17개 합계 약 550KB)
@@ -157,7 +157,7 @@ export const useGeoJson = () => {
 
 ```ts
 routeRules: {
-  '/.data/geoJson/**': {
+  '/data/geoJson/**': {
     headers: { 'cache-control': 'public, max-age=86400, stale-while-revalidate=604800' },
   },
 },
