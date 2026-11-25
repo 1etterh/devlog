@@ -38,7 +38,7 @@ ECharts에는 이름이 비슷한 게 세 가지 있어서 헷갈리기 쉬워�
 |---|---|---|---|
 | **map 이름** | `registerMap(name, geoJson)` | 등록된 **지도 데이터 하나** | `'geo:KR.41'` |
 | **geo 컴포넌트 `id`** | `geo: { id: 'main' }` | geo 컴포넌트 **자체** (`geoIndex`와 같은 역할) | 안 씀 |
-| **region 이름** | `nameProperty`로 고른 feature 속성 | 지도 안의 **지역 하나** | `'KR.41.41830'` (idPath) |
+| **region 이름** | `nameProperty`로 고른 feature 속성 | 지도 안의 **지역 하나** | `'KR.41.830'` (idPath — 조각 `segmentId`는 부모 코드를 뗀 나머지, 전체 코드 `41830`은 `code`. 셋 다 파일에 적혀 있다) |
 
 - **지도 데이터에는 이름만 있고 id가 따로 없어요.** `registerMap`의 첫 번째 인자인 문자열이 곧 식별자예요. `geo.map`에는 이 문자열을 넣어요.
 - **geo `id`는 지도 데이터와 관계없어요.** option 안에 geo 컴포넌트가 여러 개 있을 때 어느 컴포넌트인지 구분하는 값이에요. 예를 들어 `setOption`으로 특정 geo만 고칠 때 써요. geo가 하나뿐이라 지금은 안 써요.
