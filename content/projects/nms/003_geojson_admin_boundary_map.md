@@ -58,6 +58,52 @@ GeoJSON(RFC 7946)은 지리 도형을 JSON으로 표현하는 표준이다. 행�
 
 Polygon의 **`ring[0]`은 바깥 경계, 나머지는 구멍**이다. 그래서 지역 범위를 구할 때는 `ring[0]`만 보면 된다.
 
+### coordinates는 겹겹이 싼 배열
+
+"ring 배열 → 점 배열"이 처음엔 무슨 말인지 몰랐다. 작은 단위부터 쌓아 올린 구조다.
+
+1. **점(Position)**: `[경도, 위도]` 숫자 두 개.
+   ```ts
+   [127.0, 37.5]
+   ```
+2. **링(Ring) = 점 배열**: 점을 순서대로 이은 **닫힌 선 하나**. 닫혀야 하므로 첫 점과 마지막 점이 같다.
+   ```ts
+   [[127.0, 37.5], [127.1, 37.5], [127.1, 37.6], [127.0, 37.6], [127.0, 37.5]]
+   //  시작                                                     ↑ 시작점으로 돌아옴
+   ```
+3. **Polygon = 링 배열**: `[0]`이 바깥 테두리, `[1]`부터는 구멍(도넛 가운데). 행정구역은 다른 구역을 완전히 감싸는 곳만 구멍이 생기고 보통 링 하나다.
+   ```ts
+   { type: 'Polygon', coordinates: [ [/* 바깥 테두리 점들 */], [/* 구멍 점들 (있으면) */] ] }
+   ```
+4. **MultiPolygon = Polygon 배열**: 섬처럼 **떨어진 덩어리가 여럿**인 지역.
+   ```ts
+   {
+     type: 'MultiPolygon',
+     coordinates: [
+       [ [/* 본토 바깥 테두리 */] ],
+       [ [/* 섬1 바깥 테두리 */] ],
+       [ [/* 섬2 바깥 테두리 */] ],
+     ]
+   }
+   ```
+
+```
+MultiPolygon.coordinates  [ 폴리곤, 폴리곤, ... ]          Position[][][]
+  Polygon.coordinates       [ 링(바깥), 링(구멍), ... ]    Position[][]
+    링                        [ 점, 점, 점, ... ]           Position[]
+      점                        [경도, 위도]                Position
+```
+
+"링 배열 → 점 배열"은 대괄호를 한 겹 벗겨 `Position[][]`을 `Position[]`로 만든다는 뜻이다. 지역을 감싸는 사각형을 구할 때는 점만 있으면 되므로 겹을 펼친다. 구멍은 바깥 테두리 안쪽이라 범위에 영향이 없어서 바깥 링만 모은다.
+
+```ts
+const points: Position[] = geometry.type === 'Polygon'
+  ? geometry.coordinates[0]
+  : geometry.coordinates.flatMap(poly => poly[0]);
+```
+
+`flatMap(c => c)`는 한 겹만 벗긴다. MultiPolygon에 그대로 쓰면 `Position[][]`(링 배열)이 남는다.
+
 타입은 `@types/geojson`의 제네릭으로 좁혀 쓴다. 이렇게 정하기까지의 과정은 [[projects/nms/002_typescript_types_location_and_base_fields|TypeScript 타입 정리 글]]에 있다.
 
 ```ts
