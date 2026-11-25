@@ -9,90 +9,96 @@ draft: true
 > 이 지도에 쓸 경계 파일을 공개 자료에서 받아, **"파일 하나 = 한 지역의 바로 아래 구역들"** 규칙에 맞게 나눠 저장한다.
 >
 > 2026-11-25. 원본 자료를 southkorea-maps(2013, 통계청 코드)에서 **admdongkor(행정동, 행안부 코드)** 로 바꾸고 읍·면·동 단계를 추가했다. 예전 방식과 달라진 점은 [[#2013년 자료(southkorea-maps)와 달라진 점]]에 남겼다.
+> 같은 날, 지역 경로가 너무 길어져서 **경로를 줄이고 파일을 한 폴더에 평평하게** 두도록 바꿨다([[#다시 평평하게: 경로가 길어져서]]).
 
 ## 만들 파일 구조
 
 ```
 geoJson/
-├── index.json                   세계 → 국가
-└── KR/
-    ├── index.json               한국 → 시·도 16개
-    ├── 11/
-    │   ├── index.json           서울 → 구 25개
-    │   └── 11590/
-    │       └── index.json       동작구 → 동
-    ├── 41/
-    │   ├── index.json           경기 → 시·군·구 47개
-    │   └── 41830/
-    │       └── index.json       양평군 → 읍·면
-    └── …                        (시·도 16개, 시·군·구 256개)
+├── index.json          세계 → 국가
+├── KR.json             한국 → 시·도 16개
+├── KR.11.json          서울 → 구 25개
+├── KR.11.590.json      동작구 → 동
+├── KR.41.json          경기 → 시·군·구 47개
+├── KR.41.830.json      양평군 → 읍·면
+└── …                   (시·도 16개, 시·군·구 256개 — 모두 273개)
 ```
 
-- **폴더 = 그 지역의 안쪽, `index.json` = 안쪽을 나눈 지도**다. 서울 자신의 모양은 부모의 `KR/index.json`에 있고, `KR/11/index.json`에는 서울의 구들이 있다.
-- 화면은 처음에 `KR/index.json`만 받는다. 사용자가 지역을 누를 때 그 지역의 `index.json`을 받는다.
-- 시·도 코드는 2자리, 시·군·구는 5자리, 읍·면·동은 10자리다. **앞자리가 항상 상위 지역 코드**라서(`41` → `41830` → `4183025000`) 이 규칙으로 파일을 나눌 수 있다.
+- **파일 이름 = 지역 경로, 내용 = 그 지역의 바로 아래 구역들**이다. 서울 자신의 모양은 부모의 `KR.json`에 있고, `KR.11.json`에는 서울의 구들이 있다.
+- 화면은 처음에 `KR.json`만 받는다. 사용자가 지역을 누를 때 그 지역의 `{경로}.json`을 받는다.
+- 시·도 코드는 2자리, 시·군·구는 5자리, 읍·면·동은 10자리다. **앞자리가 항상 상위 지역 코드**라서(`41` → `41830` → `4183025000`) 이 규칙으로 파일을 나누고 경로를 줄일 수 있다.
 
 ```mermaid
 flowchart LR
-    A["행정동 경계 파일 하나<br/>(읍·면·동 3,559개)"] -->|"dissolve sido"| B[KR/index.json]
-    A -->|"dissolve sgg<br/>split 앞 2자리"| C["KR/11/index.json<br/>KR/41/index.json<br/>…"]
-    A -->|"split sgg"| D["KR/11/11590/index.json<br/>KR/41/41830/index.json<br/>…"]
+    A["행정동 경계 파일 하나<br/>(읍·면·동 3,559개)"] -->|"dissolve sido"| B[KR.json]
+    A -->|"dissolve sgg<br/>split 시·도"| C["KR.11.json<br/>KR.41.json<br/>…"]
+    A -->|"split 시·군·구"| D["KR.11.590.json<br/>KR.41.830.json<br/>…"]
 ```
+
+## 지역 경로와 코드
+
+지역은 **경로**로 부른다. 나라부터 자기까지 코드 조각을 `.`으로 이은 값이다. 조각은 **자기 코드에서 부모 코드를 뗀 나머지**다.
+
+| | 코드 (`code`) | 조각 (`segmentId`) | 경로 (`idPath`) |
+|---|---|---|---|
+| 서울특별시 | `11` | `11` | `KR.11` |
+| 성북구 | `11290` | `290` | `KR.11.290` |
+| 돈암1동 | `1129058000` | `58000` | `KR.11.290.58000` |
+
+- 조각을 이어 붙이면 원래 코드가 된다(`11` + `290` + `58000`).
+- 파일에는 세 값을 다 적는다. 조각만 보면(`290`) 무슨 코드인지 알 수 없으니 원래 코드(`code`)를, 파일만 열어도 어느 지역인지 보이게 경로(`idPath`)를 같이 둔다. 화면은 받은 `idPath`를 그대로 지역 키로 쓴다.
+- 나라(세계 파일 `index.json`)는 세 값이 모두 국가 코드(`KR`)다. 세계 바로 아래라 뗄 부모 코드가 없다.
+- 부모 · 조상은 경로를 `.`으로 잘라서 바로 구한다. 나라마다 코드 자릿수가 달라도 자릿수 규칙표가 필요 없다.
+- 속성 이름: `code`는 원래 코드 그대로 두고, 조각에 새 이름 **`segmentId`**(경로 조각 id)를 붙였다. `leafId`도 후보였지만 leaf는 트리에서 "자식 없는 노드"라, 아래에 동이 있는 성북구에는 맞지 않았다. 줄임말 `segId`는 뜻이 모호했다. `segmentId`는 형제끼리만 겹치지 않는다(`110`은 서울 아래에도 부산 아래에도 있다). 전체에서 구별되는 값은 `idPath`와 `code`다.
 
 ## 파일 이름 정하기
 
-처음에는 `countries.json`(세계), `KR.json`(한국), `KR/11.json`(서울)처럼 이름을 붙였다. 개발하면서 지도의 시작점이 되는 파일을 자주 열게 되는데, 이 파일이 폴더 중간에 섞여 있어 찾기가 불편했다. 그래서 세 가지를 정했다.
-
-### 1. 시작점 파일 이름: `0.index.json` vs `index.json`
-
-처음에는 시작점 파일이 **폴더 맨 위**에 오도록 `0.index.json`으로 정했다. `_index.json`도 후보였지만, 터미널 `ls`나 git처럼 바이트 순으로 정렬하는 곳에서는 `_`(0x5F)가 숫자와 대문자보다 뒤라서 맨 위에 오지 않았다. `0.`은 VS Code와 `ls` 양쪽에서 맨 위였다.
-
-그런데 3번까지 정하고 나니 폴더마다 파일은 시작점 하나뿐이고, 나머지는 전부 하위 지역 폴더(`11/`, `41/` …)였다.
-
-- 같은 폴더에 다른 파일이 없으니 시작점을 다른 파일과 헷갈릴 일이 없다.
-- VS Code 탐색기는 폴더를 먼저 보여 주므로 `0.`을 붙여도 파일은 폴더들 아래에 온다.
-- `0.index`는 지역 코드 폴더 사이에서 "코드 0번 지역"처럼 보일 수도 있다.
-
-→ 정렬용 접두사를 빼고 **`index.json`**으로 바꿨다. 같은 폴더에 파일이 여러 개 생겨 순서가 중요해지면 그때 다시 정한다.
-
-### 2. 나라 시작점 위치: `KR.json` vs `KR/index.json`
-
-| | `KR.json` (폴더 옆) | `KR/index.json` (폴더 안) |
-|---|---|---|
-| 자료 교체 | 폴더와 파일을 따로 바꿔야 한다. 하나를 빠뜨리면 시·도와 시·군·구 자료의 기준 연도가 어긋날 수 있다 | `KR/` 폴더만 통째로 바꾸면 된다 |
-| 나라가 늘면 | `KR.json`, `KR/`, `JP.json`, `JP/` … 나라마다 두 개씩 섞인다 | `index.json`과 나라 폴더만 남는다 |
-| 규칙 | 최상위와 나라의 규칙이 다르다 | "`index.json` = 그 폴더 지역의 바로 아래" 하나로 설명된다 |
-| 장점 | 이미 있는 파일을 옮기지 않아도 된다 | |
-
-→ **`KR/index.json`**으로 정했다. 실제로 자료를 2013년판에서 최신판으로 바꿀 때 `KR/` 폴더만 지우고 다시 만들었다.
-
-### 3. 나라 아래도 폴더로: `KR/11.json` vs `KR/11/index.json`
-
-처음에는 폴더를 나라 단위까지만 만들고, 시·도 아래는 `KR/11.json`처럼 `KR/` 안에 평평하게 두려 했다. 행정코드는 단계가 달라도 겹치지 않아서(2자리, 5자리, 10자리) 평평해도 파일 이름이 부딪히지 않는다.
-
-그런데 나중에 서울을 더 잘게 나누면 `KR/11.json`이 `KR/11/index.json` + 그 아래 파일로 바뀌어야 한다. 이때 지역마다 형식이 섞이면, 브라우저는 폴더 목록을 읽을 수 없으니 어느 형식인지 알려면 두 번 요청해 보거나 목록 파일을 따로 둬야 한다. 결국 형식을 바꿀 때마다 파일을 전부 옮겨야 한다.
-
-| | 나라까지만 폴더 (`KR/11.json`) | 모든 단계 폴더 (`KR/11/index.json`) |
-|---|---|---|
-| 규칙 | 나라까지는 `index`, 그 아래는 `{code}.json` | `index` 하나 |
-| 단계가 늘면 | 형식이 바뀔 수 있다 | 폴더가 하나 더 생길 뿐이다 |
-| code 중복 | 나라 안에서 겹치면 안 된다 | 상관없다 |
-| 단점 | | 폴더가 많아진다 |
-
-→ **모든 단계를 폴더로** 정했다. "`index.json` = 그 폴더 지역의 바로 아래" 규칙 하나로 세계부터 읍·면·동까지 설명된다. 읍·면·동을 추가할 때도 시·군·구 폴더 아래에 폴더가 하나씩 더 생겼을 뿐, 화면 코드는 고치지 않았다.
-
-코드도 단순해진다. 지역 경로(`'KR.11'`처럼 code를 `.`으로 이은 것)를 그대로 폴더로 바꾸고 `index`만 붙이면 된다. 세계 지도(최상위, 경로 `''`)도 같은 규칙에 들어가서 분기가 없다.
-
 ```ts
-const INDEX_FILE = 'index';
-const fileOf = (path: string) =>
-  [...(path ? path.split('.') : []), INDEX_FILE].join('/') + '.json';
+// 세계(경로 '')만 이름 예외 — '.json' 은 점으로 시작해 Nuxt 기본 ignore 에 걸린다
+const ROOT_FILE = 'index';
+const fileOf = (path: string) => `${path || ROOT_FILE}.json`;
 
-fileOf('');             // 'index.json'              세계 → 국가
-fileOf('KR');           // 'KR/index.json'           한국 → 시·도
-fileOf('KR.11');        // 'KR/11/index.json'        서울 → 구
-fileOf('KR.11.11590');  // 'KR/11/11590/index.json'  동작구 → 동
+fileOf('');           // 'index.json'      세계 → 국가
+fileOf('KR');         // 'KR.json'         한국 → 시·도
+fileOf('KR.11');      // 'KR.11.json'      서울 → 구
+fileOf('KR.11.590');  // 'KR.11.590.json'  성북구 → 동
 ```
+
+- 콘솔이나 로그에 찍힌 경로를 그대로 검색하면 파일이 나온다.
+- 하위가 있는 지역만 파일이 생기니 한 폴더에 273개다. 행정동 자료에는 리 단계가 없어서 더 늘 일이 거의 없다.
+- 세계 지도(최상위, 경로 `''`)만 `index.json`이다. 이름이 `.json`이 되면 점으로 시작하는 파일이라 빌드에서 빠질 수 있다.
+
+### 거쳐 온 방식
+
+여기까지 몇 번 바꿨다. 각 단계에서 왜 바꿨는지 남긴다.
+
+1. **`countries.json` · `KR.json` · `KR/11.json`** — 처음 이름. 지도의 시작점 파일을 자주 여는데 폴더 중간에 섞여 찾기 불편했다.
+2. **`0.index.json`** — 시작점이 폴더 맨 위에 오도록 붙였다. `_index.json`은 `ls`·git처럼 바이트 순으로 정렬하는 곳에서 `_`(0x5F)가 숫자 · 대문자보다 뒤라 맨 위에 오지 않았다. 그런데 모든 단계를 폴더로 바꾸고 나니 폴더마다 파일이 하나뿐이라 정렬할 이유가 없어졌고, `0.index`가 "코드 0번 지역"처럼 보이기도 해서 **`index.json`** 으로 바꿨다.
+3. **모든 단계를 폴더로: `KR/11/11590/index.json`** — "`index.json` = 그 폴더 지역의 바로 아래" 규칙 하나로 세계부터 읍·면·동까지 설명됐다. 나라까지만 폴더를 두고 그 아래를 `KR/11.json`처럼 두면, 서울을 더 잘게 나눌 때 `KR/11.json`이 `KR/11/index.json`으로 형식이 바뀌어야 했다(브라우저는 폴더 목록을 못 읽으니 지역마다 형식이 섞이면 안 된다). 나라 시작점도 `KR.json`(폴더 옆) 대신 `KR/index.json`(폴더 안)으로 둬서 `KR/` 폴더 하나만 바꿔 끼우면 되게 했다.
+4. **다시 평평하게: `KR.11.590.json`** — 아래 절.
+
+### 다시 평평하게: 경로가 길어져서
+
+읍·면·동을 넣자 경로가 이렇게 됐다.
+
+```
+KR.11.11290.1129058000
+```
+
+행안부 코드는 앞자리에 상위 코드를 이미 품고 있어서, 경로가 같은 정보를 두 번씩 담는다. 그래서 조각을 "부모 코드를 뗀 나머지"로 바꿨다([[#지역 경로와 코드]]). 경로가 짧아지니 폴더로 나눌 이유도 약해졌다.
+
+| | 모든 단계 폴더 (`KR/11/11290/index.json`) | 평평하게 (`KR.11.290.json`) |
+|---|---|---|
+| 경로 → 파일 | `.`을 `/`로 + `/index.json` | 경로 + `.json` |
+| 단계가 늘면 | 폴더가 하나 더 생긴다 | 파일이 하나 더 생긴다. **형식은 그대로다** |
+| 파일 이름 | 전부 `index.json` — 에디터 탭 · 검색 결과에서 구분이 안 된다 | 이름이 곧 경로라 바로 보인다 |
+| 자료 교체 | `KR/` 폴더째 | `KR.json` · `KR.*.json` |
+| 나라가 늘면 | 나라 폴더로 나뉜다 | `KR.*` · `JP.*`가 한 폴더에 섞인다 |
+| 최상위(세계) | 같은 규칙 | `index.json` 예외 하나 |
+
+3번에서 폴더를 고른 이유는 "단계가 늘면 파일 형식이 바뀐다"였는데, 이건 **나라까지만 폴더를 두고 그 아래를 평평하게** 섞었을 때의 문제였다. 파일 이름을 경로에서 바로 만들면 단계가 늘어도 `KR.11.290.json` 옆에 `KR.11.290.58000.json`이 하나 더 생길 뿐 형식은 바뀌지 않는다. 지금은 한국만 다루니 나라가 섞이는 문제도 없다.
+
+→ **평평하게** 정했다. 화면 코드는 `fileOf` 한 줄만 바뀌었다.
 
 ## 원본 자료
 
@@ -140,13 +146,15 @@ feature 속성:
 
 | 속성 | 뜻 |
 |---|---|
-| `adm_cd2` | 행안부 10자리 (읍·면·동 `code`로 쓴다) |
-| `adm_cd` | 통계청 8자리 |
+| `adm_cd2` | 행안부 10자리 (결과 파일의 `code`로 쓴다) |
+| `adm_cd` | 통계청 8자리 (쓰지 않는다) |
 | `sido` · `sidonm` | 시·도 코드 · 이름 (`adm_cd2` 앞 2자리) |
 | `sgg` · `sggnm` | 시·군·구 코드 · 이름 (`adm_cd2` 앞 5자리) |
 | `adm_nm` | 전체 이름. 마지막 단어가 읍·면·동 이름 |
 
-영문 이름은 없다. 화면에서 쓰는 속성은 `code`, `name_ko` 두 개로 맞춘다.
+영문 이름은 없다. 결과 파일의 속성은 `segmentId`(경로 조각), `code`(행안부 코드 전체), `idPath`(경로), `name_ko` 네 개로 맞춘다.
+
+- 원본의 `adm_cd`(통계청 8자리)는 쓰지 않는다. 결과 파일의 `code`는 `adm_cd2` 값이다.
 
 **출처 표시가 필수다.** 데이터는 CC BY 4.0이고, 원자료는 통계청 SGIS가 공공누리 제1유형(출처표시)으로 개방한 것이다. 지도 화면 구석에 출처를 적어 둔다.
 
@@ -169,17 +177,17 @@ feature 속성:
 
 대신 **단계끼리 경계가 조금 어긋난다.** 지역을 확대했을 때 주변 지역을 배경으로 같이 그리면, 맞닿는 테두리에서 화면상 1~2px 차이가 날 수 있다. 눈에 띄면 간격을 조정한다.
 
-## 1. 시·도 파일 (KR/index.json)
+## 1. 시·도 파일 (KR.json)
 
 ```bash
 SRC=HangJeongDong_ver20261001.geojson
-mkdir -p KR
 
 npx mapshaper $SRC \
   -dissolve sido copy-fields=sidonm \
   -simplify interval=400 keep-shapes -clean \
-  -rename-fields code=sido,name_ko=sidonm \
-  -o KR/index.json format=geojson precision=0.0001
+  -each 'segmentId = sido, code = sido, idPath = "KR." + sido, name_ko = sidonm' \
+  -filter-fields segmentId,code,idPath,name_ko \
+  -o KR.json format=geojson precision=0.0001
 ```
 
 | 단계 | 하는 일 |
@@ -187,74 +195,60 @@ npx mapshaper $SRC \
 | `-dissolve sido copy-fields=sidonm` | `sido`가 같은 읍·면·동을 합쳐 시·도 하나로 만든다. 이름(`sidonm`)은 복사해 둔다. 나머지 속성은 빠진다 |
 | `-simplify interval=400 keep-shapes` | 400m보다 가까운 점을 줄인다. `keep-shapes`는 작은 섬이 통째로 사라지지 않게 한다 |
 | `-clean` | 단순화로 생긴 겹침 · 틈을 고친다 |
-| `-rename-fields code=sido,name_ko=sidonm` | 화면에서 쓰는 이름으로 바꾼다 |
+| `-each 'segmentId = sido, …'` | 결과 파일 속성을 만든다. 시·도는 부모(나라)에 코드가 없으니 조각과 코드가 같다 |
+| `-filter-fields segmentId,code,idPath,name_ko` | 만든 네 속성만 남긴다 |
 | `precision=0.0001` | 좌표를 소수 4자리(약 10m)로 자른다. 파일 크기가 크게 줄어든다 |
 
 - mapshaper는 출력할 때 고리(ring)를 GeoJSON 표준 방향(바깥은 반시계)으로 고쳐 쓴다. 점 순서가 원본과 달라지지만 모양은 같다.
 - **하위 파일이 있는지는 데이터에 적지 않는다.** 처음에는 `hasChildren` 속성을 적으려 했지만, 자료를 바꿔 끼울 때마다 같이 맞춰야 한다. 대신 화면에서 하위 파일을 받아 보고, 없으면 그 지역을 기억해 두고 다시 요청하지 않는다.
   - SPA로 배포하면 없는 파일도 404가 아니라 **200 + index.html**로 온다(SPA fallback). 그래서 요청 실패가 아니라 **응답 내용**(`type === 'FeatureCollection'`인지)으로 판단하거나, 경계 폴더만 404를 주도록 서버를 설정한다.
 
-## 2. 시·군·구 파일 나누기 (KR/{시·도}/index.json)
+## 2. 시·군·구 파일 나누기 (KR.{시·도}.json)
 
 ```bash
 npx mapshaper $SRC \
   -dissolve sgg copy-fields=sggnm \
   -simplify interval=100 keep-shapes -clean \
-  -each 'parent = sgg.slice(0, 2)' \
-  -rename-fields code=sgg,name_ko=sggnm \
+  -each 'parent = "KR." + sgg.slice(0, 2), segmentId = sgg.slice(2), code = sgg, idPath = parent + "." + segmentId, name_ko = sggnm' \
   -split parent \
-  -filter-fields code,name_ko target='*' \
-  -o KR/ format=geojson precision=0.0001
-
-# KR/11.json → KR/11/index.json
-for f in KR/*.json; do
-  c=$(basename "$f" .json)
-  [ "$c" = index ] && continue
-  mkdir -p "KR/$c" && mv "$f" "KR/$c/index.json"
-done
+  -filter-fields segmentId,code,idPath,name_ko target='*' \
+  -o ./ format=geojson precision=0.0001
 ```
 
 | 단계 | 하는 일 |
 |---|---|
 | `-dissolve sgg copy-fields=sggnm` | 읍·면·동을 시·군·구로 합친다 |
-| `-each 'parent = sgg.slice(0, 2)'` | 시·군·구 코드 앞 2자리(시·도 코드)를 임시 속성 `parent`에 적는다 |
-| `-split parent` | `parent` 값이 같은 것끼리 레이어를 나눈다. 레이어 이름이 값(`11`, `41`…)이 된다 |
+| `-each 'parent = "KR." + …'` | 임시 속성 `parent`에 **부모 경로**(`KR.11`)를 적는다. 조각 `segmentId`는 시·도 코드 2자리를 뗀 나머지(`11290` → `290`), `idPath`는 부모 경로 + 조각. 같은 식 안에서 앞에서 만든 `parent` · `segmentId`를 바로 쓸 수 있다 |
+| `-split parent` | `parent` 값이 같은 것끼리 레이어를 나눈다. 레이어 이름이 값(`KR.11`, `KR.41`…)이 된다 |
 | `-filter-fields … target='*'` | 나눈 **모든** 레이어에서 남길 속성만 남긴다. 임시 속성 `parent`도 여기서 빠진다 |
-| `-o KR/ format=geojson` | 폴더를 주면 레이어마다 `레이어이름.json`으로 쓴다. 폴더를 옵션보다 **먼저** 써야 한다 (`-o format=geojson KR/`는 `Unknown output option` 에러) |
-| `for` 반복 | mapshaper는 파일 이름만 정할 수 있어서, `KR/11.json`을 `KR/11/index.json`으로 옮긴다 |
+| `-o ./ format=geojson` | 폴더를 주면 레이어마다 `레이어이름.json`으로 쓴다 → 바로 `KR.11.json` |
 
-시·도별로 16개 파일이 생긴다. 예를 들어 `KR/11/index.json`에는 서울 구 25개가 들어 있다.
+레이어 이름이 곧 부모 경로라서, 폴더 방식 때 필요했던 파일 옮기기(`KR/11.json` → `KR/11/index.json`)가 없어졌다. 시·도별로 16개 파일이 생긴다. 예를 들어 `KR.11.json`에는 서울 구 25개가 들어 있다.
 
 - **일반구는 시·군·구 단계에 펼쳐져 있다.** 수원시는 `41111 수원시장안구`, `41113 수원시권선구`처럼 구가 각자 5자리 코드를 가져서, "수원시" 단계 없이 경기도 바로 아래에 구가 온다.
 - 세종(`36`)은 시·군·구 `36110 세종시` 하나만 있다. 세종을 누르면 세종시 하나가 보이고, 한 번 더 누르면 읍·면·동이 나온다.
 
-## 3. 읍·면·동 파일 나누기 (KR/{시·도}/{시·군·구}/index.json)
+## 3. 읍·면·동 파일 나누기 (KR.{시·도}.{시·군·구 조각}.json)
 
 ```bash
-mkdir -p tmp
 npx mapshaper $SRC \
   -simplify interval=20 keep-shapes -clean \
-  -each 'code = adm_cd2, name_ko = adm_nm.split(" ").pop()' \
-  -split sgg \
-  -filter-fields code,name_ko target='*' \
-  -o tmp/ format=geojson precision=0.00001
-
-# tmp/41830.json → KR/41/41830/index.json
-for f in tmp/*.json; do
-  c=$(basename "$f" .json)
-  mkdir -p "KR/${c:0:2}/$c" && mv "$f" "KR/${c:0:2}/$c/index.json"
-done
+  -each 'parent = "KR." + sido + "." + sgg.slice(2), segmentId = adm_cd2.slice(5), code = adm_cd2, idPath = parent + "." + segmentId, name_ko = adm_nm.split(" ").pop()' \
+  -split parent \
+  -filter-fields segmentId,code,idPath,name_ko target='*' \
+  -o ./ format=geojson precision=0.00001
 ```
 
 - 읍·면·동은 합칠 필요가 없으니 `-dissolve` 없이 바로 줄이고 나눈다.
+- 부모 경로는 `KR.` + 시·도 코드 + `.` + 시·군·구 조각(`KR.41.830`), 조각 `segmentId`는 시·군·구 코드 5자리를 뗀 나머지(`4183025000` → `25000`)다.
+- `code`(전체 코드)는 원본의 `adm_cd2`(행안부)에서 가져온다. 원본 `adm_cd`(통계청)는 쓰지 않는다([[#받을 파일]]).
 - 이름은 `adm_nm`(`경기도 양평군 양평읍`)의 마지막 단어만 쓴다.
 - 동은 작아서 좌표를 소수 5자리(약 1m)까지 남긴다.
-- 폴더는 시·군·구 코드 앞 2자리(시·도)로 정한다(`${c:0:2}`).
 
 시·군·구별로 256개 파일이 생긴다. 다 만들고 나서 두 가지를 확인했다.
 
 - 시·군·구 256개마다 읍·면·동 파일이 있는지
-- 모든 지역의 code가 부모 code로 시작하는지 (`41` → `41830` → `4183025000`)
+- 모든 지역의 전체 코드가 부모 코드로 시작하는지 (`41` → `41830` → `4183025000`). 하나라도 아니면 조각이 엉뚱하게 잘린다 — `ver20261001`에서는 3,831개 모두 맞았다
 
 ## SGIS 자료로 바꿀 때 다른 점
 
@@ -264,14 +258,15 @@ SGIS에서 받은 Shapefile은 웹 지도에 바로 쓸 수 없어서, 두 가�
 |---|---|---|---|
 | 좌표계 | UTM-K (EPSG:5179, 미터 단위) | WGS84 (경도·위도) | `-proj wgs84` |
 | 속성 인코딩 | CP949인 경우가 많다 (`.cpg` 없음) | UTF-8 | `-i 파일.shp encoding=cp949` |
-| 속성 이름 | 자료마다 다르다 | `code`, `name_ko` | `-rename-fields code=…,name_ko=…` |
+| 속성 이름 | 자료마다 다르다 | `segmentId`, `code`, `idPath`, `name_ko` | `-each 'segmentId = …, code = …, idPath = …, name_ko = …'` |
 
 ```bash
 npx mapshaper -i bnd_sido.shp encoding=cp949 \
   -proj wgs84 \
-  -rename-fields code=원본코드필드,name_ko=원본이름필드 \
+  -each 'segmentId = 원본코드필드, code = 원본코드필드, idPath = "KR." + 원본코드필드, name_ko = 원본이름필드' \
+  -filter-fields segmentId,code,idPath,name_ko \
   -simplify interval=400 keep-shapes \
-  -o format=geojson precision=0.0001 KR/index.json
+  -o KR.json format=geojson precision=0.0001
 ```
 
 - 좌표계를 바꾸지 않으면 좌표가 `953000, 1950000` 같은 미터 값으로 남아서 지도에 아무것도 안 보인다.
@@ -289,6 +284,8 @@ npx mapshaper -i bnd_sido.shp encoding=cp949 \
 | 시·군·구 | 251개 | 256개 |
 | 영문 이름 | 있음 (`name_eng`) | 없음 |
 | 단순화 | 제공된 `_simple` 그대로 | 단계마다 `interval` 로 직접 |
+| 양평군 경로 | `KR.31.31380` | `KR.41.830` |
+| 경기 시·군·구 파일 | `KR/31/index.json` | `KR.41.json` |
 
 새 자료에 들어 있는 2013년 이후 변경:
 
@@ -301,4 +298,4 @@ npx mapshaper -i bnd_sido.shp encoding=cp949 \
 | 인천 중구 · 동구 · 서구 개편 (2026) | 제물포구 `28125` · 영종구 `28155` · 서해구 `28275` · 검단구 `28290` |
 | 광주광역시 + 전라남도 → 전남광주통합특별시 | `12` (시·군·구 27개) |
 
-경계 파일을 앱에 묶지 않고 public 폴더에서 그때그때 받게 해 두면, 자료를 바꿀 때 `KR/` 폴더만 바꿔 끼우면 되고 다시 빌드할 필요가 없다. 이번에도 화면 코드는 그대로 두고 폴더만 바꿨다.
+경계 파일을 앱에 묶지 않고 public 폴더에서 그때그때 받게 해 두면, 자료를 바꿀 때 `KR.json` · `KR.*.json`만 지우고 다시 만들면 되고 다시 빌드할 필요가 없다. 2013년판에서 최신판으로 바꿀 때도 화면 코드는 그대로 두고 경계 파일만 바꿨다.

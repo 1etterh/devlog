@@ -45,11 +45,11 @@ flowchart LR
 
 ### 쓸 속성
 
-원본에는 속성이 168개 있다. 지도에 필요한 세 개만 남기고, 이름은 원본 값을 그대로 쓴다 (영어 `name`, 한국어 `name_ko`).
+원본에는 속성이 168개 있다. 지도에 필요한 세 개만 골라 다섯 속성으로 만든다. 이름은 원본 값을 그대로 쓴다 (영어 `name`, 한국어 `name_ko`).
 
 | 원본 속성 | 바꾼 이름 | 내용 | 주의 |
 |---|---|---|---|
-| `ISO_A2_EH` | `code` | 국가 코드 2자리 (KR, US…) | `ISO_A2`는 프랑스 · 노르웨이가 `-99`라 쓰지 않는다 |
+| `ISO_A2_EH` | `segmentId` · `code` · `idPath` | 국가 코드 2자리 (KR, US…). 세계 바로 아래라 경로 조각 · 코드 · 경로가 모두 같다 ([[002_korea_admin_boundary_geojson#지역 경로와 코드|다음 글]]) | `ISO_A2`는 프랑스 · 노르웨이가 `-99`라 쓰지 않는다 |
 | `NAME` | `name` | 영어 국가명 | |
 | `NAME_KO` | `name_ko` | 한국어 국가명 | |
 
@@ -63,11 +63,11 @@ flowchart LR
 2. (선택) 오른쪽 위 **Simplify** → 슬라이더로 점 개수를 줄인다. 경계 모양을 보면서 정한다.
 3. 오른쪽 위 **Console**을 열고 속성을 정리한다
    ```
-   -filter-fields ISO_A2_EH,NAME,NAME_KO
-   -rename-fields code=ISO_A2_EH,name=NAME,name_ko=NAME_KO
-   -filter 'code !== "AQ"'
+   -filter 'ISO_A2_EH !== "AQ"'
+   -each 'segmentId = ISO_A2_EH, code = ISO_A2_EH, idPath = ISO_A2_EH, name = NAME, name_ko = NAME_KO'
+   -filter-fields segmentId,code,idPath,name,name_ko
    ```
-   (마지막 줄은 남극을 뺀다. 필요 없으면 생략)
+   (첫 줄은 남극을 뺀다. 필요 없으면 생략)
 4. **Export** → **GeoJSON** 선택 → 내려받기 → 파일 이름을 `index.json`으로 바꾼다 (이름을 이렇게 정한 이유는 [[002_korea_admin_boundary_geojson#파일 이름 정하기|다음 글]]에 있다)
 
 ## 방법 2. CLI (npx mapshaper)
@@ -76,18 +76,18 @@ flowchart LR
 
 ```bash
 npx mapshaper ne_110m_admin_0_countries.shp \
-  -filter-fields ISO_A2_EH,NAME,NAME_KO \
-  -rename-fields code=ISO_A2_EH,name=NAME,name_ko=NAME_KO \
-  -filter 'code !== "AQ"' \
+  -filter 'ISO_A2_EH !== "AQ"' \
+  -each 'segmentId = ISO_A2_EH, code = ISO_A2_EH, idPath = ISO_A2_EH, name = NAME, name_ko = NAME_KO' \
+  -filter-fields segmentId,code,idPath,name,name_ko \
   -simplify 50% \
   -o format=geojson precision=0.0001 index.json
 ```
 
 | 옵션 | 하는 일 |
 |---|---|
-| `-filter-fields` | 남길 속성만 고른다 |
-| `-rename-fields 새=옛` | 속성 이름을 소문자로 맞춘다 (값은 그대로) |
 | `-filter '식'` | JS 식이 참인 feature만 남긴다 |
+| `-each '새 = 옛, …'` | 원본 값으로 새 속성을 만든다. 한 원본 값을 여러 속성에 넣을 수 있다 (`-rename-fields`는 하나에만) |
+| `-filter-fields` | 남길 속성만 고른다. 원본 속성 168개는 여기서 빠진다 |
 | `-simplify 50%` | 점을 줄여 파일을 가볍게 (퍼센트는 남길 비율) |
 | `-o format=geojson precision=0.0001` | GeoJSON으로 쓰고, 좌표 소수점을 4자리(약 10m)로 자른다 |
 
@@ -98,12 +98,12 @@ npx mapshaper ne_110m_admin_0_countries.shp \
   [simplify] Repaired 2 intersections
   [o] Wrote index.json
   ```
-  feature 하나는 `{"code":"KR","name":"South Korea","name_ko":"대한민국"}`처럼 세 속성만 남는다.
+  feature 하나는 `{"segmentId":"KR","code":"KR","idPath":"KR","name":"South Korea","name_ko":"대한민국"}`처럼 다섯 속성만 남는다.
 
 | | 파일 크기 | 속성 수 |
 |---|---|---|
 | 그대로 변환 | 약 970KB | 168 |
-| 위 명령 | 약 125KB | 3 |
+| 위 명령 | 약 130KB | 5 |
 
 - 대안: GDAL의 `ogr2ogr -f GeoJSON -select ISO_A2_EH,NAME,NAME_KO index.json   ne_110m_admin_0_countries.shp`.
   GDAL을 따로 설치해야 하고 단순화 옵션도 약하다. 그래서 Node 프로젝트에서는 mapshaper가 편하다.
