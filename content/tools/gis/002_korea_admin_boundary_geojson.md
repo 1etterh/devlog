@@ -39,15 +39,16 @@ flowchart LR
 
 지역은 **경로**로 부른다. 나라부터 자기까지 코드 조각을 `.`으로 이은 값이다. 조각은 **자기 코드에서 부모 코드를 뗀 나머지**다.
 
-| | 코드 (`code`) | 조각 (`segmentId`) | 경로 (`idPath`) |
+| | 코드 (`code`) | 조각 (`segmentId`) | 경로 (`idPath`, 화면에서 계산) |
 |---|---|---|---|
 | 서울특별시 | `11` | `11` | `KR.11` |
 | 성북구 | `11290` | `290` | `KR.11.290` |
 | 돈암1동 | `1129058000` | `58000` | `KR.11.290.58000` |
 
 - 조각을 이어 붙이면 원래 코드가 된다(`11` + `290` + `58000`).
-- 파일에는 세 값을 다 적는다. 조각만 보면(`290`) 무슨 코드인지 알 수 없으니 원래 코드(`code`)를, 파일만 열어도 어느 지역인지 보이게 경로(`idPath`)를 같이 둔다. 화면은 받은 `idPath`를 그대로 지역 키로 쓴다.
-- 나라(세계 파일 `index.json`)는 세 값이 모두 국가 코드(`KR`)다. 세계 바로 아래라 뗄 부모 코드가 없다.
+- 파일에는 조각(`segmentId`)과 원래 코드(`code`)를 적는다. 조각만 보면(`290`) 무슨 코드인지 알 수 없어서 `code`를 같이 둔다.
+- 경로(`idPath`)는 파일에 적지 않는다. 화면이 파일을 받을 때 **요청한 경로 + 조각**으로 채운다(`KR.11.290.json`을 받았으면 자식은 `KR.11.290.58000`). 파일에도 적어 봤지만, 그러면 파일 이름과 파일 속 값 두 곳이 기준이 된다. 이름을 바꾸거나 변환을 잘못해 둘이 어긋나면 화면에선 "지역을 못 찾음"으로만 보이고, 자료가 화면의 경로 규칙(`KR.` 접두, 최상위 위치)까지 알아야 한다. 파일 이름이 이미 부모 경로라 파일만 봐도 경로는 보인다.
+- 나라(세계 파일 `index.json`)는 조각과 코드가 모두 국가 코드(`KR`)다. 세계 바로 아래라 뗄 부모 코드가 없다.
 - 부모 · 조상은 경로를 `.`으로 잘라서 바로 구한다. 나라마다 코드 자릿수가 달라도 자릿수 규칙표가 필요 없다.
 - 속성 이름: `code`는 원래 코드 그대로 두고, 조각에 새 이름 **`segmentId`**(경로 조각 id)를 붙였다. `leafId`도 후보였지만 leaf는 트리에서 "자식 없는 노드"라, 아래에 동이 있는 성북구에는 맞지 않았다. 줄임말 `segId`는 뜻이 모호했다. `segmentId`는 형제끼리만 겹치지 않는다(`110`은 서울 아래에도 부산 아래에도 있다). 전체에서 구별되는 값은 `idPath`와 `code`다.
 
@@ -152,7 +153,7 @@ feature 속성:
 | `sgg` · `sggnm` | 시·군·구 코드 · 이름 (`adm_cd2` 앞 5자리) |
 | `adm_nm` | 전체 이름. 마지막 단어가 읍·면·동 이름 |
 
-영문 이름은 없다. 결과 파일의 속성은 `segmentId`(경로 조각), `code`(행안부 코드 전체), `idPath`(경로), `name_ko` 네 개로 맞춘다.
+영문 이름은 없다. 결과 파일의 속성은 `segmentId`(경로 조각), `code`(행안부 코드 전체), `name_ko` 세 개로 맞춘다.
 
 - 원본의 `adm_cd`(통계청 8자리)는 쓰지 않는다. 결과 파일의 `code`는 `adm_cd2` 값이다.
 
@@ -185,8 +186,8 @@ SRC=HangJeongDong_ver20261001.geojson
 npx mapshaper $SRC \
   -dissolve sido copy-fields=sidonm \
   -simplify interval=400 keep-shapes -clean \
-  -each 'segmentId = sido, code = sido, idPath = "KR." + sido, name_ko = sidonm' \
-  -filter-fields segmentId,code,idPath,name_ko \
+  -each 'segmentId = sido, code = sido, name_ko = sidonm' \
+  -filter-fields segmentId,code,name_ko \
   -o KR.json format=geojson precision=0.0001
 ```
 
@@ -196,7 +197,7 @@ npx mapshaper $SRC \
 | `-simplify interval=400 keep-shapes` | 400m보다 가까운 점을 줄인다. `keep-shapes`는 작은 섬이 통째로 사라지지 않게 한다 |
 | `-clean` | 단순화로 생긴 겹침 · 틈을 고친다 |
 | `-each 'segmentId = sido, …'` | 결과 파일 속성을 만든다. 시·도는 부모(나라)에 코드가 없으니 조각과 코드가 같다 |
-| `-filter-fields segmentId,code,idPath,name_ko` | 만든 네 속성만 남긴다 |
+| `-filter-fields segmentId,code,name_ko` | 만든 세 속성만 남긴다 |
 | `precision=0.0001` | 좌표를 소수 4자리(약 10m)로 자른다. 파일 크기가 크게 줄어든다 |
 
 - mapshaper는 출력할 때 고리(ring)를 GeoJSON 표준 방향(바깥은 반시계)으로 고쳐 쓴다. 점 순서가 원본과 달라지지만 모양은 같다.
@@ -209,16 +210,16 @@ npx mapshaper $SRC \
 npx mapshaper $SRC \
   -dissolve sgg copy-fields=sggnm \
   -simplify interval=100 keep-shapes -clean \
-  -each 'parent = "KR." + sgg.slice(0, 2), segmentId = sgg.slice(2), code = sgg, idPath = parent + "." + segmentId, name_ko = sggnm' \
+  -each 'parent = "KR." + sgg.slice(0, 2), segmentId = sgg.slice(2), code = sgg, name_ko = sggnm' \
   -split parent \
-  -filter-fields segmentId,code,idPath,name_ko target='*' \
+  -filter-fields segmentId,code,name_ko target='*' \
   -o ./ format=geojson precision=0.0001
 ```
 
 | 단계 | 하는 일 |
 |---|---|
 | `-dissolve sgg copy-fields=sggnm` | 읍·면·동을 시·군·구로 합친다 |
-| `-each 'parent = "KR." + …'` | 임시 속성 `parent`에 **부모 경로**(`KR.11`)를 적는다. 조각 `segmentId`는 시·도 코드 2자리를 뗀 나머지(`11290` → `290`), `idPath`는 부모 경로 + 조각. 같은 식 안에서 앞에서 만든 `parent` · `segmentId`를 바로 쓸 수 있다 |
+| `-each 'parent = "KR." + …'` | 임시 속성 `parent`에 **부모 경로**(`KR.11`)를 적는다. 조각 `segmentId`는 시·도 코드 2자리를 뗀 나머지(`11290` → `290`) |
 | `-split parent` | `parent` 값이 같은 것끼리 레이어를 나눈다. 레이어 이름이 값(`KR.11`, `KR.41`…)이 된다 |
 | `-filter-fields … target='*'` | 나눈 **모든** 레이어에서 남길 속성만 남긴다. 임시 속성 `parent`도 여기서 빠진다 |
 | `-o ./ format=geojson` | 폴더를 주면 레이어마다 `레이어이름.json`으로 쓴다 → 바로 `KR.11.json` |
@@ -233,9 +234,9 @@ npx mapshaper $SRC \
 ```bash
 npx mapshaper $SRC \
   -simplify interval=20 keep-shapes -clean \
-  -each 'parent = "KR." + sido + "." + sgg.slice(2), segmentId = adm_cd2.slice(5), code = adm_cd2, idPath = parent + "." + segmentId, name_ko = adm_nm.split(" ").pop()' \
+  -each 'parent = "KR." + sido + "." + sgg.slice(2), segmentId = adm_cd2.slice(5), code = adm_cd2, name_ko = adm_nm.split(" ").pop()' \
   -split parent \
-  -filter-fields segmentId,code,idPath,name_ko target='*' \
+  -filter-fields segmentId,code,name_ko target='*' \
   -o ./ format=geojson precision=0.00001
 ```
 
@@ -258,13 +259,13 @@ SGIS에서 받은 Shapefile은 웹 지도에 바로 쓸 수 없어서, 두 가�
 |---|---|---|---|
 | 좌표계 | UTM-K (EPSG:5179, 미터 단위) | WGS84 (경도·위도) | `-proj wgs84` |
 | 속성 인코딩 | CP949인 경우가 많다 (`.cpg` 없음) | UTF-8 | `-i 파일.shp encoding=cp949` |
-| 속성 이름 | 자료마다 다르다 | `segmentId`, `code`, `idPath`, `name_ko` | `-each 'segmentId = …, code = …, idPath = …, name_ko = …'` |
+| 속성 이름 | 자료마다 다르다 | `segmentId`, `code`, `name_ko` | `-each 'segmentId = …, code = …, name_ko = …'` |
 
 ```bash
 npx mapshaper -i bnd_sido.shp encoding=cp949 \
   -proj wgs84 \
-  -each 'segmentId = 원본코드필드, code = 원본코드필드, idPath = "KR." + 원본코드필드, name_ko = 원본이름필드' \
-  -filter-fields segmentId,code,idPath,name_ko \
+  -each 'segmentId = 원본코드필드, code = 원본코드필드, name_ko = 원본이름필드' \
+  -filter-fields segmentId,code,name_ko \
   -simplify interval=400 keep-shapes \
   -o KR.json format=geojson precision=0.0001
 ```
