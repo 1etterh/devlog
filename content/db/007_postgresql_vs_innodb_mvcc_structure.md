@@ -1,23 +1,23 @@
 ---
-title: PostgreSQL과 MySQL/MariaDB(InnoDB) 엔진 구조 비교
-type: archive
-tags: [archive, db, postgresql, innodb, mysql, mariadb, mvcc, storage_engine, vacuum, undo_log, wal, isolation_level]
+title: 같은 MVCC인데 PostgreSQL과 InnoDB는 왜 구조가 다른가
+type: question
+tags: [question, db, postgresql, innodb, mysql, mariadb, mvcc, storage_engine, vacuum, undo_log, wal, isolation_level]
 draft: true
 ---
 
-## 질문
+## 의문
 
-PostgreSQL과 MySQL(MariaDB)은 서로 다른 엔진을 쓰는데, 구조적으로 비교하면 어떻게 다른가?
+PostgreSQL과 MySQL/MariaDB(InnoDB)는 둘 다 MVCC 기반이다. 그런데 PostgreSQL에는 VACUUM이 있고 InnoDB에는 undo log와 purge가 있다. 기본 격리 수준도 다르고, 로그 종류도 다르다. 같은 MVCC인데 왜 이렇게 갈라졌을까?
 
-## 핵심: 이전 버전을 어디에 두느냐
+## 답: 이전 버전을 어디에 두느냐가 다르다
 
-두 DB 모두 MVCC 기반이지만, **행의 이전 버전을 어디에 저장하고 언제 치우는지**가 다르다. 이 선택이 저장 구조, 인덱스, 로그, 격리 수준 동작까지 갈라놓는다.
+**행의 이전 버전을 어디에 저장하고 언제 치우는지**가 다르고, 이 선택 하나가 저장 구조, 인덱스, 로그, 격리 수준 동작까지 갈라놓는다.
 
 | | PostgreSQL | InnoDB |
 |---|---|---|
 | UPDATE 방식 | **새 튜플을 heap에 추가** (append) | **행을 제자리에서 갱신** (in-place) |
 | 이전 버전 위치 | 같은 테이블 heap 안 (dead tuple) | **undo log** (별도 영역) |
-| 버전 식별 | 튜플 헤더의 `xmin` / `xmax` (트랜잭션 ID) | 행의 숨은 컬럼 `DB_TRX_ID` + `DB_ROLL_PTR`(undo 포인터) |
+| 버전 식별 | 튜플 헤더의 `xmin` / `xmax` (트랜잭션 ID) | 숨은 컬럼 `DB_TRX_ID` + `DB_ROLL_PTR`(undo 포인터) |
 | 과거 버전 읽기 | heap에서 보이는 튜플을 골라 읽음 | 최신 행에서 undo 체인을 거슬러 재구성 |
 | 정리 주체 | **VACUUM** (autovacuum) | **purge 스레드** |
 
@@ -35,18 +35,24 @@ flowchart LR
     end
 ```
 
-## 1. 저장 구조: heap vs 클러스터드 인덱스
+PostgreSQL은 테이블 안에 죽은 튜플이 쌓이니 VACUUM이 테이블을 돌며 치워야 하고, InnoDB는 테이블에는 최신 행만 두고 과거는 undo에 빼 두니 purge가 undo만 정리하면 된다.
+
+## 이 차이가 이어지는 곳
+
+### 1. 저장 구조: heap vs 클러스터드 인덱스
 
 | | PostgreSQL | InnoDB |
 |---|---|---|
-| 테이블 | **heap** (순서 없는 페이지 묶음, 8KB) | **클러스터드 인덱스** = PK B+Tree의 leaf가 곧 행 (16KB) |
+| 테이블 | **heap** (순서 없는 8KB 페이지 묶음) | **클러스터드 인덱스**: PK B+ 트리의 leaf가 곧 행 (16KB) |
 | 보조 인덱스가 가리키는 것 | 물리 위치 `ctid` (페이지 번호, 슬롯) | **PK 값** |
 | 보조 인덱스 조회 | 인덱스 → heap 1회 | 보조 인덱스 → PK 인덱스 재탐색 (2번 탐색) |
-| UPDATE 시 인덱스 | 새 튜플 위치가 바뀌므로 **모든 인덱스에 새 엔트리** (HOT 예외) | 인덱스 컬럼이 바뀐 인덱스만 갱신 |
+| UPDATE 시 인덱스 | 튜플 위치가 바뀌므로 **모든 인덱스에 새 엔트리** (HOT 예외) | 인덱스 컬럼이 바뀐 인덱스만 갱신 |
 
-**HOT(Heap-Only Tuple)**: 인덱스 컬럼이 바뀌지 않고 같은 페이지에 빈 공간이 있으면, PostgreSQL은 인덱스를 건드리지 않고 같은 페이지 안에서 튜플 체인만 잇는다.
+**HOT(Heap-Only Tuple)**: 인덱스 컬럼이 바뀌지 않았고 같은 페이지에 빈 공간이 있으면, PostgreSQL은 인덱스를 건드리지 않고 페이지 안에서 튜플 체인만 잇는다.
 
-## 2. 로그와 크래시 복구
+InnoDB 페이지 내부는 [[db/002_innodb_page_structure|InnoDB 페이지 구조]] 참고.
+
+### 2. 로그와 크래시 복구
 
 | | PostgreSQL | MySQL + InnoDB |
 |---|---|---|
@@ -56,7 +62,7 @@ flowchart LR
 | 복제 | WAL 스트리밍(물리), logical decoding(논리) | **binlog** 기반 |
 | 버퍼 | `shared_buffers` + OS 페이지 캐시 | `innodb_buffer_pool` 중심, 보통 `O_DIRECT`로 OS 캐시 우회 |
 
-MySQL은 **스토리지 엔진이 플러그인**이라 구조가 갈린다. binlog는 엔진과 무관한 서버 계층 로그이고 redo는 InnoDB 내부 로그라서, 둘을 맞추는 절차가 따로 필요하다. PostgreSQL은 엔진이 하나라 WAL 하나로 복구와 복제를 모두 처리한다.
+MySQL은 **스토리지 엔진이 플러그인**이다. binlog는 엔진과 무관한 서버 계층 로그이고 redo는 InnoDB 내부 로그라서 둘을 맞추는 절차가 따로 필요하다. PostgreSQL은 엔진이 하나라 WAL 하나로 복구와 복제를 모두 처리한다.
 
 ```mermaid
 sequenceDiagram
@@ -69,7 +75,7 @@ sequenceDiagram
     Note over R,B: 크래시 시 binlog에 있으면 commit, 없으면 rollback
 ```
 
-## 3. 격리 수준과 락
+### 3. 격리 수준과 락
 
 | | PostgreSQL | InnoDB |
 |---|---|---|
@@ -81,15 +87,17 @@ sequenceDiagram
 | 행 락 저장 위치 | 튜플 헤더(`xmax`) | 메모리의 lock system |
 | DDL | **트랜잭셔널 DDL** (롤백 가능) | 암묵적 커밋 |
 
-## 4. 연결·프로세스 모델
+격리 수준별 부작용은 [[db/001_read_committed_non_repeatable_read|READ_COMMITTED와 Non-Repeatable Read]] 참고.
+
+### 4. 연결·프로세스 모델
 
 | | PostgreSQL | MySQL |
 |---|---|---|
 | 연결당 | **OS 프로세스** (fork) | **스레드** |
-| 연결 비용 | 크다 | 작다 |
+| 연결 비용 | 크다 → 커넥션 풀러(PgBouncer 등)를 자주 붙임 | 작다 |
 
 ## 정리
 
-- **PostgreSQL**은 새 버전을 테이블에 쌓고 나중에 치운다. **InnoDB**는 제자리에서 고치고 이전 버전을 undo에 빼둔다.
+- **PostgreSQL**은 새 버전을 테이블에 쌓고 나중에 치운다. **InnoDB**는 제자리에서 고치고 이전 버전을 undo로 빼 둔다.
 - 이 차이가 heap vs 클러스터드 인덱스, WAL 하나 vs redo+binlog 2PC, VACUUM vs purge로 이어진다.
 - 같은 `REPEATABLE READ`라도 PostgreSQL은 충돌을 에러로, InnoDB는 current read와 락으로 처리한다.
